@@ -46,8 +46,8 @@ public class BoardService {
 				return cnt;
 	}
 
-	public BoardVO getVO(String type) {
-		BoardVO vo = dao.getVO(type);
+	public BoardVO getVO(int msg) {
+		BoardVO vo = dao.getVO(msg);
 		return vo;
 	}
 

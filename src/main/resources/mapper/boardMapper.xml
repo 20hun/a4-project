@@ -62,7 +62,7 @@
 			board_no = #{board_no}
 	</delete>
 	
-	<select id="getVO" parameterType="string" resultType="board">
+	<select id="getVO" parameterType="int" resultType="board">
 		select
 		board_no
     	,board_title
@@ -76,6 +76,6 @@
 	from
 		balloon_tb
 	where
-		board_title = #{type}
+		board_no = #{msg}
 	</select>
 </mapper>

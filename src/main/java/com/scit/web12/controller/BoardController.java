@@ -81,9 +81,9 @@ public class BoardController {
 	
 	@ResponseBody
 	@RequestMapping(value="/getBubble", method = RequestMethod.POST)
-	public BoardVO getBubble() {
-		String type = "안녕하세요";
-		BoardVO vo = ms.getVO(type);
+	public BoardVO getBubble(int msg) {
+		//String type = "안녕하세요";
+		BoardVO vo = ms.getVO(msg);
 		System.out.println(vo);
 		
 		UserVO vo2 = new UserVO("안녕", "하세요");

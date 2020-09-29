@@ -66,13 +66,13 @@ public class BoardDAO {
 		return cnt;
 	}
 
-	public BoardVO getVO(String type) {
+	public BoardVO getVO(int msg) {
 		BoardMapper mapper = session.getMapper(BoardMapper.class);
 		
 		BoardVO vo = null;
 		
 		try {
-			vo = mapper.getVO(type);
+			vo = mapper.getVO(msg);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

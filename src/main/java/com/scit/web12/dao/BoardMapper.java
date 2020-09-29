@@ -14,6 +14,6 @@ public interface BoardMapper {
 
 	public int delete(int board_no);
 
-	public BoardVO getVO(String type);
+	public BoardVO getVO(int msg);
 
 }

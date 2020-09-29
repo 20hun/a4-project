@@ -33,6 +33,9 @@
 </script>        
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx8fafbc9262fa45d1bc02913311bdf244"></script>
         <script type="text/javascript">
+
+        var cnt;
+        var cnt2 = 0;
         
         document.addEventListener("DOMContentLoaded", function() {
 			function getLocation(position) {
@@ -48,7 +51,7 @@
 				{
 					center: new Tmapv2.LatLng(latitud, longitude), // 지도 초기 좌표
 					width: "890px", 
-					height: "400px",
+					height: "500px",
 					zoom: 15
 				});
 
@@ -75,6 +78,9 @@
 									$.ajax({
 										url: "/board/getBubble",
 										type:"post",
+										data: {
+											msg: item.board_no
+										},
 										success: function(data) {alert("통신 성공!");console.log(data)
 										$("#title").attr("value", data.board_title);
 										$("#content").attr("value", data.board_content);
@@ -89,12 +95,15 @@
 					error: function(e){alert("통신 실패...");console.log(e);}
 				})
 				
+				map.addListener("click", onClick1);
 				map.addListener("click", onClick);
 
 				var lat;
 				var lon;
 				
-				function onClick(e){
+				function onClick1(e){
+					if(cnt == 1){
+						console.log(markers[0]);
 					if (markers.length != 0) {
 						var markerX = markers[0]._elementBounds._left;
 						var markerY = markers[0]._elementBounds._top;
@@ -131,6 +140,7 @@
 						document.getElementById("result").innerHTML = 'Mouse Click!';
 						location.href="/board/boardWriteForm?lat="+lat+"&lon="+lon;
 					});
+					}
 				}
 				
 				// 모든 마커를 제거하는 함수입니다.
@@ -141,19 +151,24 @@
 					markers = [];
 				}
 
-				/* function onClick(e){
-					
+				function onClick(e){
+					if(cnt == 2){
+						if(cnt2 != 1){
+						removeMarkers();
+						}
 					lonlat = e.latLng;
 
 					if(markers.length != 2){
 					if(markers.length == 0){
 					addMarker("llStart",lonlat.lat(),lonlat.lng(),1);
+					cnt2 = 1;
 					}else{
 						addMarker("llEnd",lonlat.lat(),lonlat.lng(),2);
 						}
 					markers.push(marker);
 					}
-				} */
+					}
+				}
 					//addMarker("llStart",latitud, longitude,1);
 					// 도착 
 					//addMarker("llEnd",37.49288934463672,127.11971717230388,2);
@@ -199,10 +214,17 @@
 	        } else {
 	            consol.log("Geolocation을 지원하지 않는 브라우저 입니다.");
 	        }
-        }); 
-		</script>
-		<script type="text/javascript">
-		function getBubble(){
+        });
+
+        function upload(){
+			cnt = 1;
+			cnt2 = 0;
+            } 
+        function navi(){
+			cnt = 2;
+            }         
+		
+		/* function getBubble(){
 			$.ajax({
 				url: "/board/getBubble",
 				type:"post",
@@ -213,7 +235,7 @@
 				},
 				error: function(e) {alert("통신 실패...");console.log(e);}
 			});
-		}
+		} */
 		</script>
 </head>
 <body>
@@ -226,11 +248,12 @@
         <p id="result"></p>
         <p id="result2"></p>
         <br>
-	<input type="button" id = "in" onclick = "getBubble();" value = "말풍선 정보 가져오기">
 	<input type="text" id = "title" placeholder="버블 제목"> <br>
 	<input type="text" id = "content" placeholder="버블 내용"> <br>
 	<input type="text" id = "indate" placeholder="버블 등록 시간">
 	<br>
+	<input type="button" onclick="upload();" value="거품 등록">
+	<input type="button" onclick="navi();" value="길찾기">
 		<ul>
 			<li>
 				<a href="member/logout">로그아웃</a>
