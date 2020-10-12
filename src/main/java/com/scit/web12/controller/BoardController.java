@@ -100,5 +100,17 @@ public class BoardController {
 		
 		return vo;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/likeInsert", method = RequestMethod.POST)
+	public void likeInsert(int msg) {
+		ms.likeInsert(msg);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/likeDelete", method = RequestMethod.POST)
+	public void likeDelete(int msg) {
+		ms.likeDelete(msg);
+	}
 
 }

@@ -104,7 +104,7 @@ public class BoardDAO {
 	}
 
 	public int checkLikeCount(int msg) {
-BoardMapper mapper = session.getMapper(BoardMapper.class);
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
 		
 		int cnt = 0;
 		
@@ -114,6 +114,24 @@ BoardMapper mapper = session.getMapper(BoardMapper.class);
 			e.printStackTrace();
 		}
 		return cnt;
+	}
+
+	public void likeInsert(HashMap<String, Object> lk) {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		try {
+			mapper.likeInsert(lk);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void likeDelete(HashMap<String, Object> lk) {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		try {
+			mapper.likeDelete(lk);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
 	}
 
 }

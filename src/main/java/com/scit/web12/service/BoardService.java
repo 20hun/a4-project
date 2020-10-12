@@ -66,4 +66,18 @@ public class BoardService {
 		return cnt;
 	}
 
+	public void likeInsert(int msg) {
+		HashMap<String, Object> lk = new HashMap<String, Object>();
+		lk.put("a1", msg);
+		lk.put("a2", (String)session.getAttribute("loginId"));
+		dao.likeInsert(lk);
+	}
+
+	public void likeDelete(int msg) {
+		HashMap<String, Object> lk = new HashMap<String, Object>();
+		lk.put("a1", msg);
+		lk.put("a2", (String)session.getAttribute("loginId"));
+		dao.likeDelete(lk);
+	}
+
 }

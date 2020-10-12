@@ -23,4 +23,8 @@ public interface BoardMapper {
 
 	public int checkLikeCount(int msg);
 
+	public void likeInsert(HashMap<String, Object> lk);
+
+	public void likeDelete(HashMap<String, Object> lk);
+
 }

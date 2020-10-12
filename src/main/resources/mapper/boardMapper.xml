@@ -113,4 +113,21 @@
 		where
     		board_no = #{a1}
 	</select>
+	
+	<insert id="likeInsert" parameterType="hashmap">
+		insert into
+			like_tb(
+				board_no
+				,member_id
+				)values(
+				#{a1}
+				,#{a2}
+				)
+	</insert>
+	
+	<delete id="likeDelete" parameterType="hashmap">
+		delete from like_tb
+		where
+			member_id = #{a2} and board_no = #{a1}
+	</delete>
 </mapper>

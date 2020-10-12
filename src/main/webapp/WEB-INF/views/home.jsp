@@ -61,7 +61,8 @@
 						dataType: "json",
 					success: function(data){
 							console.log(data);
-							
+							var str2;
+							var str3;
 							$.each(data, function(index,item){
 								var title = item.board_title.substr(0,5);
 								label="<span style='background-color: #46414E;color:white'>"+title+"</span>";
@@ -71,7 +72,7 @@
 									map: map,
 									label : label
 								});
-								marker.addListener("click", function(evt) {
+									marker.addListener("click", function(evt) {
 									document.getElementById("result2").innerHTML = 'Mouse Click!';
 									$.ajax({
 										url: "/board/getBubble",
@@ -85,12 +86,50 @@
 										$("#indate").attr("value", data.board_indate);
 										$("#view").attr("value", data.board_view);
 										$("#like").attr("value", data.board_like);
-										$("#likeCheck").attr("value", data.like_check);
+
+										var str = "";										
+										if (data.like_check == '0') {
+											str = '<i class="far fa-heart"></i>';
+											str2 = 0;
+										}
+										else {
+											str = '<i class="fas fa-heart"></i>';
+											str2 = 1;
+										}
+										$("#likeDiv").html(str);
+
+										str3 = item.board_no;
 										},
 										error: function(e) {alert("통신 실패...");console.log(e);}
-									});
-								});
+									});									
+								});								
 							})
+							$("#likeDiv").click(function(){
+									if(str2 == 0){
+										str2 = 1;
+										$.ajax({
+											url: "/board/likeInsert",
+											type:"post",
+											data: {
+												msg: str3
+											},
+											error: function(e) {alert("통신 실패...");console.log(e);}
+										});												
+										str = '<i class="fas fa-heart"></i>';
+										}else{
+											str2 = 0;
+											$.ajax({
+												url: "/board/likeDelete",
+												type:"post",
+												data: {
+													msg: str3
+												},
+												error: function(e) {alert("통신 실패...");console.log(e);}
+											});		
+											str = '<i class="far fa-heart"></i>';
+											}
+									$("#likeDiv").html(str);											
+									});
 							//console.log(JSON.parse(data)); //stringify랑 반대 > 문자열을 객체화
 					},
 					error: function(e){alert("통신 실패...");console.log(e);}
@@ -101,7 +140,7 @@
 
 				var lat;
 				var lon;
-				
+									
 				function onClick1(e){
 					if(cnt == 1){
 						console.log(markers[0]);
@@ -224,19 +263,6 @@
         function navi(){
 			cnt = 2;
             }         
-		
-		/* function getBubble(){
-			$.ajax({
-				url: "/board/getBubble",
-				type:"post",
-				success: function(data) {alert("통신 성공!");console.log(data)
-				$("#title").attr("value", data.board_title);
-				$("#content").attr("value", data.board_content);
-				$("#indate").attr("value", data.board_indate);
-				},
-				error: function(e) {alert("통신 실패...");console.log(e);}
-			});
-		} */
 		</script>
 </head>
 <body>
@@ -253,15 +279,8 @@
 	<input type="text" id = "content" placeholder="버블 내용"> <br>
 	<input type="text" id = "indate" placeholder="버블 등록 시간"> <br>
 	<input type="text" id = "view" placeholder="조회수"> <br>
-	<input type="hidden" id = "likeCheck">
-	<c:choose>
-	<c:when test="#likeCheck.value eq '0'">
-	<a href="/board/likes"><i class="far fa-heart"></i></a>
-	</c:when>
-	<c:otherwise>
-	<a href="/board/likes2"><i class="fas fa-heart"></i></a>
-	</c:otherwise>
-	</c:choose>
+	<div id="likeDiv"></div>
+	<!-- <a id="likeA"><i></i></a> -->
 	<input type="text" id = "like" placeholder="좋아요">
 	<br>
 	<input type="button" onclick="upload();" value="거품 등록">
