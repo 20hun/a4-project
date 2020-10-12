@@ -12,6 +12,10 @@
 				,board_content
 				,lat
 				,lon
+				<if test="originalfile != null and savedfile != null">
+				, originalfile
+				, savedfile
+				</if>
 			) values (
 				balloon_seq.nextval
 				,#{member_id}
@@ -19,8 +23,21 @@
 				,#{board_content}
 				,#{lat}
 				,#{lon}
+				<if test="originalfile != null and savedfile != null">
+				, #{originalfile}
+				, #{savedfile}
+				</if>
 			)
 	</insert>
+	
+	<update id="updateHits" parameterType="int">
+		update
+			balloon_tb
+		set
+			board_view = board_view + 1
+		where
+			board_no = #{board_no}
+	</update>
 	
 	<select id="boardList" resultType="board">
 	select
@@ -77,5 +94,23 @@
 		balloon_tb
 	where
 		board_no = #{msg}
+	</select>
+	
+	<select id="checkLikeId" parameterType="hashmap" resultType="int">
+		select
+    		count(*)
+		from
+    		like_tb
+		where
+    		member_id = #{a2} and board_no = #{a1}
+	</select>
+	
+	<select id="checkLikeCount" parameterType="int" resultType="int">
+		select
+    		count(*)
+		from
+    		like_tb
+		where
+    		board_no = #{a1}
 	</select>
 </mapper>

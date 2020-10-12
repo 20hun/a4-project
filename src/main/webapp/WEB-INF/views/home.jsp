@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>simpleMap</title>
-        
+        <script src="https://kit.fontawesome.com/74d52cdd15.js" crossorigin="anonymous"></script>
 <script type="text/JavaScript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
@@ -59,8 +59,6 @@
 						url:"/board/receiveList",
 						type:"post",
 						dataType: "json",
-						//dataType: "json",
-					//success: function(data){alert("통신 성공!");console.log(data)},
 					success: function(data){
 							console.log(data);
 							
@@ -85,6 +83,9 @@
 										$("#title").attr("value", data.board_title);
 										$("#content").attr("value", data.board_content);
 										$("#indate").attr("value", data.board_indate);
+										$("#view").attr("value", data.board_view);
+										$("#like").attr("value", data.board_like);
+										$("#likeCheck").attr("value", data.like_check);
 										},
 										error: function(e) {alert("통신 실패...");console.log(e);}
 									});
@@ -250,7 +251,18 @@
         <br>
 	<input type="text" id = "title" placeholder="버블 제목"> <br>
 	<input type="text" id = "content" placeholder="버블 내용"> <br>
-	<input type="text" id = "indate" placeholder="버블 등록 시간">
+	<input type="text" id = "indate" placeholder="버블 등록 시간"> <br>
+	<input type="text" id = "view" placeholder="조회수"> <br>
+	<input type="hidden" id = "likeCheck">
+	<c:choose>
+	<c:when test="#likeCheck.value eq '0'">
+	<a href="/board/likes"><i class="far fa-heart"></i></a>
+	</c:when>
+	<c:otherwise>
+	<a href="/board/likes2"><i class="fas fa-heart"></i></a>
+	</c:otherwise>
+	</c:choose>
+	<input type="text" id = "like" placeholder="좋아요">
 	<br>
 	<input type="button" onclick="upload();" value="거품 등록">
 	<input type="button" onclick="navi();" value="길찾기">

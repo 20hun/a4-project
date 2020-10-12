@@ -1,6 +1,7 @@
 package com.scit.web12.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,42 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return vo;
+	}
+
+	public void updateHits(int msg) {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		
+		try {
+			mapper.updateHits(msg);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
+	}
+
+	public int checkLikeId(HashMap<String,Object> lk) {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		
+		int cnt = 0;
+		
+		try {
+			cnt = mapper.checkLikeId(lk);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	public int checkLikeCount(int msg) {
+BoardMapper mapper = session.getMapper(BoardMapper.class);
+		
+		int cnt = 0;
+		
+		try {
+			cnt = mapper.checkLikeCount(msg);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
 	}
 
 }

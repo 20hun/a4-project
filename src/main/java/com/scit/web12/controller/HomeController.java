@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.scit.web12.vo.UserVO;
-
 /**
  * Handles requests for the application home page.
  */
@@ -66,13 +64,6 @@ public class HomeController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/sendVO", method = RequestMethod.POST)
-	public void sendArray(UserVO user) {
-		logger.info("sendVO 메서드 실행");
-		logger.info("페이지로부터 전달받은 데이터: {}", user);
-	}
-	
-	@ResponseBody
 	@RequestMapping(value="/receiveArray", method = RequestMethod.POST)
 	public String[] receiveArray() {
 		logger.info("receiveArray 메서드 실행");
@@ -81,29 +72,6 @@ public class HomeController {
 		arr[0] = "asdf";
 		arr[1] = "1234";		
 		return arr;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/receiveVO", method = RequestMethod.POST)
-	public UserVO receiveVO() {
-		logger.info("receiveVO 메서드 실행");
-				
-		return new UserVO("asdf","1234");
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/sendJSON", method = RequestMethod.POST)
-	public void sendJSON(@RequestBody UserVO user) {
-		logger.info("sendJSON 메서드 실행");
-		logger.info("페이지로부터 전달받은 데이터: {}", user);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/receiveJSON", method = RequestMethod.POST)
-	public UserVO receiveJSON() {
-		logger.info("receiveJSON 메서드 실행");
-				
-		return new UserVO("asdf","1234");
 	}
 	
 	@ResponseBody

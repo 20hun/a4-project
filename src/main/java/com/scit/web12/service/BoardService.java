@@ -1,6 +1,7 @@
 package com.scit.web12.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -47,8 +48,22 @@ public class BoardService {
 	}
 
 	public BoardVO getVO(int msg) {
+		dao.updateHits(msg);
 		BoardVO vo = dao.getVO(msg);
 		return vo;
+	}
+
+	public int checkLikeId(int msg) {
+		HashMap<String, Object> lk = new HashMap<String, Object>();
+		lk.put("a1", msg);
+		lk.put("a2", (String)session.getAttribute("loginId"));
+		int cnt = dao.checkLikeId(lk);
+		return cnt;
+	}
+
+	public int checkLikeCount(int msg) {
+		int cnt = dao.checkLikeCount(msg);
+		return cnt;
 	}
 
 }

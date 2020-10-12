@@ -13,4 +13,7 @@ public class BoardVO {
 	private int board_like;
 	private String lat;
 	private String lon;
+	private String originalfile;
+	private String savedfile;
+	private int like_check;
 }
