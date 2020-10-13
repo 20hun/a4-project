@@ -82,6 +82,7 @@
 											msg: item.board_no
 										},
 										success: function(data) {alert("통신 성공!");console.log(data)
+										$("#memberId").attr("value", data.member_id);
 										$("#title").attr("value", data.board_title);
 										$("#content").attr("value", data.board_content);
 										$("#indate").attr("value", data.board_indate);
@@ -281,6 +282,7 @@
         <p id="result"></p>
         <p id="result2"></p>
         <br>
+        <a href="/sns/timeLine"><input type="button" id = "memberId"></a> <br>
 	<input type="text" id = "title" placeholder="버블 제목"> <br>
 	<input type="text" id = "content" placeholder="버블 내용"> <br>
 	<input type="text" id = "indate" placeholder="버블 등록 시간"> <br>
