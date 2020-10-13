@@ -63,6 +63,7 @@
 							console.log(data);
 							var str2;
 							var str3;
+							var str4;
 							$.each(data, function(index,item){
 								var title = item.board_title.substr(0,5);
 								label="<span style='background-color: #46414E;color:white'>"+title+"</span>";
@@ -86,6 +87,7 @@
 										$("#indate").attr("value", data.board_indate);
 										$("#view").attr("value", data.board_view);
 										$("#like").attr("value", data.board_like);
+										str4 = data.board_like;
 
 										var str = "";										
 										if (data.like_check == '0') {
@@ -116,6 +118,8 @@
 											error: function(e) {alert("통신 실패...");console.log(e);}
 										});												
 										str = '<i class="fas fa-heart"></i>';
+										$("#like").attr("value", str4+1);
+										str4 = str4 + 1;
 										}else{
 											str2 = 0;
 											$.ajax({
@@ -127,6 +131,8 @@
 												error: function(e) {alert("통신 실패...");console.log(e);}
 											});		
 											str = '<i class="far fa-heart"></i>';
+											$("#like").attr("value", str4-1);
+											str4 = str4 - 1;
 											}
 									$("#likeDiv").html(str);											
 									});
