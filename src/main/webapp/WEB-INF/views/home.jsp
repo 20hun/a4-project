@@ -107,6 +107,7 @@
 										$("#indate").attr("value", data.board_indate);
 										$("#view").attr("value", data.board_view);
 										$("#like").attr("value", data.board_like);
+										$("#bubble_image").attr("src", "/board/download?board_no="+data.board_no);
 										str4 = data.board_like;
 
 										var str = "";										
@@ -294,8 +295,6 @@
 <body class="fix-menu">
 <c:choose>
 	<c:when test="${not empty sessionScope.loginId }">
-		<%-- ${sessionScope.loginId } 님 환영합니다.	--%>
-		
 		<!-- Pre-loader start -->
     <div class="theme-loader">
         <div class="ball-scale">
@@ -384,7 +383,7 @@
                                         <div class="media">
                                             <img class="d-flex align-self-center img-radius" src="/resources/assets/images/avatar-4.jpg" alt="Generic placeholder image">
                                             <div class="media-body">
-                                                <h5 class="notification-user">John Doe</h5>
+                                                <h5 class="notification-user">jone</h5>
                                                 <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
                                                 <span class="notification-time">30 minutes ago</span>
                                             </div>
@@ -415,7 +414,7 @@
                             <li class="user-profile header-notification">
                                 <a href="member/mypage">
                                     <img src="/resources/assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                                    <span>John Doe</span>
+                                    <span>${sessionScope.loginId }</span>
                                     <i class="ti-angle-down"></i>
                                 </a>
                                 <ul class="show-notification profile-notification">
@@ -454,26 +453,7 @@
                 <div class="pcoded-wrapper">
                     <nav class="pcoded-navbar">
                         <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
-                        <div class="pcoded-inner-navbar main-menu">
-                            <div class="">
-                                <div class="main-menu-header">
-                                    <img class="img-40 img-radius" src="/resources/assets/images/avatar-4.jpg" alt="User-Profile-Image">
-                                    <div class="user-details">
-                                        <span>John Doe</span>
-                                        <span id="more-details">UX Designer<i class="ti-angle-down"></i></span>
-                                    </div>
-                                </div>
-
-                                <div class="main-menu-content">
-                                    <ul>
-                                        <li class="more-details">
-                                            <a href="member/mypage"><i class="ti-user"></i>View Profile</a>
-                                            <a href="#!"><i class="ti-settings"></i>Settings</a>
-                                            <a href="member/logout"><i class="ti-layout-sidebar-left"></i>Logout</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div class="pcoded-inner-navbar main-menu">                            
                             <div class="pcoded-search">
                                 <span class="searchbar-toggle">  </span>
                                 <div class="pcoded-search-box ">
@@ -815,6 +795,7 @@
 																<div id="likeDiv"></div>
 																<!-- <a id="likeA"><i></i></a> -->
 																<input type="text" id = "like" placeholder="좋아요">
+																<img id="bubble_image" alt="testImg" width="200" height="200">
                                                         </div>                                                        
                                                     </div>
                                                 </div>

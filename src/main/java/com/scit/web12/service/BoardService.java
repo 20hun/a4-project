@@ -80,4 +80,9 @@ public class BoardService {
 		dao.likeDelete(lk);
 	}
 
+	public BoardVO boardSelectOne(int board_no) {
+		BoardVO vo = dao.getVO(board_no);
+		return vo;
+	}
+
 }

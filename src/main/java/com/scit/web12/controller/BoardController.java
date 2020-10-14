@@ -1,12 +1,20 @@
 package com.scit.web12.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -111,6 +119,43 @@ public class BoardController {
 	@RequestMapping(value="/likeDelete", method = RequestMethod.POST)
 	public void likeDelete(int msg) {
 		ms.likeDelete(msg);
+	}
+	
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public String fileDownload(int board_no, HttpServletResponse response) {
+		BoardVO board = ms.boardSelectOne(board_no);
+		
+		//원래의 파일명
+		String originalfile = new String(board.getOriginalfile());
+		try {
+				//setHeader = 응답 객체에 하나의 설정을 추가했다 ,앞의 이름으로 ,뒤의 값을 설정	파일 이름이 영어로만 되어 있지 않아도 깨지지 않게 인코딩 해서 파일 이름으로 첨부파일 설정
+			response.setHeader("Content-Disposition", " attachment;filename="+ URLEncoder.encode(originalfile, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		//저장된 파일 경로
+		String fullPath = uploadPath + "/" + board.getSavedfile();
+		
+		//서버의 파일을 읽을 입력 스트림과 클라이언트에게 전달할 출력스트림
+		//어플리케이션 기준 들어오는게 input, 나가는게 output
+		FileInputStream filein = null; //물리적인 공간의 파일을 webApplication으로 가져오기 위해
+		ServletOutputStream fileout = null; //webApplicaion에서 파일객체를 사용자의 브라우저로 전달하기 위해
+		
+		try {
+			filein = new FileInputStream(fullPath);
+			fileout = response.getOutputStream();
+			
+			//Spring의 파일 관련 유틸
+			FileCopyUtils.copy(filein, fileout);
+			
+			filein.close();
+			fileout.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }

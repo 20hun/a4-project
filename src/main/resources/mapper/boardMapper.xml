@@ -50,6 +50,9 @@
     	,board_like
     	,lat
     	,lon
+    	,originalfile
+    	,savedfile
+    	,like_check
 	from
 		balloon_tb
 	</select>
@@ -65,6 +68,9 @@
     	,board_like
     	,lat
     	,lon
+    	,originalfile
+    	,savedfile
+    	,like_check
 	from
 		balloon_tb
 	where
@@ -80,7 +86,7 @@
 	</delete>
 	
 	<select id="getVO" parameterType="int" resultType="board">
-		select
+	select
 		board_no
     	,board_title
     	,board_content
@@ -90,6 +96,9 @@
     	,board_like
     	,lat
     	,lon
+    	,originalfile
+    	,savedfile
+    	,like_check
 	from
 		balloon_tb
 	where
