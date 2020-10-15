@@ -1,15 +1,65 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>simpleMap</title>
-		<script	src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-		<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx9163c0f7e9934ab4856f6c1df4d4b2c6"></script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Bubblemap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="CodedThemes">
+    <meta name="keywords" content=" Admin , Responsive, Landing, Bootstrap, App, Template, Mobile, iOS, Android, apple, creative app">
+    <meta name="author" content="CodedThemes">
+    <!-- Favicon icon -->
+    <link rel="icon" href="/resources/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="/resources/assets/css/bootstrap/css/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="/resources/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="/resources/assets/icon/icofont/css/icofont.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="/resources/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/assets/css/jquery.mCustomScrollbar.css">
+        
+        <script src="https://kit.fontawesome.com/74d52cdd15.js" crossorigin="anonymous"></script>
+		<script type="text/JavaScript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript">
-			var map;
+    jQuery(document).ready(function() {
+
+        // Geolocation 객체를 사용
+        if(navigator.geolocation) {
+            
+            navigator.geolocation.getCurrentPosition(function(position) {
+                
+                // 위치를 가져오는데 성공할 경우
+                jQuery.each(position.coords, function(key, item) {
+                    //jQuery("<h3></h3>").html("● " + key + " : " + item).appendTo("body");
+                });
+            }, function(error) {
+                
+                // 위치를 가져오는데 실패한 경우
+                consol.log(error.message);
+                // geolocation 대신 ip-api.com 사용하면 해결된다고 하는데 객체 받아서 그 안에 있는 위도, 경도 값 넣어주면 해결
+                // position 객체       json 객체
+            });
+        } else {
+            consol.log("Geolocation을 지원하지 않는 브라우저 입니다.");
+        }
+    });
+</script>        
+        <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx8fafbc9262fa45d1bc02913311bdf244"></script>
+        <script type="text/javascript">
+
+		
+        var cnt;
+        var cnt2 = 0;
+        
+        document.addEventListener("DOMContentLoaded", function() {
+			function getLocation(position) {
+				
 			var markerInfo;
 			//출발지,도착지 마커
 			var marker_s, marker_e, marker_p;
@@ -20,17 +70,21 @@
 			var chktraffic = [];
 			var resultdrawArr = [];
 			var resultMarkerArr = [];
-		
-			function initTmap() {
-				// 1. 지도 띄우기
-				map = new Tmapv2.Map("map_div", {
-					center : new Tmapv2.LatLng(37.49241689559544, 127.03171389453507),
-					width : "100%",
-					height : "400px",
-					zoom : 11,
-					zoomControl : true,
-					scrollwheel : true
-				});
+
+			var latitud = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            
+            var lonlat;
+            var markers = [];
+            var marker;
+				
+				var map = new Tmapv2.Map("map_div",  
+						{
+							center: new Tmapv2.LatLng(latitud, longitude), // 지도 초기 좌표
+							width: "960px", 
+							height: "600px",
+							zoom: 15
+						});
 		
 				// 2. 시작, 도착 심볼찍기
 				// 시작
@@ -239,7 +293,7 @@
 											});
 									//JSON TYPE EDIT [E]
 								});
-			}
+			
 		
 			function addComma(num) {
 				var regexp = /\B(?=(\d{3})+(?!\d))/g;
@@ -432,9 +486,73 @@
 				resultMarkerArr = [];
 				resultdrawArr = [];
 			}
+
+			function onClick(e){
+				if(cnt == 2){
+					if(cnt2 != 1){
+					removeMarkers();
+					}
+				lonlat = e.latLng;
+
+				if(markers.length != 2){
+				if(markers.length == 0){
+				addMarker("llStart",lonlat.lat(),lonlat.lng(),1);
+				cnt2 = 1;
+				}else{
+					addMarker("llEnd",lonlat.lat(),lonlat.lng(),2);
+					}
+				markers.push(marker);
+				}
+				}
+			}
+				//addMarker("llStart",latitud, longitude,1);
+				// 도착 
+				//addMarker("llEnd",37.49288934463672,127.11971717230388,2);
+				function addMarker(status,lat, lon, tag) {
+				//출도착경유구분
+				//이미지 파일 변경.
+				//var markerLayer;
+				switch (status) {
+					case "llStart":
+						imgURL = 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png';
+						break;
+					case "llPass":
+						imgURL = 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_p.png';
+						break;
+					case "llEnd":
+						imgURL = 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png';
+						break;
+					default:
+				};
+				marker = new Tmapv2.Marker({
+					position: new Tmapv2.LatLng(lat,lon),
+					icon: imgURL,
+					draggable : true,
+					map: map
+				});
+			}
+			
+			}
+
+			if(navigator.geolocation) {
+	            navigator.geolocation.getCurrentPosition(getLocation, function(error) {
+	                consol.log(error.message);    
+	            });
+	        } else {
+	            consol.log("Geolocation을 지원하지 않는 브라우저 입니다.");
+	        }
+        });
+
+        function upload(){
+			cnt = 1;
+			cnt2 = 0;
+            } 
+        function navi(){
+			cnt = 2;
+            }    
 		</script>
 	</head>
-	<body onload="initTmap();">
+	<body>
 		<div class="ft_area">
 			<div class="ft_select_wrap">
 				<div class="ft_select">
@@ -465,6 +583,7 @@
 		<div class="map_act_btn_wrap clear_box"></div>
 		<p id="result"></p>
 		<br />
+		<input type="button" onclick="navi();" value="길찾기">
 	</body>
 </html>
 
