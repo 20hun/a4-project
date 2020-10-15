@@ -568,23 +568,12 @@
                                             <div class="col-md-12 col-xl-4">
                                                     <div class="card fb-card">
                                                         <div class="card-header">
-                                                            <i class="icofont icofont-social-facebook"></i>
                                                             <div class="d-inline-block">
-                                                                <h5>facebook</h5>
-                                                                <span>blog page timeline</span>
+                                                                <h5>Bubble info</h5>
+                                                                <span>detail</span>
                                                             </div>
                                                         </div>
                                                         <div class="card-block text-center">
-                                                            <div class="row">
-                                                                <div class="col-6 b-r-default">
-                                                                    <h2>23</h2>
-                                                                    <p class="text-muted">Active</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <h2>23</h2>
-                                                                    <p class="text-muted">Comment</p>
-                                                                </div>
-                                                            </div>
                                                             	<p id="result"></p>
         														<p id="result2"></p>
 	                                                            <a href="/sns/timeLine"><input type="button" id = "memberId"></a> <br>
@@ -699,7 +688,7 @@ var nav = $('.fixed-button');
                                         </div>
                                     </div>
                                     <div class="col-sm-5 col-xs-12 forgot-phone text-right">
-                                        <a href="member/joinForm" class="text-right f-w-600 text-inverse"> 회원가입</a>
+                                        <a href="member/joinForm" class="text-right f-w-600 text-inverse"> Sign Up</a>
                                     </div>
                                 </div>
                                 <div class="row m-t-30">

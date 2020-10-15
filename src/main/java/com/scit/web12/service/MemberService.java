@@ -26,9 +26,9 @@ public class MemberService {
 		int cnt = dao.memberJoin(member);
 		
 		if(cnt != 0) {
-			page = "redirect:joinGood";
+			page = "redirect:/";
 		}else {
-			page = "redirect:joinFail";
+			page = "redirect:joinForm";
 		}
 		
 		return page;
