@@ -78,7 +78,7 @@
                         <form action="join" onsubmit="return formCheck();" 
                         class="md-float-material" method="post">
                             <div class="text-center">
-                                <img src="/resources/assets/images/auth/logo-dark.png" alt="logo.png">
+                                <img src="/resources/assets/images/auth/logo-dark2.png" alt="logo.png">
                             </div>
                             <div class="auth-box">
                                 <div class="row m-b-20">

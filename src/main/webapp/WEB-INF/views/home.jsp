@@ -53,11 +53,514 @@
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx8fafbc9262fa45d1bc02913311bdf244"></script>
         <script type="text/javascript">
 
+		
         var cnt;
         var cnt2 = 0;
         
         document.addEventListener("DOMContentLoaded", function() {
 			function getLocation(position) {
+
+
+
+
+
+
+
+				
+
+
+
+
+
+
+				/* var markerInfo;
+				//출발지,도착지 마커
+				var marker_s, marker_e, marker_p;
+				//경로그림정보
+				var drawInfoArr = [];
+				var drawInfoArr2 = [];
+			
+				var chktraffic = [];
+				var resultdrawArr = [];
+				var resultMarkerArr = [];
+
+				function onClick(e){
+					if(cnt == 2){
+						if(cnt2 != 1){
+						removeMarkers();
+						}
+					lonlat = e.latLng;
+
+					if(markers.length != 2){
+					if(markers.length == 0){
+					addMarker("llStart",lonlat.lat(),lonlat.lng(),1);
+					cnt2 = 1;
+					}else{
+						addMarker("llEnd",lonlat.lat(),lonlat.lng(),2);
+						}
+					markers.push(marker);
+					}
+					}
+				}
+					//addMarker("llStart",latitud, longitude,1);
+					// 도착 
+					//addMarker("llEnd",37.49288934463672,127.11971717230388,2);
+					function addMarker(status,lat, lon, tag) {
+					//출도착경유구분
+					//이미지 파일 변경.
+					//var markerLayer;
+					switch (status) {
+						case "llStart":
+							imgURL = 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png';
+							break;
+						case "llPass":
+							imgURL = 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_p.png';
+							break;
+						case "llEnd":
+							imgURL = 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png';
+							break;
+						default:
+					};
+					marker = new Tmapv2.Marker({
+						position: new Tmapv2.LatLng(lat,lon),
+						icon: imgURL,
+						draggable : true,
+						map: map
+					});
+					
+				}
+					
+					// 2. 시작, 도착 심볼찍기
+					// 시작
+					marker_s = new Tmapv2.Marker(
+							{
+								position : new Tmapv2.LatLng(37.39116200000000,
+										127.11217000000000),
+								icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+								iconSize : new Tmapv2.Size(24, 38),
+								map : map
+							});
+			
+					//도착
+					marker_e = new Tmapv2.Marker(
+							{
+								position : new Tmapv2.LatLng(37.35108900000000,
+										127.930844000000000),
+								icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
+								iconSize : new Tmapv2.Size(24, 38),
+								map : map
+							});
+			
+					// 3. 경로탐색 API 사용요청
+					$("#btn_select")
+							.click(
+									function() {
+			
+										//기존 맵에 있던 정보들 초기화
+										resettingMap();
+			
+										var searchOption = $("#selectLevel").val();
+			
+										var trafficInfochk = $("#year").val();
+			
+										//JSON TYPE EDIT [S]
+										$
+												.ajax({
+													type : "POST",
+													url : "https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result",
+													async : false,
+													data : {
+														"appKey" : "l7xx9163c0f7e9934ab4856f6c1df4d4b2c6",
+														"startX" : "126.9850380932383",
+														"startY" : "37.566567545861645",
+														"endX" : "127.10331814639885",
+														"endY" : "37.403049076341794",
+														"reqCoordType" : "WGS84GEO",
+														"resCoordType" : "EPSG3857",
+														"searchOption" : searchOption,
+														"trafficInfo" : trafficInfochk
+													},
+													success : function(response) {
+			
+														var resultData = response.features;
+			
+														var tDistance = "총 거리 : "
+																+ (resultData[0].properties.totalDistance / 1000)
+																		.toFixed(1) + "km,";
+														var tTime = " 총 시간 : "
+																+ (resultData[0].properties.totalTime / 60)
+																		.toFixed(0) + "분,";
+														var tFare = " 총 요금 : "
+																+ resultData[0].properties.totalFare
+																+ "원,";
+														var taxiFare = " 예상 택시 요금 : "
+																+ resultData[0].properties.taxiFare
+																+ "원";
+			
+														$("#result").text(
+																tDistance + tTime + tFare
+																		+ taxiFare);
+			
+														//교통정보 표출 옵션값을 체크
+														if (trafficInfochk == "Y") {
+															for ( var i in resultData) { //for문 [S]
+																var geometry = resultData[i].geometry;
+																var properties = resultData[i].properties;
+			
+																if (geometry.type == "LineString") {
+																	//교통 정보도 담음
+																	chktraffic
+																			.push(geometry.traffic);
+																	var sectionInfos = [];
+																	var trafficArr = geometry.traffic;
+			
+																	for ( var j in geometry.coordinates) {
+																		// 경로들의 결과값들을 포인트 객체로 변환 
+																		var latlng = new Tmapv2.Point(
+																				geometry.coordinates[j][0],
+																				geometry.coordinates[j][1]);
+																		// 포인트 객체를 받아 좌표값으로 변환
+																		var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+																				latlng);
+			
+																		sectionInfos
+																				.push(convertPoint);
+																	}
+			
+																	drawLine(sectionInfos,
+																			trafficArr);
+																} else {
+			
+																	var markerImg = "";
+																	var pType = "";
+			
+																	if (properties.pointType == "S") { //출발지 마커
+																		markerImg = "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
+																		pType = "S";
+																	} else if (properties.pointType == "E") { //도착지 마커
+																		markerImg = "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
+																		pType = "E";
+																	} else { //각 포인트 마커
+																		markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
+																		pType = "P"
+																	}
+			
+																	// 경로들의 결과값들을 포인트 객체로 변환 
+																	var latlon = new Tmapv2.Point(
+																			geometry.coordinates[0],
+																			geometry.coordinates[1]);
+																	// 포인트 객체를 받아 좌표값으로 다시 변환
+																	var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+																			latlon);
+			
+																	var routeInfoObj = {
+																		markerImage : markerImg,
+																		lng : convertPoint._lng,
+																		lat : convertPoint._lat,
+																		pointType : pType
+																	};
+																	// 마커 추가
+																	addMarkers(routeInfoObj);
+																}
+															}//for문 [E]
+			
+														} else {
+			
+															for ( var i in resultData) { //for문 [S]
+																var geometry = resultData[i].geometry;
+																var properties = resultData[i].properties;
+			
+																if (geometry.type == "LineString") {
+																	for ( var j in geometry.coordinates) {
+																		// 경로들의 결과값들을 포인트 객체로 변환 
+																		var latlng = new Tmapv2.Point(
+																				geometry.coordinates[j][0],
+																				geometry.coordinates[j][1]);
+																		// 포인트 객체를 받아 좌표값으로 변환
+																		var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+																				latlng);
+																		// 포인트객체의 정보로 좌표값 변환 객체로 저장
+																		var convertChange = new Tmapv2.LatLng(
+																				convertPoint._lat,
+																				convertPoint._lng);
+																		// 배열에 담기
+																		drawInfoArr
+																				.push(convertChange);
+																	}
+																	console.log(drawInfoArr);
+																	drawLine(drawInfoArr,
+																			"0");
+																} else {
+			
+																	var markerImg = "";
+																	var pType = "";
+			
+																	if (properties.pointType == "S") { //출발지 마커
+																		markerImg = "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
+																		pType = "S";
+																	} else if (properties.pointType == "E") { //도착지 마커
+																		markerImg = "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
+																		pType = "E";
+																	} else { //각 포인트 마커
+																		markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
+																		pType = "P"
+																	}
+			
+																	// 경로들의 결과값들을 포인트 객체로 변환 
+																	var latlon = new Tmapv2.Point(
+																			geometry.coordinates[0],
+																			geometry.coordinates[1]);
+																	// 포인트 객체를 받아 좌표값으로 다시 변환
+																	var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+																			latlon);
+			
+																	var routeInfoObj = {
+																		markerImage : markerImg,
+																		lng : convertPoint._lng,
+																		lat : convertPoint._lat,
+																		pointType : pType
+																	};
+			
+																	// Marker 추가
+																	addMarkers(routeInfoObj);
+																}
+															}//for문 [E]
+														}
+													},
+													error : function(request, status, error) {
+														console.log("code:"
+																+ request.status + "\n"
+																+ "message:"
+																+ request.responseText
+																+ "\n" + "error:" + error);
+													}
+												});
+										//JSON TYPE EDIT [E]
+									});
+				}
+			
+				function addComma(num) {
+					var regexp = /\B(?=(\d{3})+(?!\d))/g;
+					return num.toString().replace(regexp, ',');
+				}
+			
+				//마커 생성하기
+				function addMarkers(infoObj) {
+					var size = new Tmapv2.Size(24, 38);//아이콘 크기 설정합니다.
+			
+					if (infoObj.pointType == "P") { //포인트점일때는 아이콘 크기를 줄입니다.
+						size = new Tmapv2.Size(8, 8);
+					}
+			
+					marker_p = new Tmapv2.Marker({
+						position : new Tmapv2.LatLng(infoObj.lat, infoObj.lng),
+						icon : infoObj.markerImage,
+						iconSize : size,
+						map : map
+					});
+			
+					resultMarkerArr.push(marker_p);
+				}
+			
+				//라인그리기
+				function drawLine(arrPoint, traffic) {
+					var polyline_;
+			
+					if (chktraffic.length != 0) {
+			
+						// 교통정보 혼잡도를 체크
+						// strokeColor는 교통 정보상황에 다라서 변화
+						// traffic :  0-정보없음, 1-원활, 2-서행, 3-지체, 4-정체  (black, green, yellow, orange, red)
+			
+						var lineColor = "";
+			
+						if (traffic != "0") {
+							if (traffic.length == 0) { //length가 0인것은 교통정보가 없으므로 검은색으로 표시
+			
+								lineColor = "#06050D";
+								//라인그리기[S]
+								polyline_ = new Tmapv2.Polyline({
+									path : arrPoint,
+									strokeColor : lineColor,
+									strokeWeight : 6,
+									map : map
+								});
+								resultdrawArr.push(polyline_);
+								//라인그리기[E]
+							} else { //교통정보가 있음
+			
+								if (traffic[0][0] != 0) { //교통정보 시작인덱스가 0이 아닌경우
+									var trafficObject = "";
+									var tInfo = [];
+			
+									for (var z = 0; z < traffic.length; z++) {
+										trafficObject = {
+											"startIndex" : traffic[z][0],
+											"endIndex" : traffic[z][1],
+											"trafficIndex" : traffic[z][2],
+										};
+										tInfo.push(trafficObject)
+									}
+			
+									var noInfomationPoint = [];
+			
+									for (var p = 0; p < tInfo[0].startIndex; p++) {
+										noInfomationPoint.push(arrPoint[p]);
+									}
+			
+									//라인그리기[S]
+									polyline_ = new Tmapv2.Polyline({
+										path : noInfomationPoint,
+										strokeColor : "#06050D",
+										strokeWeight : 6,
+										map : map
+									});
+									//라인그리기[E]
+									resultdrawArr.push(polyline_);
+			
+									for (var x = 0; x < tInfo.length; x++) {
+										var sectionPoint = []; //구간선언
+			
+										for (var y = tInfo[x].startIndex; y <= tInfo[x].endIndex; y++) {
+											sectionPoint.push(arrPoint[y]);
+										}
+			
+										if (tInfo[x].trafficIndex == 0) {
+											lineColor = "#06050D";
+										} else if (tInfo[x].trafficIndex == 1) {
+											lineColor = "#61AB25";
+										} else if (tInfo[x].trafficIndex == 2) {
+											lineColor = "#FFFF00";
+										} else if (tInfo[x].trafficIndex == 3) {
+											lineColor = "#E87506";
+										} else if (tInfo[x].trafficIndex == 4) {
+											lineColor = "#D61125";
+										}
+			
+										//라인그리기[S]
+										polyline_ = new Tmapv2.Polyline({
+											path : sectionPoint,
+											strokeColor : lineColor,
+											strokeWeight : 6,
+											map : map
+										});
+										//라인그리기[E]
+										resultdrawArr.push(polyline_);
+									}
+								} else { //0부터 시작하는 경우
+			
+									var trafficObject = "";
+									var tInfo = [];
+			
+									for (var z = 0; z < traffic.length; z++) {
+										trafficObject = {
+											"startIndex" : traffic[z][0],
+											"endIndex" : traffic[z][1],
+											"trafficIndex" : traffic[z][2],
+										};
+										tInfo.push(trafficObject)
+									}
+			
+									for (var x = 0; x < tInfo.length; x++) {
+										var sectionPoint = []; //구간선언
+			
+										for (var y = tInfo[x].startIndex; y <= tInfo[x].endIndex; y++) {
+											sectionPoint.push(arrPoint[y]);
+										}
+			
+										if (tInfo[x].trafficIndex == 0) {
+											lineColor = "#06050D";
+										} else if (tInfo[x].trafficIndex == 1) {
+											lineColor = "#61AB25";
+										} else if (tInfo[x].trafficIndex == 2) {
+											lineColor = "#FFFF00";
+										} else if (tInfo[x].trafficIndex == 3) {
+											lineColor = "#E87506";
+										} else if (tInfo[x].trafficIndex == 4) {
+											lineColor = "#D61125";
+										}
+			
+										//라인그리기[S]
+										polyline_ = new Tmapv2.Polyline({
+											path : sectionPoint,
+											strokeColor : lineColor,
+											strokeWeight : 6,
+											map : map
+										});
+										//라인그리기[E]
+										resultdrawArr.push(polyline_);
+									}
+								}
+							}
+						} else {
+			
+						}
+					} else {
+						polyline_ = new Tmapv2.Polyline({
+							path : arrPoint,
+							strokeColor : "#DD0000",
+							strokeWeight : 6,
+							map : map
+						});
+						resultdrawArr.push(polyline_);
+					}
+			
+				}
+			
+				//초기화 기능
+				function resettingMap() {
+					//기존마커는 삭제
+					marker_s.setMap(null);
+					marker_e.setMap(null);
+			
+					if (resultMarkerArr.length > 0) {
+						for (var i = 0; i < resultMarkerArr.length; i++) {
+							resultMarkerArr[i].setMap(null);
+						}
+					}
+			
+					if (resultdrawArr.length > 0) {
+						for (var i = 0; i < resultdrawArr.length; i++) {
+							resultdrawArr[i].setMap(null);
+						}
+					}
+			
+					chktraffic = [];
+					drawInfoArr = [];
+					resultMarkerArr = [];
+					resultdrawArr = [];
+				} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
 
 		            var latitud = position.coords.latitude;
 		            var longitude = position.coords.longitude;
@@ -69,7 +572,7 @@
 				var map = new Tmapv2.Map("map_div",  
 				{
 					center: new Tmapv2.LatLng(latitud, longitude), // 지도 초기 좌표
-					width: "780px", 
+					width: "960px", 
 					height: "600px",
 					zoom: 15
 				});
@@ -108,6 +611,8 @@
 										$("#view").attr("value", data.board_view);
 										$("#like").attr("value", data.board_like);
 										$("#bubble_image").attr("src", "/board/download?board_no="+data.board_no);
+										//$("#bubble_video").attr("src", "/board/download?board_no="+data.board_no);
+										//$("#bubble_video").attr("src", "<c:url value='https://www.youtube.com/watch?v=jPJthgBj5Z0'/>");
 										str4 = data.board_like;
 
 										var str = "";										
@@ -261,16 +766,6 @@
 						draggable : true,
 						map: map
 					});
-					/* // 마커 드래그 설정
-					marker.tag = tag;
-					marker.addListener("dragend", function (evt) {
-					markerListenerEvent(evt);
-				    });
-				    marker.addListener("drag", function (evt) {    	
-				    	markerObject = markerList[tag];
-				    });
-				    markerList[tag] = marker;
-					return marker; */
 				}
 			}
 
@@ -349,7 +844,7 @@
                             <i class="ti-search"></i>
                         </a>
                         <a href="index.html">
-                            <img class="img-fluid" src="/resources/assets/images/logo.png" alt="Theme-Logo" />
+                            <img class="img-fluid" src="/resources/assets/images/logo3.png" style="width: 190; height: 57" alt="Theme-Logo" />
                         </a>
                         <a class="mobile-options">
                             <i class="ti-more"></i>
@@ -366,6 +861,12 @@
                                 <a href="#!" onclick="javascript:toggleFullScreen()">
                                     <i class="ti-fullscreen"></i>
                                 </a>
+                            </li>
+                            <li>
+                            	<div class="pcoded-search-box">
+							    	<input type="text" placeholder="Search" style="width: 300; height: 50">
+							    	<span class="search-icon"><i class="ti-search" aria-hidden="true"></i></span>
+							    </div>
                             </li>
                         </ul>
                         <ul class="nav-right">
@@ -450,235 +951,34 @@
                 </div>
             </nav>
             <div class="pcoded-main-container">
-                <div class="pcoded-wrapper">
-                    <nav class="pcoded-navbar">
-                        <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
-                        <div class="pcoded-inner-navbar main-menu">                            
-                            <div class="pcoded-search">
-                                <span class="searchbar-toggle">  </span>
-                                <div class="pcoded-search-box ">
-                                    <input type="text" placeholder="Search">
-                                    <span class="search-icon"><i class="ti-search" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                            <div class="pcoded-navigatio-lavel" data-i18n="nav.category.navigation">Layout</div>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="active">
-                                    <a href="index.html">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
-                                        <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Components</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        <li class=" ">
-                                            <a href="accordion.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Accordion</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="breadcrumb.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Breadcrumbs</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="button.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Button</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="tabs.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Tabs</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="color.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Color</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="label-badge.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Label Badge</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="tooltip.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Tooltip</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="typography.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Typography</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="notification.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Notification</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="icon-themify.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Icon</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                </li>
-                            </ul>
-                            <div class="pcoded-navigatio-lavel" data-i18n="nav.category.forms">Forms &amp; Tables</div>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li>
-                                    <a href="form-elements-component.html">
-                                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Form Components</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="bs-basic-table.html">
-                                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Basic Table</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                
-                            </ul>
-
-                            <div class="pcoded-navigatio-lavel" data-i18n="nav.category.forms">Chart &amp; Maps</div>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li>
-                                    <a href="chart.html">
-                                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Chart</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="map-google.html">
-                                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Maps</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
-                                        <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Pages</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        <li class=" ">
-                                            <a href="auth-normal-sign-in.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Login</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="auth-sign-up.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Register</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="sample-page.html">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Sample Page</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                
-                            </ul>
-
-                            <div class="pcoded-navigatio-lavel" data-i18n="nav.category.other">Other</div>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu ">
-                                    <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="ti-direction-alt"></i><b>M</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.main">Menu Levels</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        <li class="">
-                                            <a href="javascript:void(0)">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-21">Menu Level 2.1</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class="pcoded-hasmenu ">
-                                            <a href="javascript:void(0)">
-                                                <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.main">Menu Level 2.2</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                            <ul class="pcoded-submenu">
-                                                <li class="">
-                                                    <a href="javascript:void(0)">
-                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Menu Level 3.1</span>
-                                                        <span class="pcoded-mcaret"></span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="">
-                                            <a href="javascript:void(0)">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-23">Menu Level 2.3</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                    <div class="pcoded-content">
+                <div class="pcoded-wrapper">                                        
                         <div class="pcoded-inner-content">
                             <div class="main-body">
                                 <div class="page-wrapper">
-
                                     <div class="page-body">
-                                        <div class="row">
+                                        <div class="row">                                        
+                                        	<!-- card1 start -->
+                                            <div class="col-md-6 col-xl-3">
+                                                <div class="card widget-card-1">
+                                                    <div class="card-block-small">
+                                                        <i class="icofont icofont-ui-home bg-c-pink card1-icon"></i>
+                                                        <span class="text-c-pink f-w-600">뉴스피드</span>
+                                                        <div>
+                                                            <span class="f-left m-t-10 text-muted">
+                                                                <i class="text-c-pink f-16 icofont icofont-refresh m-r-10"></i>Just update
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- card1 end -->                                            
                                             <!-- card1 start -->
                                             <div class="col-md-6 col-xl-3">
                                                 <div class="card widget-card-1">
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-pie-chart bg-c-blue card1-icon"></i>
                                                         <span class="text-c-blue f-w-600">기능</span>
-                                                        <input type="button" onclick="upload();" value="거품 등록">
-                                                        <input type="button" onclick="navi();" value="길찾기">                                                        
+                                                        <input type="button" onclick="upload();" value="거품 등록">                                                                                                              
                                                         <div>
                                                             <span class="f-left m-t-10 text-muted">
                                                                 <i class="text-c-blue f-16 icofont icofont-warning m-r-10"></i>Get more space
@@ -688,32 +988,14 @@
                                                 </div>
                                             </div>
                                             <!-- card1 end -->
-                                            <!-- card1 start -->
-                                            <div class="col-md-6 col-xl-3">
-                                                <div class="card widget-card-1">
-                                                    <div class="card-block-small">
-                                                        <i class="icofont icofont-ui-home bg-c-pink card1-icon"></i>
-                                                        <span class="text-c-pink f-w-600">Revenue</span>
-                                                        <h4>$23,589</h4>
-                                                        <a href="board/boardList">말풍선 목록</a><br>
-														<a href="board/profile">내 말풍선들</a><br>
-														<a href="member/joinList">회원 목록</a> (관리자만 접근)
-                                                        <div>
-                                                            <span class="f-left m-t-10 text-muted">
-                                                                <i class="text-c-pink f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- card1 end -->
+                                            
                                             <!-- card1 start -->
                                             <div class="col-md-6 col-xl-3">
                                                 <div class="card widget-card-1">
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-warning-alt bg-c-green card1-icon"></i>
-                                                        <span class="text-c-green f-w-600">Fixed issue</span>
-                                                        <h4>45</h4>
+                                                        <span class="text-c-green f-w-600">길찾기</span>
+							                            <input type="button" onclick="navi();" value="길찾기">					                        
                                                         <div>
                                                             <span class="f-left m-t-10 text-muted">
                                                                 <i class="text-c-green f-16 icofont icofont-tag m-r-10"></i>Tracked via microsoft
@@ -728,11 +1010,10 @@
                                                 <div class="card widget-card-1">
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-social-twitter bg-c-yellow card1-icon"></i>
-                                                        <span class="text-c-yellow f-w-600">Followers</span>
-                                                        <h4>+562</h4>
+                                                        <span class="text-c-yellow f-w-600">거품 순위</span>
                                                         <div>
                                                             <span class="f-left m-t-10 text-muted">
-                                                                <i class="text-c-yellow f-16 icofont icofont-refresh m-r-10"></i>Just update
+                                                            	<i class="text-c-yellow f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours                                                                
                                                             </span>
                                                         </div>
                                                     </div>
@@ -741,7 +1022,32 @@
                                             <!-- card1 end -->
                                             <!-- Statestics Start -->
                                             <div class="col-md-12 col-xl-8">
+	                                            <div class="ft_area">
+													<div class="ft_select_wrap">
+														<div class="ft_select">
+															<select id="selectLevel">
+																<option value="0" selected="selected">교통최적+추천</option>
+																<option value="1">교통최적+무료우선</option>
+																<option value="2">교통최적+최소시간</option>
+																<option value="3">교통최적+초보</option>
+																<option value="4">교통최적+고속도로우선</option>
+																<option value="10">최단거리+유/무료</option>
+																<option value="12">이륜차도로우선</option>
+																<option value="19">교통최적+어린이보호구역 회피</option>
+															</select> <select id="year">
+																<option value="N" selected="selected">교통정보 표출 옵션</option>
+																<option value="Y">Y</option>
+																<option value="N">N</option>
+															</select>
+															<button id="btn_select">적용하기</button>
+														</div>
+													</div>
+													<div class="map_act_btn_wrap clear_box"></div>
+													<div class="clear"></div>
+												</div>
                                             	<div id="map_div"></div>
+                                            	<div class="map_act_btn_wrap clear_box"></div>
+												<p id="result3"></p>
                                                 <!-- <div class="card">
                                                     <div class="card-header">
                                                         <h5>Statestics</h5>
@@ -794,197 +1100,19 @@
 																<input type="text" id = "view" placeholder="조회수"> <br>
 																<div id="likeDiv"></div>
 																<!-- <a id="likeA"><i></i></a> -->
-																<input type="text" id = "like" placeholder="좋아요">
-																<img id="bubble_image" alt="testImg" width="200" height="200">
+																<input type="text" id = "like" placeholder="좋아요"><br>
+																<img id="bubble_image" width="200" height="200">
+																<!-- <embed id="bubble_video" width="200" height="200"> -->
+																<br>
+                                                        <a href="board/boardList">말풍선 목록</a><br>
+                                                        <a href="/member/check">경로</a><br>
+														<a href="board/profile">내 말풍선들</a><br>
+														<a href="member/joinList">회원 목록</a> (관리자만 접근)		
                                                         </div>                                                        
                                                     </div>
                                                 </div>
                                            
                                             <!-- Email Sent End -->
-                                            <!-- Data widget start -->
-                                            <div class="col-md-12 col-xl-6">
-                                                <div class="card project-task">
-                                                    <div class="card-header">
-                                                        <div class="card-header-left ">
-                                                            <h5>Time spent : project &amp; task</h5>
-                                                        </div>
-                                                        <div class="card-header-right">
-                                                            <ul class="list-unstyled card-option">
-                                                                <li><i class="icofont icofont-simple-left "></i></li>
-                                                                <li><i class="icofont icofont-maximize full-card"></i></li>
-                                                                <li><i class="icofont icofont-minus minimize-card"></i></li>
-                                                                <li><i class="icofont icofont-refresh reload-card"></i></li>
-                                                                <li><i class="icofont icofont-error close-card"></i></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-block p-b-10">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-hover">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Project & Task</th>
-                                                                        <th>Time Spents</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="task-contain">
-                                                                                <h6 class="bg-c-blue d-inline-block text-center">U</h6>
-                                                                                <p class="d-inline-block m-l-20">UI Design</p>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p class="d-inline-block m-r-20">4 : 36</p>
-                                                                            <div class="progress d-inline-block">
-                                                                                <div class="progress-bar bg-c-blue" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:80%">
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="task-contain">
-                                                                                <h6 class="bg-c-pink d-inline-block text-center">R</h6>
-                                                                                <p class="d-inline-block m-l-20">Redesign Android App</p>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p class="d-inline-block m-r-20">4 : 36</p>
-                                                                            <div class="progress d-inline-block">
-                                                                                <div class="progress-bar bg-c-pink" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:60%">
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="task-contain">
-                                                                                <h6 class="bg-c-yellow d-inline-block text-center">L</h6>
-                                                                                <p class="d-inline-block m-l-20">Logo Design</p>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p class="d-inline-block m-r-20">4 : 36</p>
-                                                                            <div class="progress d-inline-block">
-                                                                                <div class="progress-bar bg-c-yellow" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="task-contain">
-                                                                                <h6 class="bg-c-green d-inline-block text-center">A</h6>
-                                                                                <p class="d-inline-block m-l-20">Appestia landing Page</p>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p class="d-inline-block m-r-20">4 : 36</p>
-                                                                            <div class="progress d-inline-block">
-                                                                                <div class="progress-bar bg-c-green" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="task-contain">
-                                                                                <h6 class="bg-c-blue d-inline-block text-center">L</h6>
-                                                                                <p class="d-inline-block m-l-20">Logo Design</p>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p class="d-inline-block m-r-20">4 : 36</p>
-                                                                            <div class="progress d-inline-block">
-                                                                                <div class="progress-bar bg-c-blue" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 col-xl-6">
-                                                <div class="card add-task-card">
-                                                    <div class="card-header">
-                                                        <div class="card-header-left">
-                                                            <h5>To do list</h5>
-                                                        </div>
-                                                        <div class="card-header-right">
-                                                            <button class="btn btn-card btn-primary">Add task </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-block">
-                                                        <div class="to-do-list">
-                                                            <div class="checkbox-fade fade-in-primary d-block">
-                                                                <label class="check-task d-block">
-                                                                    <input type="checkbox" value="">
-                                                                    <span class="cr">
-                                                                        <i class="cr-icon icofont icofont-ui-check txt-default"></i>
-                                                                    </span>
-                                                                    <span><h6>Schedule Meeting with Compnes <span class="label bg-c-green m-l-10 f-10">2 week</span></h6></span>
-                                                                    <div class="task-card-img m-l-40">
-                                                                        <a href="#!"><img src="/resources/assets/images/avatar-2.jpg" data-toggle="tooltip" title="Lary Doe" alt="" class="img-40"></a>
-                                                                        <a href="#!"><img src="/resources/assets/images/avatar-3.jpg" data-toggle="tooltip" title="Alia" alt="" class="img-40 m-l-10"></a>
-                                                                    </div>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="to-do-list">
-                                                            <div class="checkbox-fade fade-in-primary d-block">
-                                                                <label class="check-task d-block">
-                                                                    <input type="checkbox" value="">
-                                                                    <span class="cr">
-                                                                        <i class="cr-icon icofont icofont-ui-check txt-default"></i>
-                                                                    </span>
-                                                                    <span><h6>Meeting With HOD's and borad</h6><p class="text-muted m-l-40">23 january 2003</p></span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="to-do-list">
-                                                            <div class="checkbox-fade fade-in-primary d-block">
-                                                                <label class="check-task d-block">
-                                                                    <input type="checkbox" value="">
-                                                                    <span class="cr">
-                                                                        <i class="cr-icon icofont icofont-ui-check txt-default"></i>
-                                                                    </span>
-                                                                    <span><h6>Create template, admin with responsive<span class="label bg-c-pink m-l-10">2 week</span></h6></span>
-                                                                    <div class="task-card-img m-l-40">
-                                                                        <a href="#!"><img src="/resources/assets/images/avatar-2.jpg" data-toggle="tooltip" title="Alia" alt="" class="img-40"></a>
-                                                                        <a href="#!"><img src="/resources/assets/images/avatar-3.jpg" data-toggle="tooltip" title="Suzen" alt="" class="img-40 m-l-10"></a>
-                                                                        <a href="#!"><img src="/resources/assets/images/avatar-4.jpg" data-toggle="tooltip" title="Lary Doe" alt="" class="img-40 m-l-10"></a>
-                                                                        <a href="#!"><img src="/resources/assets/images/avatar-2.jpg" data-toggle="tooltip" title="Josephin Doe" alt="" class="img-40 m-l-10"></a>
-                                                                    </div>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="to-do-list">
-                                                            <div class="checkbox-fade fade-in-primary d-block">
-                                                                <label class="check-task d-block">
-                                                                    <input type="checkbox" value="">
-                                                                    <span class="cr">
-                                                                        <i class="cr-icon icofont icofont-ui-check txt-default"></i>
-                                                                    </span>
-                                                                    <span><h6>Meeting With HOD's and borad</h6>
-                                                                        <p class="text-muted m-l-40">23 january 2003</p></span>
-                                                                        <div class="task-card-img m-l-40">
-                                                                            <a href="#!"><img src="/resources/assets/images/avatar-2.jpg" data-toggle="tooltip" title="Lary Doe" alt="" class="img-40"></a>
-                                                                            <a href="#!"><img src="/resources/assets/images/avatar-3.jpg" data-toggle="tooltip" title="Alia" alt="" class="img-40 m-l-10"></a>
-                                                                            <a href="#!"><img src="/resources/assets/images/avatar-2.jpg" data-toggle="tooltip" title="Josephin Doe" alt="" class="img-40 m-l-10"></a>
-                                                                        </div>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Data widget End -->
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -994,7 +1122,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="fixed-button">
@@ -1040,33 +1168,6 @@ var nav = $('.fixed-button');
 </script>
 	</c:when>
 	<c:otherwise>
-		<!-- <ul>
-			<li>
-				<a href="member/joinForm">회원가입</a>
-			</li>
-			<li>
-				<a href="member/loginForm">로그인</a>
-			</li>
-		</ul> -->
-		<!-- Pre-loader start -->
-    <div class="theme-loader">
-    <div class="ball-scale">
-        <div class='contain'>
-            <div class="ring"><div class="frame"></div></div>
-            <div class="ring"><div class="frame"></div></div>
-            <div class="ring"><div class="frame"></div></div>
-            <div class="ring"><div class="frame"></div></div>
-            <div class="ring"><div class="frame"></div></div>
-            <div class="ring"><div class="frame"></div></div>
-            <div class="ring"><div class="frame"></div></div>
-            <div class="ring"><div class="frame"></div></div>
-            <div class="ring"><div class="frame"></div></div>
-            <div class="ring"><div class="frame"></div></div>
-        </div>
-    </div>
-</div>
-    <!-- Pre-loader end -->
-
     <section class="login p-fixed d-flex text-center bg-primary common-img-bg">
         <!-- Container-fluid starts -->
         <div class="container">
@@ -1076,7 +1177,7 @@ var nav = $('.fixed-button');
                     <div class="login-card card-block auth-body mr-auto ml-auto">
                         <form action="member/login" class="md-float-material" method="post">
                             <div class="text-center">
-                                <img src="/resources/assets/images/auth/logo-dark.png" alt="logo.png">
+                                <img src="/resources/assets/images/auth/logo-dark2.png" alt="logo.png">
                             </div>
                             <div class="auth-box">
                                 <div class="row m-b-20">

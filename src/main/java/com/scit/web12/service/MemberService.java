@@ -73,7 +73,7 @@ public class MemberService {
 			page = "redirect:/";
 			//세션에 데이터 저장(조작)하니까 리다이렉트
 		} else {
-			page = "redirect:/member/loginForm";
+			page = "redirect:/";
 			//입력되었던 데이터 유지되니까 리다이렉트
 			//로그인 실패
 		}
