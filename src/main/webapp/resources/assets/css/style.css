@@ -8968,7 +8968,8 @@ table.footable-paging-center > tfoot > tr.footable-paging > td {
   background-color: #353C4E; }
 
 .widget-card-1 {
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   text-align: right; }
   .widget-card-1 .card1-icon {
     width: 60px;

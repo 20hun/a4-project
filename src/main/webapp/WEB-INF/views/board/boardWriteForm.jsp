@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>[ 말풍선 작성 화면 ]</title>
+<title>Bubblemap</title>
 </head>
 <body>
-	<h1>[ 말풍선 작성 ]</h1>
+	<h1>[ 거품 작성 ]</h1>
 	
 	<form action="boardWrite" method="post"
 	enctype="multipart/form-data">

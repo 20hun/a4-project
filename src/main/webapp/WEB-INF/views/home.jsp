@@ -70,7 +70,7 @@
 				{
 					center: new Tmapv2.LatLng(latitud, longitude), // 지도 초기 좌표
 					width: "960px", 
-					height: "600px",
+					height: "520px",
 					zoom: 15
 				});
 
@@ -337,7 +337,7 @@
                         <a class="mobile-search morphsearch-search" href="#">
                             <i class="ti-search"></i>
                         </a>
-                        <a href="index.html">
+                        <a href="/">
                             <img class="img-fluid" src="/resources/assets/images/logo3.png" style="width: 190; height: 57" alt="Theme-Logo" />
                         </a>
                         <a class="mobile-options">
@@ -448,7 +448,7 @@
                 <div class="pcoded-wrapper">                                        
                         <div class="pcoded-inner-content">
                             <div class="main-body">
-                                <div class="page-wrapper">
+                                <div class="page-wrapper" style="padding-top: 0">
                                     <div class="page-body">
                                         <div class="row">                                        
                                         	<!-- card1 start -->
@@ -467,34 +467,37 @@
                                             </div>
                                             <!-- card1 end -->                                            
                                             <!-- card1 start -->
-                                            <div class="col-md-6 col-xl-3">
-                                                <div class="card widget-card-1">
-                                                    <div class="card-block-small">
-                                                        <i class="icofont icofont-pie-chart bg-c-blue card1-icon"></i>
-                                                        <span class="text-c-blue f-w-600">기능</span>
-                                                        <input type="button" onclick="upload();" value="거품 등록">                                                                                                              
-                                                        <div>
-                                                            <span class="f-left m-t-10 text-muted">
-                                                                <i class="text-c-blue f-16 icofont icofont-warning m-r-10"></i>Get more space
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- card1 end -->
-                                            
-                                            <!-- card1 start -->
-                                            <div class="col-md-6 col-xl-3">
-                                                <div class="card widget-card-1">
+                                            <div class="col-md-6 col-xl-3" style="padding-right: 715">
+                                                <div class="card widget-card-1" style="width: 700">
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-warning-alt bg-c-green card1-icon"></i>
                                                         <span class="text-c-green f-w-600">길찾기</span>
-							                            <input type="button" onclick="navi();" value="길찾기">					                        
-                                                        <div>
-                                                            <span class="f-left m-t-10 text-muted">
-                                                                <i class="text-c-green f-16 icofont icofont-tag m-r-10"></i>Tracked via microsoft
-                                                            </span>
-                                                        </div>
+							                            <input type="button" onclick="navi();" value="길찾기">
+	                                                        <div class="ft_area">
+														<div class="ft_select_wrap">
+															<div class="ft_select">
+																<select id="selectLevel">
+																	<option value="0" selected="selected">교통최적+추천</option>
+																	<option value="1">교통최적+무료우선</option>
+																	<option value="2">교통최적+최소시간</option>
+																	<option value="3">교통최적+초보</option>
+																	<option value="4">교통최적+고속도로우선</option>
+																	<option value="10">최단거리+유/무료</option>
+																	<option value="12">이륜차도로우선</option>
+																	<option value="19">교통최적+어린이보호구역 회피</option>
+																</select> <select id="year">
+																	<option value="N" selected="selected">교통정보 표출 옵션</option>
+																	<option value="Y">Y</option>
+																	<option value="N">N</option>
+																</select>
+																<button id="btn_select">적용하기</button>
+															</div>
+														</div>
+														<div class="map_act_btn_wrap clear_box"></div>
+														<div class="clear"></div>													
+													</div>													
+                                            	<!-- <div class="map_act_btn_wrap clear_box"></div>
+												<p id="result3"></p> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -503,64 +506,40 @@
                                             <div class="col-md-6 col-xl-3">
                                                 <div class="card widget-card-1">
                                                     <div class="card-block-small">
-                                                        <i class="icofont icofont-social-twitter bg-c-yellow card1-icon"></i>
+                                                    <i class="icofont icofont-pie-chart bg-c-yellow card1-icon"></i>
                                                         <span class="text-c-yellow f-w-600">거품 순위</span>
-                                                        <div>
-                                                            <span class="f-left m-t-10 text-muted">
-                                                            	<i class="text-c-yellow f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours                                                                
-                                                            </span>
-                                                        </div>
+                                                        	<!-- Button trigger modal -->
+															<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+															  <i class="text-c-yellow f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours
+															</button>
+															
+															<!-- Modal -->
+															<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+															  <div class="modal-dialog">
+															    <div class="modal-content">
+															      <div class="modal-header">
+															        <h5 class="modal-title" id="exampleModalLabel">원하는 날짜·시간 검색</h5>
+															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															          <span aria-hidden="true">&times;</span>
+															        </button>
+															      </div>
+															      <div class="modal-body">
+															        <input type="datetime-local"> ~ <input type="datetime-local">
+															      </div>
+															      <div class="modal-footer">
+															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															        <button type="button" class="btn btn-primary">Save changes</button>
+															      </div>
+															    </div>
+															  </div>
+															</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- card1 end -->
                                             <!-- Statestics Start -->
-                                            <div class="col-md-12 col-xl-8">
-	                                            <div class="ft_area">
-													<div class="ft_select_wrap">
-														<div class="ft_select">
-															<select id="selectLevel">
-																<option value="0" selected="selected">교통최적+추천</option>
-																<option value="1">교통최적+무료우선</option>
-																<option value="2">교통최적+최소시간</option>
-																<option value="3">교통최적+초보</option>
-																<option value="4">교통최적+고속도로우선</option>
-																<option value="10">최단거리+유/무료</option>
-																<option value="12">이륜차도로우선</option>
-																<option value="19">교통최적+어린이보호구역 회피</option>
-															</select> <select id="year">
-																<option value="N" selected="selected">교통정보 표출 옵션</option>
-																<option value="Y">Y</option>
-																<option value="N">N</option>
-															</select>
-															<button id="btn_select">적용하기</button>
-														</div>
-													</div>
-													<div class="map_act_btn_wrap clear_box"></div>
-													<div class="clear"></div>
-												</div>
+                                            <div class="col-md-12 col-xl-8">	                                            
                                             	<div id="map_div"></div>
-                                            	<div class="map_act_btn_wrap clear_box"></div>
-												<p id="result3"></p>
-                                                <!-- <div class="card">
-                                                    <div class="card-header">
-                                                        <h5>Statestics</h5>
-                                                        <div class="card-header-left ">
-                                                        </div>
-                                                        <div class="card-header-right">
-                                                            <ul class="list-unstyled card-option">
-                                                                <li><i class="icofont icofont-simple-left "></i></li>
-                                                                <li><i class="icofont icofont-maximize full-card"></i></li>
-                                                                <li><i class="icofont icofont-minus minimize-card"></i></li>
-                                                                <li><i class="icofont icofont-refresh reload-card"></i></li>
-                                                                <li><i class="icofont icofont-error close-card"></i></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-block">
-                                                        <div id="statestics-chart" style="height:517px;"></div>
-                                                    </div>
-                                                </div> -->
                                             </div>
 
 
@@ -569,50 +548,45 @@
                                                     <div class="card fb-card">
                                                         <div class="card-header">
                                                             <div class="d-inline-block">
-                                                                <h5>Bubble info</h5>
-                                                                <span>detail</span>
+                                                                <h5>Bubble info</h5><input type="button" onclick="upload();" value="거품 등록">                                                             
                                                             </div>
                                                         </div>
                                                         <div class="card-block text-center">
                                                             	<p id="result"></p>
         														<p id="result2"></p>
 	                                                            <a href="/sns/timeLine"><input type="button" id = "memberId"></a> <br>
-																<input type="text" id = "title" placeholder="버블 제목"> <br>
-																<input type="text" id = "content" placeholder="버블 내용"> <br>
-																<input type="text" id = "indate" placeholder="버블 등록 시간"> <br>
-																<input type="text" id = "view" placeholder="조회수"> <br>
-																<div id="likeDiv"></div>
+																<span>title : </span><input type="text" id = "title" placeholder="버블 제목"> <br>
+																<span>content : </span><input type="text" id = "content" placeholder="버블 내용"> <br>
+																<span>upload time : </span><input type="text" id = "indate" placeholder="버블 등록 시간"> <br>
+																<span>view : </span><input type="text" id = "view" placeholder="조회수"> <br>
+																<span id="likeDiv"></span>
 																<!-- <a id="likeA"><i></i></a> -->
 																<input type="text" id = "like" placeholder="좋아요"><br>
 																<img id="bubble_image" width="200" height="200">
 																<!-- <embed id="bubble_video" width="200" height="200"> -->
 																<br>
-                                                        <a href="board/boardList">말풍선 목록</a><br>
-                                                        <a href="/member/check">경로</a><br>
-														<a href="board/profile">내 말풍선들</a><br>
-														<a href="member/joinList">회원 목록</a> (관리자만 접근)		
+                                                        <a href="board/boardList">거품목록</a>
+                                                        <a href="/member/check">경로</a>
+														<a href="board/profile">내거품</a>
+														<a href="member/joinList">회원목록</a> (관리자만 접근)		
                                                         </div>                                                        
                                                     </div>
-                                                </div>
-                                           
+                                                </div>                                           
                                             <!-- Email Sent End -->
                                             </div>
                                         </div>
                                     </div>
-
                                     <div id="styleSelector">
-
                                     </div>
                                 </div>
-                            </div>
-                        
+                            </div>                        
                     </div>
                 </div>
-                <div class="fixed-button">
+                <!-- <div class="fixed-button">
                     <a href="https://codedthemes.com/item/guru-able-admin-template/" target="_blank" class="btn btn-md btn-primary">
                       <i class="fa fa-shopping-cart" aria-hidden="true"></i> Upgrade To Pro
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
 
