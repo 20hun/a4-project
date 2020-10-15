@@ -93,7 +93,7 @@
 									label : label
 								});
 									marker.addListener("click", function(evt) {
-									document.getElementById("result2").innerHTML = 'Mouse Click!';
+									//document.getElementById("result2").innerHTML = 'Mouse Click!';
 									$.ajax({
 										url: "/board/getBubble",
 										type:"post",
@@ -101,9 +101,9 @@
 											msg: item.board_no
 										},
 										success: function(data) {alert("통신 성공!");console.log(data)
-										$("#memberId").attr("value", data.member_id);
+										$("#memberId").html(data.member_id);
 										$("#title").attr("value", data.board_title);
-										$("#content").attr("value", data.board_content);
+										$("#content").html(data.board_content);
 										$("#indate").attr("value", data.board_indate);
 										$("#view").attr("value", data.board_view);
 										$("#like").attr("value", data.board_like);
@@ -206,8 +206,9 @@
 					}
 					
 					markers[0].addListener("click", function(evt) {
-						document.getElementById("result").innerHTML = 'Mouse Click!';
+						//document.getElementById("result").innerHTML = 'Mouse Click!';
 						location.href="/board/boardWriteForm?lat="+lat+"&lon="+lon;
+						//window.open("board/boardWriteForm?lat="+lat+"&lon="+lon,"popup","width=100px, height=100px");
 					});
 					}
 				}
@@ -552,16 +553,31 @@
                                                             </div>
                                                         </div>
                                                         <div class="card-block text-center">
-                                                            	<p id="result"></p>
-        														<p id="result2"></p>
-	                                                            <a href="/sns/timeLine"><input type="button" id = "memberId"></a> <br>
-																<span>title : </span><input type="text" id = "title" placeholder="버블 제목"> <br>
-																<span>content : </span><input type="text" id = "content" placeholder="버블 내용"> <br>
-																<span>upload time : </span><input type="text" id = "indate" placeholder="버블 등록 시간"> <br>
-																<span>view : </span><input type="text" id = "view" placeholder="조회수"> <br>
-																<span id="likeDiv"></span>
-																<!-- <a id="likeA"><i></i></a> -->
-																<input type="text" id = "like" placeholder="좋아요"><br>
+                                                            	<!-- <p id="result"></div>
+        														<p id="result2"></div> -->
+        														<a href="/sns/timeLine"><div id="memberId"></div></a>
+        														<table class="table table-hover">
+        															<tr>
+        																<td>title</td>
+        																<td ><input style="border: none;" type="text" id = "title" placeholder="버블 제목"></td>
+        															</tr>
+        															<tr>
+        																<td>content</td>
+        																<td><textarea style="border: none; width: 250" id="content" form="inform" cols="40" rows="3" placeholder="버블 내용"></textarea></td>
+        															</tr>
+        															<tr>
+        																<td>upload time</td>
+        																<td><input style="border: none;" type="text" id = "indate" placeholder="버블 등록 시간"></td>
+        															</tr>
+        															<tr>
+        																<td>view</td>
+        																<td><input style="border: none;" type="text" id = "view" placeholder="조회수"></td>
+        															</tr>
+        															<tr>
+        																<td colspan="2"><div style="margin-left: 180"><span id="likeDiv"></span><input style="border: none;" type="text" id = "like" placeholder="좋아요"></div></td>
+        															</tr>
+        														</table>
+	                                                            
 																<img id="bubble_image" width="200" height="200">
 																<!-- <embed id="bubble_video" width="200" height="200"> -->
 																<br>
