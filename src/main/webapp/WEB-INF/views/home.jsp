@@ -69,8 +69,8 @@
 				var map = new Tmapv2.Map("map_div",  
 				{
 					center: new Tmapv2.LatLng(latitud, longitude), // 지도 초기 좌표
-					width: "960px", 
-					height: "520px",
+					width: "100%", 
+					height: "100%",
 					zoom: 15
 				});
 
@@ -235,10 +235,12 @@
 					if(markers.length == 0){
 					addMarker("llStart",lonlat.lat(),lonlat.lng(),1);
 					cnt2 = 1;
+					markers.push(marker);
 					}else{
 						addMarker("llEnd",lonlat.lat(),lonlat.lng(),2);
+						markers.push(marker);
+						$('#exampleModal3').modal('show');
 						}
-					markers.push(marker);
 					}
 					}
 				}
@@ -365,12 +367,6 @@
                                     <i class="ti-fullscreen"></i>
                                 </a>
                             </li>
-                            <li>
-                            	<div class="pcoded-search-box">
-							    	<input type="text" placeholder="Search" style="width: 300; height: 50">
-							    	<span class="search-icon"><i class="ti-search" aria-hidden="true"></i></span>
-							    </div>
-                            </li>
                         </ul>
                         <ul class="nav-right">
                             <li class="header-notification">
@@ -464,8 +460,8 @@
                                             <div class="col-md-6 col-xl-3">
                                                 <div class="card widget-card-1">
                                                     <div class="card-block-small">
-                                                        <i class="icofont icofont-ui-home bg-c-pink card1-icon"></i>
-                                                        <span class="text-c-pink f-w-600">뉴스피드</span>
+                                                        <i class="icofont icofont-bullhorn bg-c-pink card1-icon"></i>
+                                                        <span class="text-c-pink f-w-600">News feed</span>
                                                         <div>
                                                             <span class="f-left m-t-10 text-muted">
                                                                 <i class="text-c-pink f-16 icofont icofont-refresh m-r-10"></i>Just update
@@ -474,39 +470,28 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- card1 end -->                                            
+                                            <!-- card1 end -->       
                                             <!-- card1 start -->
-                                            <div class="col-md-6 col-xl-3" style="padding-right: 715">
-                                                <div class="card widget-card-1" style="width: 700">
+                                            <div class="col-md-6 col-xl-3">
+                                                <div class="card widget-card-1">
                                                     <div class="card-block-small">
-                                                        <i class="icofont icofont-warning-alt bg-c-green card1-icon"></i>
-                                                        <span class="text-c-green f-w-600">길찾기</span>
+                                                        <i class="icofont icofont-search bg-c-blue card1-icon"></i>
+                                                        <span class="text-c-blue f-w-600">Search</span>
+                                                        <div class="pcoded-search-box">
+													    	<input type="text" placeholder="Search">
+													    	<span class="search-icon"><i class="ti-search" aria-hidden="true"></i></span>
+													    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- card1 end -->                                         
+                                            <!-- card1 start -->
+                                            <div class="col-md-6 col-xl-3">
+                                                <div class="card widget-card-1">
+                                                    <div class="card-block-small">
+                                                        <i class="icofont icofont-navigation bg-c-green card1-icon"></i>
+                                                        <span class="text-c-green f-w-600">Navi</span>
 							                            <input type="button" onclick="navi();" value="길찾기">
-	                                                        <div class="ft_area">
-														<div class="ft_select_wrap">
-															<div class="ft_select">
-																<select id="selectLevel">
-																	<option value="0" selected="selected">교통최적+추천</option>
-																	<option value="1">교통최적+무료우선</option>
-																	<option value="2">교통최적+최소시간</option>
-																	<option value="3">교통최적+초보</option>
-																	<option value="4">교통최적+고속도로우선</option>
-																	<option value="10">최단거리+유/무료</option>
-																	<option value="12">이륜차도로우선</option>
-																	<option value="19">교통최적+어린이보호구역 회피</option>
-																</select> <select id="year">
-																	<option value="N" selected="selected">교통정보 표출 옵션</option>
-																	<option value="Y">Y</option>
-																	<option value="N">N</option>
-																</select>
-																<button id="btn_select">적용하기</button>
-															</div>
-														</div>
-														<div class="map_act_btn_wrap clear_box"></div>
-														<div class="clear"></div>													
-													</div>													
-                                            	<!-- <div class="map_act_btn_wrap clear_box"></div>
-												<p id="result3"></p> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -516,7 +501,7 @@
                                                 <div class="card widget-card-1">
                                                     <div class="card-block-small">
                                                     <i class="icofont icofont-pie-chart bg-c-yellow card1-icon"></i>
-                                                        <span class="text-c-yellow f-w-600">거품 순위</span>
+                                                        <span class="text-c-yellow f-w-600">Ranking</span>
                                                         	<!-- Button trigger modal -->
 															<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">
 															  <i class="text-c-yellow f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours
@@ -568,7 +553,48 @@
 															      </div>
 															    </div>
 															  </div>
-															</div>															
+															</div>		
+															<!-- Modal3 -->
+															<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+															  <div class="modal-dialog">
+															    <div class="modal-content">
+															      <div class="modal-header">
+															        <h5 class="modal-title" id="exampleModalLabel">옵션 선택</h5>
+															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															          <span aria-hidden="true">&times;</span>
+															        </button>
+															      </div>
+															      <div class="modal-body">
+															        <div class="ft_area">
+																		<div class="ft_select_wrap">
+																			<div class="ft_select">
+																				<select id="selectLevel">
+																					<option value="0" selected="selected">교통최적+추천</option>
+																					<option value="1">교통최적+무료우선</option>
+																					<option value="2">교통최적+최소시간</option>
+																					<option value="3">교통최적+초보</option>
+																					<option value="4">교통최적+고속도로우선</option>
+																					<option value="10">최단거리+유/무료</option>
+																					<option value="12">이륜차도로우선</option>
+																					<option value="19">교통최적+어린이보호구역 회피</option>
+																				</select> <select id="year">
+																					<option value="N" selected="selected">교통정보 표출 옵션</option>
+																					<option value="Y">Y</option>
+																					<option value="N">N</option>
+																				</select>
+																			</div>
+																		</div>
+																		<div class="map_act_btn_wrap clear_box"></div>
+																		<div class="clear"></div>													
+																	</div>	
+															      </div>
+															      <div class="modal-footer">
+															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															        <button type="button" onclick="location.href='/board/navigation'" class="btn btn-primary">길안내</button>
+															      </div>
+															    </div>
+															  </div>
+															</div>														
                                                     </div>
                                                 </div>
                                             </div>
@@ -611,12 +637,10 @@
         														</table>
 	                                                            
 																<img id="bubble_image" width="200" height="200">
-																<!-- <embed id="bubble_video" width="200" height="200"> -->
-																<br>
+																<!-- <br>
                                                         <a href="board/boardList">거품목록</a>
-                                                        <a href="/member/check">경로</a>
 														<a href="board/profile">내거품</a>
-														<a href="member/joinList">회원목록</a> (관리자만 접근)		
+														<a href="member/joinList">회원목록</a> (관리자만 접근)		 -->
                                                         </div>                                                        
                                                     </div>
                                                 </div>                                           

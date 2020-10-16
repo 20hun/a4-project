@@ -73,12 +73,6 @@
                                     <i class="ti-fullscreen"></i>
                                 </a>
                             </li>
-                            <li>
-                            	<div class="pcoded-search-box">
-							    	<input type="text" placeholder="Search" style="width: 300; height: 50">
-							    	<span class="search-icon"><i class="ti-search" aria-hidden="true"></i></span>
-							    </div>
-                            </li>
                         </ul>
                         <ul class="nav-right">
                             <li class="header-notification">

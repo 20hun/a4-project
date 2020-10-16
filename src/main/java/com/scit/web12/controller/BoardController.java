@@ -96,6 +96,11 @@ public class BoardController {
 		return "redirect:/board/profile";
 	}
 	
+	@RequestMapping(value="/navigation", method=RequestMethod.GET)
+	public String navigation(){		
+		return "member/joinForm2";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="/getBubble", method = RequestMethod.POST)
 	public BoardVO getBubble(int msg) {
