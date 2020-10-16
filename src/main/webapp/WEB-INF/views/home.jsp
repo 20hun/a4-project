@@ -207,9 +207,12 @@
 					
 					markers[0].addListener("click", function(evt) {
 						//document.getElementById("result").innerHTML = 'Mouse Click!';
-						location.href="/board/boardWriteForm?lat="+lat+"&lon="+lon;
+						//location.href="/board/boardWriteForm?lat="+lat+"&lon="+lon;
 						//window.open("board/boardWriteForm?lat="+lat+"&lon="+lon,"popup","width=100px, height=100px");
-					});
+						$('#exampleModal').modal('show');
+						$('#modalT1').attr("value",lat);
+						$('#modalT2').attr("value",lon);
+						});
 					}
 				}
 				
@@ -284,6 +287,11 @@
 			cnt = 2;
             }         
 		</script>
+		<style type="text/css">
+			.table-hover tbody tr:hover {
+				background-color: white;
+			}
+		</style>
 </head>
 <body class="fix-menu">
 <c:choose>
@@ -510,16 +518,43 @@
                                                     <i class="icofont icofont-pie-chart bg-c-yellow card1-icon"></i>
                                                         <span class="text-c-yellow f-w-600">거품 순위</span>
                                                         	<!-- Button trigger modal -->
-															<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+															<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">
 															  <i class="text-c-yellow f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours
-															</button>
-															
-															<!-- Modal -->
+															</button>															
+                                                            <!-- Modal -->
 															<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 															  <div class="modal-dialog">
 															    <div class="modal-content">
 															      <div class="modal-header">
-															        <h5 class="modal-title" id="exampleModalLabel">원하는 날짜·시간 검색</h5>
+															        <h5 class="modal-title" id="exampleModalLabel">거품 등록</h5>
+															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															          <span aria-hidden="true">&times;</span>
+															        </button>
+															      </div>
+															      <form action="/board/boardWrite" method="post"
+																	enctype="multipart/form-data" style="text-align: left;">
+															      <div class="modal-body">														        
+																		글 제목 : <input type="text" name="board_title"> <br>
+																		글 내용  <br>
+																		<textarea rows="10" cols="40" name="board_content"></textarea><br>
+																		<input type="text" name="lat" id="modalT1">
+																        <input type="text" name="lon" id="modalT2">
+																        <input type="file" name="upload" size="30">														
+															      </div>
+															      <div class="modal-footer">
+															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															        <input type="submit" class="btn btn-primary" value="Save">
+															      </div>
+															      </form>
+															    </div>
+															  </div>
+															</div>
+															<!-- Modal2 -->
+															<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+															  <div class="modal-dialog">
+															    <div class="modal-content">
+															      <div class="modal-header">
+															        <h5 class="modal-title" id="exampleModalLabel">원하는 시간·날짜 선택</h5>
 															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 															          <span aria-hidden="true">&times;</span>
 															        </button>
@@ -529,11 +564,11 @@
 															      </div>
 															      <div class="modal-footer">
 															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															        <button type="button" class="btn btn-primary">Save changes</button>
+															        <button type="button" onclick="location.href='/member/write?board_no=5'" class="btn btn-primary">Save changes</button>
 															      </div>
 															    </div>
 															  </div>
-															</div>
+															</div>															
                                                     </div>
                                                 </div>
                                             </div>
@@ -542,9 +577,6 @@
                                             <div class="col-md-12 col-xl-8">	                                            
                                             	<div id="map_div"></div>
                                             </div>
-
-
-
                                             <div class="col-md-12 col-xl-4">
                                                     <div class="card fb-card">
                                                         <div class="card-header">

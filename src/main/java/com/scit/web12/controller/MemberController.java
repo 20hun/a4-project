@@ -134,4 +134,12 @@ public class MemberController {
 		
 		return "redirect:mypage";
 	}	
+	
+	@RequestMapping(value="/member/write", method=RequestMethod.GET)
+	public String write(int board_no) {
+		
+		System.out.println(board_no);;
+		
+		return "redirect:/";
+	}	
 }
