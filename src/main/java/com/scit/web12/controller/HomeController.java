@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.scit.web12.vo.Latlon;
+
 /**
  * Handles requests for the application home page.
  */
@@ -31,7 +33,7 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(Locale locale, Model model, Latlon ll) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
@@ -46,6 +48,7 @@ public class HomeController {
 		if (ip == null)
 			ip = req.getRemoteAddr();
 		model.addAttribute("clientIP", ip);
+		model.addAttribute("ll", ll);
 
 		return "home";
 	}

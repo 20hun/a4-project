@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scit.web12.service.BoardService;
 import com.scit.web12.util.FileService;
 import com.scit.web12.vo.BoardVO;
+import com.scit.web12.vo.Latlon;
 
 @RequestMapping(value="/board")
 @Controller
@@ -97,7 +98,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/navigation", method=RequestMethod.GET)
-	public String navigation(){		
+	public String navigation(Model model, Latlon ll){
+		System.out.println(ll);
+		model.addAttribute("ll",ll);
 		return "member/joinForm2";
 	}
 	

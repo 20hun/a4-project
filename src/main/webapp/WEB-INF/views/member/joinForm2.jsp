@@ -59,6 +59,11 @@
         
         document.addEventListener("DOMContentLoaded", function() {
 			function getLocation(position) {
+
+				var ll_1 = document.getElementById('ll_1').value;
+		        var ll_2 = document.getElementById('ll_2').value;
+		        var ll_3 = document.getElementById('ll_3').value;
+		        var ll_4 = document.getElementById('ll_4').value;
 				
 			var markerInfo;
 			//출발지,도착지 마커
@@ -90,8 +95,7 @@
 				// 시작
 				marker_s = new Tmapv2.Marker(
 						{
-							position : new Tmapv2.LatLng(37.39116200000000,
-									127.11217000000000),
+							position : new Tmapv2.LatLng(ll_1,ll_2),
 							icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
 							iconSize : new Tmapv2.Size(24, 38),
 							map : map
@@ -100,8 +104,7 @@
 				//도착
 				marker_e = new Tmapv2.Marker(
 						{
-							position : new Tmapv2.LatLng(37.35108900000000,
-									127.930844000000000),
+							position : new Tmapv2.LatLng(ll_3,ll_4),
 							icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
 							iconSize : new Tmapv2.Size(24, 38),
 							map : map
@@ -127,10 +130,10 @@
 												async : false,
 												data : {
 													"appKey" : "l7xx9163c0f7e9934ab4856f6c1df4d4b2c6",
-													"startX" : "126.9850380932383",
-													"startY" : "37.566567545861645",
-													"endX" : "127.10331814639885",
-													"endY" : "37.403049076341794",
+													"startX" : ll_2,
+													"startY" : ll_1,
+													"endX" : ll_4,
+													"endY" : ll_3,
 													"reqCoordType" : "WGS84GEO",
 													"resCoordType" : "EPSG3857",
 													"searchOption" : searchOption,
@@ -584,6 +587,11 @@
 		<p id="result"></p>
 		<br />
 		<input type="button" onclick="navi();" value="길찾기">
+		${ll }
+		<input type="text" id="ll_1" value="${ll.lat5 }">
+		<input type="text" id="ll_2" value="${ll.lon6 }">
+		<input type="text" id="ll_3" value="${ll.lat3 }">
+		<input type="text" id="ll_4" value="${ll.lon4 }">
 	</body>
 </html>
 
