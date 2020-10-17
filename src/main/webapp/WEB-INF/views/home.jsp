@@ -88,38 +88,32 @@
 				{
 					center: new Tmapv2.LatLng(latitud, longitude), // 지도 초기 좌표
 					width: "100%", 
-					height: "100%",
+					height: "90%",
 					zoom: 15
 				});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				// 3. 경로탐색 API 사용요청
-				$("#btn_select")
-						.click(
-								function() {
+				// 2. 시작, 도착 심볼찍기
+				// 시작
+				if(ll_1 != null){
+				marker_s = new Tmapv2.Marker(
+						{
+							position : new Tmapv2.LatLng(ll_1,ll_2),
+							icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+							iconSize : new Tmapv2.Size(24, 38),
+							map : map
+						});
 		
+				//도착
+				marker_e = new Tmapv2.Marker(
+						{
+							position : new Tmapv2.LatLng(ll_3,ll_4),
+							icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
+							iconSize : new Tmapv2.Size(24, 38),
+							map : map
+						});
+				}
 									//기존 맵에 있던 정보들 초기화
-									//resettingMap();
+									resettingMap();
 		
 									var searchOption = ll_5;
 		
@@ -296,10 +290,7 @@
 															+ request.responseText
 															+ "\n" + "error:" + error);
 												}
-											});
-									//JSON TYPE EDIT [E]
-								});
-			
+											});			
 		
 			function addComma(num) {
 				var regexp = /\B(?=(\d{3})+(?!\d))/g;
@@ -470,7 +461,7 @@
 			}
 		
 			//초기화 기능
-			/* function resettingMap() {
+			function resettingMap() {
 				//기존마커는 삭제
 				marker_s.setMap(null);
 				marker_e.setMap(null);
@@ -491,25 +482,7 @@
 				drawInfoArr = [];
 				resultMarkerArr = [];
 				resultdrawArr = [];
-			} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			
+			}
 
 				$.ajax({
 						url:"/board/receiveList",
@@ -933,8 +906,7 @@
                                                         <i class="icofont icofont-navigation bg-c-green card1-icon"></i>
                                                         <span class="text-c-green f-w-600">Navi</span>
 							                            <input type="button" onclick="navi();" value="길찾기">
-							                            <button id="btn_select">적용하기</button>
-                                                    </div>
+							                        </div>
                                                 </div>
                                             </div>
                                             <!-- card1 end -->
@@ -1049,12 +1021,9 @@
                                             </div>
                                             <!-- card1 end -->
                                             <!-- Statestics Start -->
-                                            <div class="col-md-12 col-xl-8">
-                                            <div id="map_wrap" class="map_wrap">	                                            
+                                            <div class="col-md-12 col-xl-8"> 
+                                            	<p id="result" style="width: 100%; height: 10%; margin-bottom: 0;">교통정보</p>                                           
                                             	<div id="map_div"></div>
-                                            	</div>
-                                            	<div class="map_act_btn_wrap clear_box"></div>
-												<p id="result"></p>
                                             </div>
                                             <div class="col-md-12 col-xl-4">
                                                     <div class="card fb-card">
