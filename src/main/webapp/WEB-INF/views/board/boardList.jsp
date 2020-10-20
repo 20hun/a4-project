@@ -4,13 +4,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>목록</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/resources/jquery-3.5.1.min.js"></script>
+  <title>scroll</title>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+
+  <style type="text/css" media="screen">
+    * { margin: auto; }
+    body { margin: 20px 0; background: #abc; color: #111; font-family: Helvetica, Arial, Verdana, 'Lucida Grande', sans-serif; }
+    h1, h3, p { text-align: center; }
+    div.example { padding: 20px; margin: 10px auto; background: #bcd; width: 750px; }
+    div.example h3 { margin-bottom: 10px; }
+    ul, ol { padding: 0; }
+    #list { width: 50px; height: 150px; overflow-y: scroll; }
+    #images { width: 600px; height: 550px; overflow-x: hidden; text-align: center; list-style: none; }
+    .endless_scroll_loader { position: fixed; top: 10px; right: 20px; }
+  </style>
+
+  <script type="text/javascript" src="/resources/assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/resources/assets/js/jquery.endless-scroll.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    $(function() {
+      $('#list').endlessScroll({
+        pagesToKeep: 10,
+        fireOnce: false,
+        insertBefore: "#list div:first",
+        insertAfter: "#list div:last",
+        content: function(i, p) {
+          console.log(i, p)
+          return '<li>' + p + '</li>'
+        },
+        ceaseFire: function(i) {
+          if (i >= 10) {
+            return true;
+          }
+        },
+        intervalFrequency: 5
+      });
+
+      $('#images').scrollTop(101);
+      var images = $("ul#images").clone().find("li");
+      $('#images').endlessScroll({
+        pagesToKeep: 5,
+        inflowPixels: 100,
+        fireDelay: 10,
+        content: function(i, p, d) {
+          console.log(i, p, d)
+          return images.eq(Math.floor(Math.random()*8))[0].outerHTML;
+        }
+      });
+    });
+  </script>
+
 <script type="text/javascript">
 	function sendArray(){
 		$.ajax({
@@ -151,31 +194,6 @@
 </script>
 </head>
 <body>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">원하는 날짜 시간 검색</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="datetime-local"> ~ <input type="datetime-local">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 	<table>
 		<tr>
 			<th>말풍선 번호</th>
@@ -221,5 +239,49 @@
 	<br>
 	<button onclick="receiveList();">컨트롤러에 ArrayList 객체 받기(feat. JSON)</button>
 	<button onclick="receiveMap();">컨트롤러에 HashMap 객체 받기(feat. JSON)</button>
+	
+        <div class="example">
+    <h3>Ends in 10 calls:</h3>
+    <ul id="list">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>10</li>
+      <li>11</li>
+      <li>12</li>
+      <li>13</li>
+      <li>14</li>
+      <li>15</li>
+      <li>16</li>
+      <li>17</li>
+      <li>18</li>
+      <li>19</li>
+      <li>20</li>
+    </ul>
+  </div>
+
+  <div class="example">
+    <h3>Never ending:</h3>
+    <ul id="images">
+      <li><img src="/resources/assets/images/scrollimg/grass-blades.jpg" width="580" height="360" alt="Grass Blades" /></li>
+      <li><img src="/resources/assets/images/scrollimg/stones.jpg" width="580" height="360" alt="Stones" /></li>
+      <li><img src="/resources/assets/images/scrollimg/sea-mist.jpg" width="580" height="360" alt="Sea Mist" /></li>
+      <li><img src="/resources/assets/images/scrollimg/pier.jpg" width="580" height="360" alt="Pier" /></li>
+      <li><img src="/resources/assets/images/scrollimg/lotus.jpg" width="580" height="360" alt="Lotus" /></li>
+      <li><img src="/resources/assets/images/scrollimg/mojave.jpg" width="580" height="360" alt="Mojave" /></li>
+      <li><img src="/resources/assets/images/scrollimg/lightning.jpg" width="580" height="360" alt="Lightning" /></li>
+      <li><img src="/resources/assets/images/scrollimg/flowing-rock.jpg" width="580" height="360" alt="Grass Blades" /></li>
+    </ul>
+  </div>
+
+  <div class="example">
+    <p>Copyright &copy; <a href="http://fredwu.me/">Fred Wu</a></p>
+  </div>
 </body>
 </html>

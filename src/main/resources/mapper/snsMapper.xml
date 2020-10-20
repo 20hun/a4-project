@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scit.web12.dao.SnsMapper">
+
+	<select id="boardList" parameterType="string" resultType="board">
+	select
+		board_no
+    	,board_title
+    	,board_content
+    	,member_id
+    	,board_indate
+    	,board_view
+    	,board_like
+    	,lat
+    	,lon
+    	,originalfile
+    	,savedfile
+    	,like_check
+	from
+		balloon_tb
+	where
+		member_id = #{member_id}
+	order by
+		board_no desc
+	</select>
+	
+	<insert id="follow" parameterType="hashmap">
+		insert into
+			follow_tb(
+				follow_id
+				,follower_id
+			) values (
+				#{a1}
+				,#{a2}
+				)
+	</insert>
+	
+	<delete id="followCancle" parameterType="hashmap">
+		delete from follow_tb
+		where
+			follow_id = #{a1}
+			and
+			follower_id = #{a2}
+	</delete>
+
+</mapper>

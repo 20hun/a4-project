@@ -512,6 +512,7 @@
 										},
 										success: function(data) {alert("통신 성공!");console.log(data)
 										$("#memberId").html(data.member_id);
+										$("#a_tag").attr("href", "/sns/timeLine?member_id="+data.member_id)
 										$("#title").attr("value", data.board_title);
 										$("#content").html(data.board_content);
 										$("#indate").attr("value", data.board_indate);
@@ -833,17 +834,17 @@
                                 </a>
                                 <ul class="show-notification profile-notification">
                                     <li>
-                                        <a href="#!">
+                                        <a href="/board/boardList">
                                             <i class="ti-settings"></i> Settings
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="member/mypage">
+                                        <a href="/board/profile">
                                             <i class="ti-user"></i> Profile
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="/sns/basicChat">
                                             <i class="ti-email"></i> My Messages
                                         </a>
                                     </li>
@@ -1035,7 +1036,7 @@
                                                         <div class="card-block text-center">
                                                             	<!-- <p id="result"></div>
         														<p id="result2"></div> -->
-        														<a href="/sns/timeLine"><div id="memberId"></div></a>
+        														<a id="a_tag"><div id="memberId"></div></a>
         														<table class="table table-hover">
         															<tr>
         																<td>title</td>

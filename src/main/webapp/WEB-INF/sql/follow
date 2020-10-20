@@ -1,0 +1,4 @@
+create table follow_tb(
+    follow_id    varchar2(30) constraint follow_fk references homerare_table(member_id)
+    ,follower_id    varchar2(30) constraint follower_fk references homerare_table(member_id)
+    );

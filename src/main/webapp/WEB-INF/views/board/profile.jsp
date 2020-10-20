@@ -4,11 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>말풍선</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>mysite</title>
+    
 </head>
 <body>
-	<table>
+
+    <table>
 		<tr>
 			<th>번호</th>
 			<th>제목</th>

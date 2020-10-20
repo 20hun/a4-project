@@ -11,5 +11,6 @@
 	<mappers>
 		<mapper resource="mapper/memberMapper.xml"/>
 		<mapper resource="mapper/boardMapper.xml"/>
+		<mapper resource="mapper/snsMapper.xml"/>
 	</mappers>
 </configuration>
