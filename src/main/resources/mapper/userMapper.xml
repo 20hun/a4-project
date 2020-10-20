@@ -17,4 +17,16 @@
 		member_id = #{userId}
 </select>
 
+<insert id="insertMessage" parameterType="message">
+		insert into message_tb(
+			send_id
+			,receive_id
+			,message
+		) values (
+			#{send_id}
+			,#{receive_id}
+			,#{message}
+		)	
+	</insert>
+
 </mapper>

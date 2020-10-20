@@ -4,16 +4,22 @@ import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
+import com.scit.web12.service.StompService;
 import com.scit.web12.vo.MemberVO;
 import com.scit.web12.vo.Message;
 
 @Controller
 public class ChatController {
+	
+	@Autowired
+	private StompService ss;
+	
 	private static final Logger logger = LoggerFactory.getLogger(ChatController.class);
 
 	// 채팅 메세지 전달
@@ -24,10 +30,13 @@ public class ChatController {
 			//인터셉터에서 등록해두었던 사용자 정보 가져오기
 			MemberVO userObject = (MemberVO)headerAccessor.getSessionAttributes().get("user");
 			
-			message.setId(userObject.getMember_id());
-			message.setUsername(userObject.getMember_nm());
-			message.setChatdate(LocalDateTime.now());
+			message.setSend_id(userObject.getMember_id());
+			message.setReceive_id("20hun");
+			message.setMessage_indate(LocalDateTime.now());
+			System.out.println(message);
 			
+			int check = ss.insertMessage(message);
+			System.out.println(check);
 			logger.info("채팅 컨트롤러 종료");
 			return message;
 		}

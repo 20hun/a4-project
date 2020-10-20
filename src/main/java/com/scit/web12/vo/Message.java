@@ -2,38 +2,12 @@ package com.scit.web12.vo;
 
 import java.time.LocalDateTime;
 
+import lombok.Data;
+
+@Data
 public class Message {
-	private String id;
-	private String username;
+	private String send_id;
+	private String receive_id;
 	private String message;
-	private LocalDateTime chatdate;
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	public LocalDateTime getChatdate() {
-		return chatdate;
-	}
-	public void setChatdate(LocalDateTime chatdate) {
-		this.chatdate = chatdate;
-	}
-	@Override
-	public String toString() {
-		return "Message [id=" + id + ", username=" + username + ", message=" + message + ", chatdate=" + chatdate + "]";
-	}
-	
+	private LocalDateTime message_indate;	
 }
