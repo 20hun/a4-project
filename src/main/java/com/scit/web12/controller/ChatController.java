@@ -9,8 +9,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
+import com.scit.web12.vo.MemberVO;
 import com.scit.web12.vo.Message;
-import com.scit.web12.vo.StompUser;
 
 @Controller
 public class ChatController {
@@ -22,10 +22,10 @@ public class ChatController {
 		public Message sendChatMessage(Message message, SimpMessageHeaderAccessor headerAccessor){
 			logger.info("채팅 컨트롤러 시작");
 			//인터셉터에서 등록해두었던 사용자 정보 가져오기
-			StompUser userObject = (StompUser)headerAccessor.getSessionAttributes().get("user");
+			MemberVO userObject = (MemberVO)headerAccessor.getSessionAttributes().get("user");
 			
-			message.setId(userObject.getStomp_id());
-			message.setUsername(userObject.getStomp_nm());
+			message.setId(userObject.getMember_id());
+			message.setUsername(userObject.getMember_nm());
 			message.setChatdate(LocalDateTime.now());
 			
 			logger.info("채팅 컨트롤러 종료");

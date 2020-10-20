@@ -1,8 +1,8 @@
 package com.scit.web12.dao;
 
-import com.scit.web12.vo.StompUser;
+import com.scit.web12.vo.MemberVO;
 
 public interface StompMapper {
 	
-	public StompUser selectUser(String userId);
+	public MemberVO selectUser(String userId);
 }

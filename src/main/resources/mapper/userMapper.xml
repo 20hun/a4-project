@@ -5,15 +5,16 @@
 
 <mapper namespace="com.scit.web12.dao.StompMapper">
 
-<select id="selectUser" parameterType="string" resultType="user">
+<select id="selectUser" parameterType="string" resultType="member">
 	select
-		stomp_id
-		,stomp_pw
-		,stomp_nm
+		member_id
+		,member_pw
+		,member_nm
+		,to_char(member_indate,'yyyy-mm-dd') as member_indate
 	from
-		stomp_user
+		homerare_table
 	where
-		stomp_id = #{userId}
+		member_id = #{userId}
 </select>
 
 </mapper>
