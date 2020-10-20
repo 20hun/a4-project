@@ -114,4 +114,9 @@ public class HomeController {
 		return map;
 	}
 	
+	@RequestMapping(value = "/basicChatRoom", method = RequestMethod.GET)
+	public String basicChatRoom() {
+		return "sns/basicChat";
+	}
+	
 }

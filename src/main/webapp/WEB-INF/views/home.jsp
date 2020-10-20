@@ -844,7 +844,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/sns/basicChat">
+                                        <a href="/basicChatRoom">
                                             <i class="ti-email"></i> My Messages
                                         </a>
                                     </li>

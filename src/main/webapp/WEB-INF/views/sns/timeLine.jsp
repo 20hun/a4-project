@@ -179,14 +179,14 @@
                                                 <div class="page-header-breadcrumb">
                                                     <ul class="breadcrumb-title">
                                                         <li class="breadcrumb-item">
-                                                            <a href="index.html">
+                                                            <a href="#">
                                                                 <i class="icofont icofont-home"></i>
                                                             </a>
                                                         </li>
                                                         <li class="breadcrumb-item"><span name="toggle-control">팔로우</span>
                                                         <span name="toggle-control" style="display: none;">팔로우 취소</span>
                                                         </li>
-                                                        <li class="breadcrumb-item"><a href="#!">Label Badge</a>
+                                                        <li class="breadcrumb-item"><i class="icofont icofont-chat" id="chat_icon"></i>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -205,6 +205,25 @@
                                                         <div class="card-header-left">
                                                             <h5>Badges</h5>
                                                             <span>fdf</span>
+                                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+															  <div class="modal-dialog">
+															    <div class="modal-content">
+															      <div class="modal-header">
+															        <h5 class="modal-title" id="exampleModalLabel">원하는 시간·날짜 선택</h5>
+															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															          <span aria-hidden="true">&times;</span>
+															        </button>
+															      </div>
+															      <div class="modal-body">
+															        
+															      </div>
+															      <div class="modal-footer">
+															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															        <button type="button" onclick="location.href='/member/write?board_no=5'" class="btn btn-primary">Save changes</button>
+															      </div>
+															    </div>
+															  </div>
+															</div>
                                                         </div>
                                                         <div class="card-header-right">                                                             <i class="icofont icofont-spinner-alt-5"></i>                                                         </div>
                                                     </div>
@@ -564,6 +583,10 @@
 		$("#target").toggle();
 		$("span[name='toggle-control']").toggle();
 		});
+
+	$("#chat_icon").click(function(){
+		$('#exampleModal').modal('show');
+	});
 </script>
 
 </body>

@@ -27,11 +27,6 @@ public class SnsController {
 		return "sns/timeLine";
 	}
 	
-	@RequestMapping(value="/basicChat", method=RequestMethod.GET)
-	public String basicChat() {
-		return "sns/basicChat";
-	}
-	
 	@ResponseBody
 	@RequestMapping(value="/follow", method=RequestMethod.GET)
 	public int follow(String msg) {

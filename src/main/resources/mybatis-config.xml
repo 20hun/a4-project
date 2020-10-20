@@ -3,14 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+	<settings>
+		<setting name="lazyLoadingEnabled"        value="false"/>
+	</settings>
+	
 	<typeAliases>
 		<typeAlias type="com.scit.web12.vo.MemberVO" alias="member"/>
 		<typeAlias type="com.scit.web12.vo.BoardVO" alias="board"/>
+		<typeAlias type="com.scit.web12.vo.StompUser" alias="user"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/memberMapper.xml"/>
 		<mapper resource="mapper/boardMapper.xml"/>
 		<mapper resource="mapper/snsMapper.xml"/>
+		<mapper resource="mapper/userMapper.xml"/>
 	</mappers>
 </configuration>

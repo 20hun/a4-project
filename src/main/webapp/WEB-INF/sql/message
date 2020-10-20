@@ -1,0 +1,6 @@
+create table message_tb(
+        send_id    varchar2(30) constraint message_fk1 references homerare_table(member_id)
+        ,receive_id    varchar2(30) constraint message_fk2 references homerare_table(member_id)
+        ,message_content    varchar2(2000) not null
+        ,message_indate     date    default sysdate
+    );
