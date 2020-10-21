@@ -16,7 +16,6 @@ import com.scit.web12.vo.Message;
 
 @Controller
 public class ChatController {
-	
 	@Autowired
 	private StompService ss;
 	
@@ -31,9 +30,9 @@ public class ChatController {
 			MemberVO userObject = (MemberVO)headerAccessor.getSessionAttributes().get("user");
 			
 			message.setSend_id(userObject.getMember_id());
-			message.setReceive_id("20hun");
 			message.setMessage_indate(LocalDateTime.now());
 			System.out.println(message);
+			System.out.println(message.getReceive_id());
 			
 			int check = ss.insertMessage(message);
 			System.out.println(check);

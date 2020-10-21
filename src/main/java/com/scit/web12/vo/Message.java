@@ -9,5 +9,6 @@ public class Message {
 	private String send_id;
 	private String receive_id;
 	private String message;
-	private LocalDateTime message_indate;	
+	private LocalDateTime message_indate;
+	private String m_time;
 }

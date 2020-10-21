@@ -24,7 +24,86 @@
     <link rel="stylesheet" type="text/css" href="/resources/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="/resources/assets/css/jquery.mCustomScrollbar.css">
 
-
+	<style type="text/css">
+		#chatroom{
+			width: 300px;
+			height: 300px;
+			border: 1px solid;
+		}
+	</style>
+	
+	<script src="<c:url value="/resources/js/jquery.min.js" />"></script>
+	<script src="<c:url value="/resources/js/sockjs.js" />"></script>
+	<script src="<c:url value="/resources/js/stomp.js" />"></script>
+	
+	<script type="text/javascript">
+		$(function(){
+			connect();
+			
+			$("#send").on("click",function(){
+				sendMessage();
+			})
+			
+			document.onkeydown = function ( event ) {
+			    if ( event.keyCode == 116  // F5
+			        || event.ctrlKey == true && (event.keyCode == 82) // ctrl + r
+			    ) {
+			        //접속 강제 종료
+			        disconnect();
+			        // keyevent
+			        event.cancelBubble = true; 
+			        event.returnValue = false; 
+			        setTimeout(function() {
+			            window.location.reload();
+			        }, 100);
+			        return false;
+			    }
+			}
+			
+		})
+	
+		var stompClient = null;
+		
+		//채팅방 연결
+		function connect() {
+			// WebsocketMessageBrokerConfigurer의 registerStompEndpoints() 메소드에서 설정한 endpoint("/endpoint")를 파라미터로 전달
+			var socket = new SockJS('/endpoint');
+			stompClient = Stomp.over(socket);
+			stompClient.connect({}, function(frame) {
+				
+				// 메세지 구독
+				// WebsocketMessageBrokerConfigurer의 configureMessageBroker() 메소드에서 설정한 subscribe prefix("/subscribe")를 사용해야 함
+				stompClient.subscribe('/subscribe/basicChatRoom', function(message){
+					var data = JSON.parse(message.body);
+					$("#chatroom").append(data.send_id+" 님 -> "+data.message+"<br />");
+				});
+				
+			});
+		}
+		
+		//채팅 메세지 전달
+		function sendMessage() {
+			var str = $("#chatbox").val();
+			var r_id = document.getElementById("follow_id").value;
+			str = str.replace(/ /gi, '&nbsp;')
+			str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
+			if(str.length > 0){
+				// WebsocketMessageBrokerConfigurer의 configureMessageBroker() 메소드에서 설정한 send prefix("/")를 사용해야 함
+				stompClient.send("/basicChatRoom", {}, JSON.stringify({
+					message : str
+					,receive_id : r_id
+				}));
+				
+			}
+			
+			$("#chatbox").val("");
+		}
+		
+		// 채팅방 연결 끊기
+		function disconnect() {
+			stompClient.disconnect();
+		}
+	</script>
 
 </head>
   <body>
@@ -138,7 +217,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/sns/basicChat">
+                                        <a href="#">
                                             <i class="ti-email"></i> My Messages
                                         </a>
                                     </li>
@@ -215,7 +294,9 @@
 															        </button>
 															      </div>
 															      <div class="modal-body">
-															        
+															        <input type="text" id="chatbox"><input type="button" id="send" value="전송"><br><br>
+																	<div id="chatroom">
+																	</div>
 															      </div>
 															      <div class="modal-footer">
 															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
