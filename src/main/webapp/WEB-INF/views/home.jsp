@@ -52,6 +52,131 @@
 </script>        
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx8fafbc9262fa45d1bc02913311bdf244"></script>
         <script type="text/javascript">
+
+        var map;
+        var startDate;
+		var endDate;
+
+		var markers2 = [];
+
+		function removeMarkers2() {
+			for (var i = 0; i < markers2.length; i++) {
+				markers2[i].setMap(null);
+			}
+			markers2 = [];
+		}
+
+		function dateSet(){
+			startDate = document.getElementById("startDate").value;
+			endDate = document.getElementById("endDate").value;
+
+			startDate = startDate.toString();
+			endDate = endDate.toString();
+
+			alert(startDate);
+			alert(endDate);
+
+			//마커들 다 지우고
+			removeMarkers2();
+
+			//마커 다시 가져오기
+			$.ajax({
+						url:"/board/receiveList",
+						type:"post",
+						dataType: "json",
+						data: {
+							startDate : startDate
+							,endDate : endDate
+							},
+					success: function(data){
+							console.log(data);
+							var str2;
+							var str3;
+							var str4;
+							$.each(data, function(index,item){
+								var title = item.board_title.substr(0,5);
+								label="<span style='background-color: #46414E;color:white'>"+title+"</span>";
+								var marker = new Tmapv2.Marker({
+									position: new Tmapv2.LatLng(item.lat, item.lon), //Marker의 중심좌표 설정.
+									title : title,
+									map: map,
+									label : label
+								});
+								markers2[index] = marker;
+									marker.addListener("click", function(evt) {
+									//document.getElementById("result2").innerHTML = 'Mouse Click!';
+									$.ajax({
+										url: "/board/getBubble",
+										type:"post",
+										data: {
+											msg: item.board_no
+										},
+										success: function(data) {alert("통신 성공!");console.log(data)
+										$("#memberId").html(data.member_id);
+										$("#a_tag").attr("href", "/sns/timeLine?member_id="+data.member_id)
+										$("#title").attr("value", data.board_title);
+										$("#content").html(data.board_content);
+										$("#indate").attr("value", data.board_indate);
+										$("#view").attr("value", data.board_view);
+										$("#like").attr("value", data.board_like);
+										$("#bubble_image").attr("src", "/board/download?board_no="+data.board_no);
+										//$("#bubble_video").attr("src", "/board/download?board_no="+data.board_no);
+										//$("#bubble_video").attr("src", "<c:url value='https://www.youtube.com/watch?v=jPJthgBj5Z0'/>");
+										str4 = data.board_like;
+
+										var str = "";										
+										if (data.like_check == '0') {
+											str = '<i class="far fa-heart"></i>';
+											str2 = 0;
+										}
+										else {
+											str = '<i class="fas fa-heart"></i>';
+											str2 = 1;
+										}
+										$("#likeDiv").html(str);
+
+										str3 = item.board_no;
+										},
+										error: function(e) {alert("통신 실패...");console.log(e);}
+									});									
+								});								
+							})
+							$("#likeDiv").click(function(){
+									if(str2 == 0){
+										str2 = 1;
+										$.ajax({
+											url: "/board/likeInsert",
+											type:"post",
+											data: {
+												msg: str3
+											},
+											error: function(e) {alert("통신 실패...");console.log(e);}
+										});												
+										str = '<i class="fas fa-heart"></i>';
+										$("#like").attr("value", str4+1);
+										str4 = str4 + 1;
+										}else{
+											str2 = 0;
+											$.ajax({
+												url: "/board/likeDelete",
+												type:"post",
+												data: {
+													msg: str3
+												},
+												error: function(e) {alert("통신 실패...");console.log(e);}
+											});		
+											str = '<i class="far fa-heart"></i>';
+											$("#like").attr("value", str4-1);
+											str4 = str4 - 1;
+											}
+									$("#likeDiv").html(str);											
+									});
+							//console.log(JSON.parse(data)); //stringify랑 반대 > 문자열을 객체화
+					},
+					error: function(e){alert("통신 실패...");console.log(e);}
+				})
+				$('#exampleModal2').modal('hide');
+			}
 		
         var cnt;
         var cnt2 = 0;
@@ -84,7 +209,7 @@
 		            var markers = [];
 		            var marker;
 				
-				var map = new Tmapv2.Map("map_div",  
+				map = new Tmapv2.Map("map_div",  
 				{
 					center: new Tmapv2.LatLng(latitud, longitude), // 지도 초기 좌표
 					width: "100%", 
@@ -484,6 +609,7 @@
 				resultdrawArr = [];
 			}
 
+			
 				$.ajax({
 						url:"/board/receiveList",
 						type:"post",
@@ -502,6 +628,7 @@
 									map: map,
 									label : label
 								});
+								markers2[index] = marker;
 									marker.addListener("click", function(evt) {
 									//document.getElementById("result2").innerHTML = 'Mouse Click!';
 									$.ajax({
@@ -849,7 +976,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="/sns/timeLine?member_id=2yhun@naver.com">
                                             <i class="ti-lock"></i> Lock Screen
                                         </a>
                                     </li>
@@ -958,13 +1085,15 @@
 															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 															          <span aria-hidden="true">&times;</span>
 															        </button>
-															      </div>
+															      </div>															      
 															      <div class="modal-body">
-															        <input type="datetime-local"> ~ <input type="datetime-local">
+															        <input type="datetime-local" id="startDate"> ~ <input type="datetime-local" id="endDate">
 															      </div>
 															      <div class="modal-footer">
 															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															        <button type="button" onclick="location.href='/member/write?board_no=5'" class="btn btn-primary">Save changes</button>
+															        <input type="button" onclick="dateSet();" value="save">
+															        <!-- <button type="button" id="date_set" class="btn btn-primary">Save changes</button> -->
+															        <!-- onclick="location.href='/member/write?board_no=5'" -->
 															      </div>
 															    </div>
 															  </div>

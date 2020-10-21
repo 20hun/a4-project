@@ -9,7 +9,7 @@ public interface BoardMapper {
 
 	public int boardWrite(BoardVO board);
 
-	public ArrayList<BoardVO> boardList();
+	public ArrayList<BoardVO> boardList(HashMap<String, String> map);
 
 	public ArrayList<BoardVO> check(String member_id);
 

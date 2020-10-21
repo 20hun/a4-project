@@ -28,13 +28,13 @@ public class BoardDAO {
 		return cnt;
 	}
 
-	public ArrayList<BoardVO> boardList() {
+	public ArrayList<BoardVO> boardList(HashMap<String, String> map) {
 		BoardMapper mapper = session.getMapper(BoardMapper.class);
 		
 		ArrayList<BoardVO> list = null;
 		
 		try {
-			list = mapper.boardList();
+			list = mapper.boardList(map);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

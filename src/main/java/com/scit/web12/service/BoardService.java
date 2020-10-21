@@ -29,8 +29,18 @@ public class BoardService {
 		return cnt;		
 	}
 
-	public ArrayList<BoardVO> boardList() {
-		ArrayList<BoardVO> list = dao.boardList();
+	public ArrayList<BoardVO> boardList(String startDate, String endDate) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		System.out.println(startDate);
+		if(!startDate.equals("none")) {
+		startDate = startDate.replace("T", " ");
+		endDate = endDate.replace("T", " ");
+		}
+		System.out.println(startDate);
+		System.out.println(endDate);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		ArrayList<BoardVO> list = dao.boardList(map);
 
 		return list;
 	}

@@ -39,7 +39,7 @@
 			board_no = #{board_no}
 	</update>
 	
-	<select id="boardList" resultType="board">
+	<select id="boardList" parameterType="hashmap" resultType="board">
 	select
 		board_no
     	,board_title
@@ -55,6 +55,16 @@
     	,like_check
 	from
 		balloon_tb
+	<if test="startDate != 'none' ">
+	where	
+		board_indate >= to_date(#{startDate}, 'YYYY-MM-DD HH24:MI')
+	and
+		to_date(#{endDate}, 'YYYY-MM-DD HH24:MI') >= board_indate
+	</if>
+	<if test="startDate == 'none' ">
+	where
+		board_indate >= sysdate-3/(24)
+	</if>
 	</select>
 	
 	<select id="check" resultType="board">

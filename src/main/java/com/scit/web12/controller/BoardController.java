@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,22 +60,26 @@ public class BoardController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/boardList", method=RequestMethod.GET)
-	public String boardList(Model model){
-		
-		ArrayList<BoardVO> list = ms.boardList();
-		
-		model.addAttribute("list", list);
-		
-		return "board/boardList";
-	}
+	/*
+	 * @RequestMapping(value="/boardList", method=RequestMethod.GET) public String
+	 * boardList(Model model){
+	 * 
+	 * ArrayList<BoardVO> list = ms.boardList();
+	 * 
+	 * model.addAttribute("list", list);
+	 * 
+	 * return "board/boardList"; }
+	 */
 	
 	@ResponseBody
 	@RequestMapping(value="/receiveList", method = RequestMethod.POST)
-	public ArrayList<BoardVO> receiveList() {
+	public ArrayList<BoardVO> receiveList(
+			@RequestParam(value="startDate",defaultValue="none") String startDate,
+			@RequestParam(value="endDate",defaultValue="") String endDate) {
 		logger.info("receiveList 메서드 실행");
-		
-		ArrayList<BoardVO> list = ms.boardList();
+		System.out.println(startDate);
+		System.out.println(endDate);
+		ArrayList<BoardVO> list = ms.boardList(startDate, endDate);
 		
 		return list;
 	}
