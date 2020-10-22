@@ -43,13 +43,19 @@
 	
 		$(window).scroll(function(){
 
+			var scrollHeight = $(window).scrollTop()+$(window).height();
+			var documentHeight = $(document).height();
+			
+
 			var currentScrollTop = $(window).scrollTop();
 			var lastid = document.getElementById("follow_id").value;
-			
-			if(currentScrollTop - lastScrollTop > 0){
-				console.log("down-scroll");
 
-				if( $(window).scrollTop() >= ( $(document).height() - $(window).height() ) ){
+			//if(currentScrollTop - lastScrollTop > 0)
+			//	if($(window).scrollTop() <= 140){				
+			//		console.log("down-scroll");
+
+				//if( $(window).scrollTop() >= ( $(document).height() - $(window).height() ) )
+				if( $(window).scrollTop() <= 140 ){
 					var lastbno = $(".scrolling:last").attr("data-bno");
 					
 					$.ajax({
@@ -72,7 +78,8 @@
 									$(data).each(
 										function(){
 											console.log(this);
-											str += "<div class="+"'card listToChange'"+">"
+											str += "<div class="+"'card'"+">"
+												+	"<div class="+"'listToChange'"+">"
 												+	"<input class="+"'scrolling'"+" type="+"'hidden'"+" data-bno='"+this.board_no+"' value='"+this.board_no+"'>"
 												+		"<table class="+"'table table-hover'"+">"
 												+		"<tr>"
@@ -83,14 +90,24 @@
 												+			"<td>content</td>"
 												+			"<td><textarea style="+"'border: none; width: 250'"+" id="+"'content'"+" form="+"'inform'"+" cols="+"'40'"+" rows="+"'3'"+">"+this.board_content+"</textarea></td>"
 												+		"</tr>"	
+												+		"<tr>"
+												+			"<td>upload time</td>"
+												+			"<td><input style="+"'border: none;'"+" type="+"'text'"+" id="+"'indate'"+" value='"+this.board_indate+"'></td>"
+												+		"</tr>"	
+												+		"<tr>"
+												+			"<td>view</td>"
+												+			"<td><input style="+"'border: none;'"+" type="+"'text'"+" id="+"'view'"+" value='"+this.board_view+"'></td>"
+												+		"</tr>"	
 												+		"</table>"
-												+	"</div>"
+												+		"<img width="+"'200'"+" height="+"'200'"+" src="+"'/board/download?board_no="+this.board_no+"'>"														
+                        						+	"</div>"
+                        						+	"</div>"
 											});
-									$(".listToChange").empty();
+									//$(".listToChange").empty();
 									$(".scrollLocation").after(str);
 								}else{
 									alert("더 불러올 데이터가 없습니다.");
-									}		
+									}									
 							}
 					});				
 
@@ -98,8 +115,9 @@
 
 					$('html,body').stop().animate({scrollTop:position.top},600,easeEffect);
 				}			
-				lastScrollTop = currentScrollTop;
-			}else{
+				//lastScrollTop = currentScrollTop;
+			//}
+			/* else{
 				console.log("up-scroll");
 				if($(window).scrollTop()<=0){
 					var firstbno = $(".scrolling:first").attr("data-bno");
@@ -149,7 +167,7 @@
 					$('html,body').stop().animate({scrollTop:position},600,easeEffect);
 				}
 				lastScrollTop = currentScrollTop;
-			}
+			} */
 		});
 	
 		$(function(){
@@ -412,10 +430,11 @@
                                     <!-- Page body start -->
                                     <div class="page-body">                                        
                                         <div class="row">
-                                            <div class="col-sm-12 scrollLocation">
-                                                
+                                            <div class="col-sm-12">
+                                            <div class="scrollLocation">   
                                             <c:forEach items="${list }" var="data" varStatus="status">
-                                                <div class="card listToChange">  
+                                                <div class="card">  
+                                                <div class="listToChange">
                                                 <input class="scrolling" type="hidden" data-bno="${data.board_no }" value="${data.board_no }">                                               
                                                             <table class="table table-hover">
         															<tr>
@@ -434,13 +453,13 @@
         																<td>view</td>
         																<td><input style="border: none;" type="text" id = "view" value="${data.board_view}"></td>
         															</tr>
-        															<tr>
-        																<td colspan="2"><div style="margin-left: 180"><span id="likeDiv"></span><input style="border: none;" type="text" id = "like" placeholder="좋아요"></div></td>
-        															</tr>
-        														</table>        														
+        														</table> 
+        														<img id="bubble_image" width="200" height="200" src="/board/download?board_no=${data.board_no}">       														
+                                                </div>
                                                 </div>
                                                 </c:forEach>
                                                 <!-- Label card end -->
+                                                </div>
                                             </div>
                                         </div> 
                                 </div>

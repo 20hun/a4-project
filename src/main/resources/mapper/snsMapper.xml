@@ -55,7 +55,7 @@
 	order by
 		board_no desc
         )
-        where rownum <![CDATA[  <   ]]>=2
+        where rownum <![CDATA[  <   ]]>=1
 	</select>	
 	
 	<select id="infiniteScrollUp" parameterType="hashmap" resultType="board">
