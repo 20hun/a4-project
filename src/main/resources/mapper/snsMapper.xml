@@ -5,7 +5,9 @@
 <mapper namespace="com.scit.web12.dao.SnsMapper">
 
 	<select id="boardList" parameterType="string" resultType="board">
-	select
+	select *
+    from(
+        select
 		board_no
     	,board_title
     	,board_content
@@ -24,7 +26,65 @@
 		member_id = #{member_id}
 	order by
 		board_no desc
+        )
+        where rownum <![CDATA[  <   ]]>=2
 	</select>
+	
+	<select id="infiniteScrollDown" parameterType="hashmap" resultType="board">
+	select *
+    from(
+        select
+		board_no
+    	,board_title
+    	,board_content
+    	,member_id
+    	,board_indate
+    	,board_view
+    	,board_like
+    	,lat
+    	,lon
+    	,originalfile
+    	,savedfile
+    	,like_check
+	from
+		balloon_tb
+	where
+		member_id = #{bnoId}
+		and
+		board_no <![CDATA[  <   ]]>=#{bnoToStart}
+	order by
+		board_no desc
+        )
+        where rownum <![CDATA[  <   ]]>=2
+	</select>	
+	
+	<select id="infiniteScrollUp" parameterType="hashmap" resultType="board">
+	select *
+    from(
+        select
+		board_no
+    	,board_title
+    	,board_content
+    	,member_id
+    	,board_indate
+    	,board_view
+    	,board_like
+    	,lat
+    	,lon
+    	,originalfile
+    	,savedfile
+    	,like_check
+	from
+		balloon_tb
+	where
+		member_id = #{bnoId}
+		and
+		board_no <![CDATA[  >   ]]>=#{bnoToStart}
+	order by
+		board_no
+        )
+        where rownum <![CDATA[  <   ]]>=2
+	</select>	
 	
 	<insert id="follow" parameterType="hashmap">
 		insert into

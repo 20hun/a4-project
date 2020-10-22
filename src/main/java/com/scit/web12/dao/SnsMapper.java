@@ -13,4 +13,8 @@ public interface SnsMapper {
 
 	public int followCancle(HashMap<String, String> lk);
 
+	public ArrayList<BoardVO> infiniteScrollDown(HashMap<String, Object> map);
+
+	public ArrayList<BoardVO> infiniteScrollUp(HashMap<String, Object> map);
+
 }

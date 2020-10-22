@@ -54,4 +54,32 @@ public class SnsDAO {
 		return cnt;
 	}
 
+	public ArrayList<BoardVO> infiniteScrollDown(HashMap<String, Object> map) {
+		SnsMapper mapper = session.getMapper(SnsMapper.class);
+		
+		ArrayList<BoardVO> list = null;
+		
+		try {
+		list = mapper.infiniteScrollDown(map);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	public ArrayList<BoardVO> infiniteScrollUp(HashMap<String, Object> map) {
+		SnsMapper mapper = session.getMapper(SnsMapper.class);
+		
+		ArrayList<BoardVO> list = null;
+		
+		try {
+		list = mapper.infiniteScrollUp(map);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
 }

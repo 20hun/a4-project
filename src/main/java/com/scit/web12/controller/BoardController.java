@@ -60,16 +60,10 @@ public class BoardController {
 		return "redirect:/";
 	}
 	
-	/*
-	 * @RequestMapping(value="/boardList", method=RequestMethod.GET) public String
-	 * boardList(Model model){
-	 * 
-	 * ArrayList<BoardVO> list = ms.boardList();
-	 * 
-	 * model.addAttribute("list", list);
-	 * 
-	 * return "board/boardList"; }
-	 */
+	 @RequestMapping(value="/boardList", method=RequestMethod.GET)
+	 public String boardList(){
+		 return "board/boardList";
+	 }
 	
 	@ResponseBody
 	@RequestMapping(value="/receiveList", method = RequestMethod.POST)

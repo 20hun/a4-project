@@ -18,8 +18,8 @@
     #images { width: 600px; height: 550px; overflow-x: hidden; text-align: center; list-style: none; }
     .endless_scroll_loader { position: fixed; top: 10px; right: 20px; }
   </style>
-
-  <script type="text/javascript" src="/resources/assets/js/jquery.min.js"></script>
+  
+	<script type="text/javascript" src="/resources/assets/js/jquery.min.js"></script>
   <script type="text/javascript" src="/resources/assets/js/jquery.endless-scroll.js"></script>
   <script type="text/javascript" charset="utf-8">
     $(function() {

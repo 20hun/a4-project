@@ -41,4 +41,12 @@ public class SnsService {
 		return cnt;
 	}
 
+	public ArrayList<BoardVO> infiniteScrollDown(HashMap<String, Object> map) {
+		return dao.infiniteScrollDown(map);
+	}
+
+	public ArrayList<BoardVO> infiniteScrollUp(HashMap<String, Object> map) {
+		return dao.infiniteScrollUp(map);
+	}
+
 }
