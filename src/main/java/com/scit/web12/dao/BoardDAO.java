@@ -134,4 +134,17 @@ public class BoardDAO {
 		}		
 	}
 
+	public ArrayList<BoardVO> getNewsFeed() {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		
+		ArrayList<BoardVO> list = null;
+		
+		try {
+			list = mapper.getNewsFeed();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

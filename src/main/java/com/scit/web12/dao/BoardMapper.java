@@ -27,4 +27,6 @@ public interface BoardMapper {
 
 	public void likeDelete(HashMap<String, Object> lk);
 
+	public ArrayList<BoardVO> getNewsFeed();
+
 }

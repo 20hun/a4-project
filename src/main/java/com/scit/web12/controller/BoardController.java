@@ -117,6 +117,14 @@ public class BoardController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/getNewsFeed", method = RequestMethod.POST)
+	public ArrayList<BoardVO> getNewsFeed() {
+		ArrayList<BoardVO> list = ms.getNewsFeed();
+		
+		return list;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/likeInsert", method = RequestMethod.POST)
 	public void likeInsert(int msg) {
 		ms.likeInsert(msg);

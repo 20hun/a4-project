@@ -67,6 +67,30 @@
 	</if>
 	</select>
 	
+	<select id="getNewsFeed" resultType="board">
+	select *
+    from(        
+		select
+				board_no
+		    	,board_title
+		    	,board_content
+		    	,member_id
+		    	,board_indate
+		    	,board_view
+		    	,board_like
+		    	,lat
+		    	,lon
+		    	,originalfile
+		    	,savedfile
+		    	,like_check
+			from
+				balloon_tb
+		    order by
+		        board_view desc
+		        )
+		        where rownum <![CDATA[  <   ]]>=10
+	</select>
+	
 	<select id="check" resultType="board">
 	select
 		board_no

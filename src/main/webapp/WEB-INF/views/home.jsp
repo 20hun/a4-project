@@ -183,6 +183,7 @@
         
         document.addEventListener("DOMContentLoaded", function() {
 			function getLocation(position) {
+				newsFeed();
 
 				var ll_1 = document.getElementById('ll_1').value;
 		        var ll_2 = document.getElementById('ll_2').value;
@@ -829,15 +830,37 @@
             } 
         function navi(){
 			cnt = 2;
-            }         
+            }     
+            
+        function newsFeed(){
+        	$.ajax({
+				url: "/board/getNewsFeed",
+				type:"post",
+				dataType: "json",
+				success: function(data){
+						console.log(data);
+						$.each(data, function(index,item){
+
+							$("#nf_"+(index+1)).html(item.board_title);
+				});
+				},
+				error: function(e) {alert("통신 실패...");console.log(e);}								
+		});	
+						}
+        
 		</script>
+		
 		<style type="text/css">
 			.table-hover tbody tr:hover {
 				background-color: white;
 			}
 		</style>
+		
+	<style type="text/css">.block {border:2px solid #d81f25; padding:0 5px; height:20px; overflow:hidden; background:#fff; width:100px; font-family:Gulim; font-size:12px;} .block ul, .block li {margin:0; padding:0; list-style:none;} .block li a {display:block; height:20px; line-height:20px; color:#555; text-decoration:none;} .block li span {padding:2px 5px; background:#d81f25; color:#fff; font-weight:bold; margin-right:3px;}</style>
+		
 </head>
 <body class="fix-menu">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <c:choose>
 	<c:when test="${not empty sessionScope.loginId }">
 		<!-- Pre-loader start -->
@@ -1004,6 +1027,25 @@
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-bullhorn bg-c-pink card1-icon"></i>
                                                         <span class="text-c-pink f-w-600">News feed</span>
+                                                        
+                                                        
+<div class="block"> 
+<ul id="ticker"> 
+<li><a href="#"><span>1</span> <span id="nf_1"></span> </a></li> 
+<li><a href="#"><span>2</span> <span id="nf_2"></span> </a></li>
+<li><a href="#"><span>3</span> <span id="nf_3"></span> </a></li>
+<li><a href="#"><span>4</span> <span id="nf_4"></span> </a></li>
+<li><a href="#"><span>5</span> 손흥민 </a></li>
+<li><a href="#"><span>6</span> 손연재 </a></li>
+<li><a href="#"><span>7</span> <span id="nf_7"></span> </a></li>
+<li><a href="#"><span>8</span> <span id="nf_8"></span> </a></li>
+<li><a href="#"><span>9</span> <span id="nf_9"></span> </a></li>
+<li><a href="#"><span>10</span> <span id="nf_10"></span> </a></li>
+</ul>
+</div>
+
+                                                        
+                                                        
                                                         <div>
                                                             <span class="f-left m-t-10 text-muted">
                                                                 <i class="text-c-pink f-16 icofont icofont-refresh m-r-10"></i>Just update
@@ -1339,6 +1381,8 @@ var nav = $('.fixed-button');
     
 	</c:otherwise>
 </c:choose>
-
+<script type="text/javascript">
+$(function() { var ticker = function() { setTimeout(function(){ $('#ticker li:first').animate( {marginTop: '-20px'}, 400, function() { $(this).detach().appendTo('ul#ticker').removeAttr('style'); }); ticker(); }, 3000); }; ticker(); });
+</script>
 </body>
 </html>

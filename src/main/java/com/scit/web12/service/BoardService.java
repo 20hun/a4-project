@@ -95,4 +95,9 @@ public class BoardService {
 		return vo;
 	}
 
+	public ArrayList<BoardVO> getNewsFeed() {
+		
+		return dao.getNewsFeed();
+	}
+
 }
