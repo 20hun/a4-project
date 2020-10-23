@@ -293,7 +293,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="/member/update">
                                             <i class="ti-lock"></i> Lock Screen
                                         </a>
                                     </li>

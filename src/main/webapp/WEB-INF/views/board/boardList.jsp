@@ -6,7 +6,7 @@
 <head>
   <title>scroll</title>
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-
+<script type="text/javascript" src="/resources/assets/js/jquery/jquery.min.js"></script>
   <style type="text/css" media="screen">
     * { margin: auto; }
     body { margin: 20px 0; background: #abc; color: #111; font-family: Helvetica, Arial, Verdana, 'Lucida Grande', sans-serif; }
@@ -18,6 +18,40 @@
     #images { width: 600px; height: 550px; overflow-x: hidden; text-align: center; list-style: none; }
     .endless_scroll_loader { position: fixed; top: 10px; right: 20px; }
   </style>
+  <script type="text/javascript">
+		$(document).ready(function(){
+			$('#btnSend').on('click', function(evt) {
+				  evt.preventDefault();
+			if (socket.readyState !== 1) return;
+			  	  let msg = $('input#msg').val();
+			  	  socket.send(msg);
+			  });
+			  connect();
+			})
+  </script>
+  
+  <script type="text/javascript">
+  var socket = null;
+  function connect(){
+	  var ws = new WebSocket("ws://localhost:8888/replyEcho?bno=1234");
+		socket = ws;
+
+	  ws.onopen = function () {
+	      console.log('Info: connection opened.');	      
+	  };
+
+
+	  ws.onmessage = function (event) {
+	      console.log(event.data+'\n');
+	  };
+
+
+	  ws.onclose = function (event) { console.log('Info: connection closed.');
+	  		//setTimeout( function(){ connect(); }, 1000); // retry connection!!
+	  		};
+	  ws.onerror = function (err) { console.log('Error:', err); };
+	  }	
+  </script>
   
 	<script type="text/javascript" src="/resources/assets/js/jquery.min.js"></script>
   <script type="text/javascript" src="/resources/assets/js/jquery.endless-scroll.js"></script>
@@ -194,6 +228,10 @@
 </script>
 </head>
 <body>
+<div class="well">
+	<input type="text" id="msg" value="1212" class="form-control"/>
+	<button id="btnSend" class="btn btn-primary">Send Message</button>
+</div>
 	<table>
 		<tr>
 			<th>말풍선 번호</th>
