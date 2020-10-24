@@ -29,7 +29,35 @@
 			  connect();
 			})
   </script>
-  
+  <script type="text/javascript">
+  jQuery(document).ready(function() {
+	$.get("http://ip-api.com/json",function(position){
+		console.log(position);
+		$("#cty").text(position.country);
+		},"jsonp");
+  })
+	</script>
+	<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx8fafbc9262fa45d1bc02913311bdf244"></script>
+	<script type="text/javascript">
+	var map;
+	document.addEventListener("DOMContentLoaded", function() {
+		function getLocation(position) {
+			$.get("http://ip-api.com/json",function(position){
+				console.log(position);
+				$("#cty").text(position.country);
+				},"jsonp");
+			
+			 var latitud = position.lat;
+	            var longitude = position.lon;
+			map = new Tmapv2.Map("map_div",  
+					{
+						center: new Tmapv2.LatLng(latitud, longitude), // 지도 초기 좌표
+						width: "100%", 
+						height: "90%",
+						zoom: 15
+					});
+		}})
+  </script>
   <script type="text/javascript">
   var socket = null;
   function connect(){
@@ -42,7 +70,7 @@
 
 
 	  ws.onmessage = function (event) {
-	      console.log(event.data+'\n');
+	      console.log("ReceiveMessage:", event.data+'\n');
 	  };
 
 
@@ -228,6 +256,8 @@
 </script>
 </head>
 <body>
+<div id="map_div"></div>
+<span id="cty">where</span>
 <div class="well">
 	<input type="text" id="msg" value="1212" class="form-control"/>
 	<button id="btnSend" class="btn btn-primary">Send Message</button>

@@ -156,11 +156,6 @@
 	
 	<!-- <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=2821b79cf926a29f62167971ea0a9202"></script>
 	<script>
-	 function getLocation(position) {
-	var latitud = position.coords.latitude;
-    var longitude = position.coords.longitude;
-    alert(latitud);
-	 }
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = {
 		        center: new kakao.maps.LatLng(37.56682, 126.97865), // 지도의 중심좌표

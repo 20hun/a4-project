@@ -26,30 +26,6 @@
         
         <script src="https://kit.fontawesome.com/74d52cdd15.js" crossorigin="anonymous"></script>
 		<script type="text/JavaScript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-		<script type="text/javascript">
-    jQuery(document).ready(function() {
-
-        // Geolocation 객체를 사용
-        if(navigator.geolocation) {
-            
-            navigator.geolocation.getCurrentPosition(function(position) {
-                
-                // 위치를 가져오는데 성공할 경우
-                jQuery.each(position.coords, function(key, item) {
-                    //jQuery("<h3></h3>").html("● " + key + " : " + item).appendTo("body");
-                });
-            }, function(error) {
-                
-                // 위치를 가져오는데 실패한 경우
-                consol.log(error.message);
-                // geolocation 대신 ip-api.com 사용하면 해결된다고 하는데 객체 받아서 그 안에 있는 위도, 경도 값 넣어주면 해결
-                // position 객체       json 객체
-            });
-        } else {
-            consol.log("Geolocation을 지원하지 않는 브라우저 입니다.");
-        }
-    });
-</script>        
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx8fafbc9262fa45d1bc02913311bdf244"></script>
         <script type="text/javascript">
 
@@ -180,9 +156,10 @@
 		
         var cnt;
         var cnt2 = 0;
-        
-        document.addEventListener("DOMContentLoaded", function() {
-			function getLocation(position) {
+				
+			$.get("http://ip-api.com/json",function(position){
+    		console.log(position);
+    		
 				newsFeed();
 
 				var ll_1 = document.getElementById('ll_1').value;
@@ -203,8 +180,9 @@
 			var resultdrawArr = [];
 			var resultMarkerArr = [];
 
-		            var latitud = position.coords.latitude;
-		            var longitude = position.coords.longitude;
+		            var latitud = position.lat;
+		            var longitude = position.lon;
+		            //var longitude = position.coords.longitude;
 		            
 		            var lonlat;
 		            var markers = [];
@@ -813,16 +791,7 @@
 						map: map
 					});
 				}
-			}
-
-			if(navigator.geolocation) {
-	            navigator.geolocation.getCurrentPosition(getLocation, function(error) {
-	                consol.log(error.message);    
-	            });
-	        } else {
-	            consol.log("Geolocation을 지원하지 않는 브라우저 입니다.");
-	        }
-        });
+			},"jsonp");
 
         function upload(){
 			cnt = 1;
