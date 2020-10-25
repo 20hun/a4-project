@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.scit.web12.dao.BoardDAO;
 import com.scit.web12.vo.BoardVO;
+import com.scit.web12.vo.ReplyVO;
 
 @Service
 public class BoardService {
@@ -98,6 +99,16 @@ public class BoardService {
 	public ArrayList<BoardVO> getNewsFeed() {
 		
 		return dao.getNewsFeed();
+	}
+
+	public int replyCount(int msg) {
+		
+		return dao.replyCount(msg);
+	}
+
+	public ArrayList<ReplyVO> replyList(int msg, int startRecord, int countPerPage) {
+		
+		return dao.replyList(msg, startRecord, countPerPage);
 	}
 
 }

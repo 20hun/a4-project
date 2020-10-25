@@ -12,6 +12,7 @@
 		<typeAlias type="com.scit.web12.vo.MemberVO" alias="member"/>
 		<typeAlias type="com.scit.web12.vo.BoardVO" alias="board"/>
 		<typeAlias type="com.scit.web12.vo.Message" alias="message"/>
+		<typeAlias type="com.scit.web12.vo.ReplyVO" alias="reply"/>
 	</typeAliases>
 	
 	<mappers>

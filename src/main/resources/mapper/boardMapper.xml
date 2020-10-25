@@ -173,4 +173,28 @@
 		where
 			member_id = #{a2} and board_no = #{a1}
 	</delete>
+	
+	<select id="boardCount" parameterType="int" resultType="int">
+	select
+	    count(*)
+	from
+	    balloonReply
+	where
+		balloon_no = #{msg}
+	</select>
+	
+	<select id="replyList" parameterType="int" resultType="reply">
+	select
+	    comment_no
+		,balloon_no
+		,member_id
+		,reply_comment
+		,reply_indate
+	from
+	    balloonReply
+	where
+	    balloon_no = #{msg}
+	order by
+	    comment_no desc
+	</select>
 </mapper>

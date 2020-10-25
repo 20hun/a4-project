@@ -3,11 +3,13 @@ package com.scit.web12.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.scit.web12.vo.BoardVO;
+import com.scit.web12.vo.ReplyVO;
 
 @Repository
 public class BoardDAO {
@@ -145,6 +147,32 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public int replyCount(int msg) {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		
+		int cnt = 0;
+		
+		try {
+			cnt = mapper.replyCount(msg);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	public ArrayList<ReplyVO> replyList(int msg, int startRecord, int countPerPage) {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		
+		ArrayList<ReplyVO> list2 = null;
+		RowBounds rb = new RowBounds(startRecord, countPerPage);
+		try {
+			list2 = mapper.replyList(msg, rb);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list2;
 	}
 
 }

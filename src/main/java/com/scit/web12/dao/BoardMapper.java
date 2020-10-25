@@ -3,7 +3,10 @@ package com.scit.web12.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
+
 import com.scit.web12.vo.BoardVO;
+import com.scit.web12.vo.ReplyVO;
 
 public interface BoardMapper {
 
@@ -28,5 +31,9 @@ public interface BoardMapper {
 	public void likeDelete(HashMap<String, Object> lk);
 
 	public ArrayList<BoardVO> getNewsFeed();
+
+	public int replyCount(int msg);
+
+	public ArrayList<ReplyVO> replyList(int msg, RowBounds rb);
 
 }
