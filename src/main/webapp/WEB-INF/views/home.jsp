@@ -49,11 +49,12 @@
 				success: function(data){
 					alert("통신 성공");
 					console.log(data);
-
+					$(".tr_reply").remove();
+					$(".navi_div").remove();
 					var str="";
 
-					if(data != ""){
-						$(data).each(
+					if(data.list2 != ""){
+						$(data.list2).each(
 							function(){
 								console.log(this);
 								str += 	"<tr class="+"'tr_reply'"+">"
@@ -62,8 +63,18 @@
 									+	"<td>"+this.reply_comment+"</td>"
 									+	"</tr>"
 							});
-						$(".tr_reply:last").after(str);
+						$(".table_reply").append(str);
 					}
+					var str2 ="";
+					
+					str2 += "<div class="+"'navi_div'"+">"
+						 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage-data.navi.pagePerGroup)+"\)'"+">◁◁ </a> &nbsp;&nbsp;"
+						 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage-1)+"\)'"+">◀</a> &nbsp;&nbsp;"
+						 +	"&nbsp;&nbsp;"
+						 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage+1)+"\)'"+">▶</a> &nbsp;&nbsp;"
+						 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage+data.navi.pagePerGroup)+"\)'"+">▷▷</a>"
+						 +	"</div>"
+						$(".table_reply").after(str2);
 				},
 				error: function(e) {alert("통신 실패...");console.log(e);}
 			});
@@ -82,10 +93,6 @@
 
 			startDate = startDate.toString();
 			endDate = endDate.toString();
-
-			alert(startDate);
-			alert(endDate);
-
 			//마커들 다 지우고
 			removeMarkers2();
 
@@ -217,10 +224,15 @@
 							alert("통신 성공");
 							console.log(data);
 
+							var yh2020 = data.navi.currentPage+data.navi.pagePerGroup;
+							
+							$(".tr_reply").remove();
+							$(".navi_div").remove();
+
 							var str="";
 
-							if(data != ""){
-								$(data).each(
+							if(data.list2 != ""){
+								$(data.list2).each(
 									function(){
 										console.log(this);
 										str += 	"<tr class="+"'tr_reply'"+">"
@@ -229,12 +241,22 @@
 											+	"<td>"+this.reply_comment+"</td>"
 											+	"</tr>"
 									});
-								$(".tr_reply:last").after(str);
+								$(".table_reply").append(str);
 							}
+							var str2 ="";
+							
+							str2 += "<div class="+"'navi_div'"+">"
+								 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage-data.navi.pagePerGroup)+"\)'"+">◁◁ </a> &nbsp;&nbsp;"
+								 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage-1)+"\)'"+">◀</a> &nbsp;&nbsp;"
+								 +	"&nbsp;&nbsp;"
+								 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage+1)+"\)'"+">▶</a> &nbsp;&nbsp;"
+								 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage+data.navi.pagePerGroup)+"\)'"+">▷▷</a>"
+								 +	"</div>"
+								$(".table_reply").after(str2);
 						},
 						error: function(e) {alert("통신 실패...");console.log(e);}
 					});
-				});
+				});				
 				
 			var markerInfo;
 			//출발지,도착지 마커
@@ -1307,25 +1329,14 @@
                                                                     <div class="tab-pane" id="profile1" role="tabpanel">
                                                                         <div class="card-block text-center">
                                                                         <input type="hidden" id="bno_balloon_no">
-                                                                        	<table>
-                                                                        		<tr class="tr_reply">
+                                                                        	<table class="table_reply">
+                                                                        		<tr>
 																					<th>등록 시간</th>
 																					<th>작성자</th>
 																					<th>내용</th>
 																				</tr>                        
                                                                   			</table>
-                                                                  	<a href="javascript:pagingFormSubmit(${navi.currentPage - navi.pagePerGroup})">◁◁ </a> &nbsp;&nbsp;
-																	<a href="javascript:pagingFormSubmit(${navi.currentPage - 1})">◀</a> &nbsp;&nbsp;
-																
-																	<c:forEach var="counter" begin="${navi.startPageGroup}" end="${navi.endPageGroup}"> 
-																		<c:if test="${counter == navi.currentPage}"><b></c:if>
-																			<a href="javascript:pagingFormSubmit(${counter})">${counter}</a>&nbsp;
-																		<c:if test="${counter == navi.currentPage}"></b></c:if>
-																	</c:forEach>
-																	&nbsp;&nbsp;
-																	<a href="javascript:pagingFormSubmit(${navi.currentPage + 1})">▶</a> &nbsp;&nbsp;
-																	<a href="javascript:pagingFormSubmit(${navi.currentPage + navi.pagePerGroup})">▷▷</a>
-																	<a href="javascript:pagingFormSubmit(3)">3</a>
+                                                                  	
                                                                     <br><br>
 	
 																	<input type="button" value="댓글쓰기" onclick="replyWriteForm()">

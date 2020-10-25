@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,7 @@ public class BoardController {
 	
 	@ResponseBody
 	@RequestMapping(value="/replyList", method=RequestMethod.GET)
-	public ArrayList<ReplyVO> replyList(
+	public HashMap<String, Object> replyList(
 			@RequestParam(value = "msg", defaultValue="0") int msg
 			,@RequestParam(value = "page", defaultValue="1") int page) {
 		//전체 글 개수 조회(검색을 했을때도 검색에 해당되는 글의 전체 개수도 조회  예로 전체 1000개, 검색 조건에 맞는 것 300개)
@@ -58,7 +59,10 @@ public class BoardController {
 		ArrayList<ReplyVO> list2 = ms.replyList(msg, navi.getStartRecord(), navi.getCountPerPage());
 		logger.info("list의 사이즈{}", list2.size());
 		System.out.println(list2);
-		return list2;
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("list2", list2);
+		map2.put("navi", navi);
+		return map2;
 	}
 	
 	@RequestMapping(value="/boardWriteForm", method = RequestMethod.GET)
