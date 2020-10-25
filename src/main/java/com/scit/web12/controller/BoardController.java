@@ -47,7 +47,12 @@ public class BoardController {
 			@RequestParam(value = "msg", defaultValue="0") int msg
 			,@RequestParam(value = "page", defaultValue="1") int page) {
 		//전체 글 개수 조회(검색을 했을때도 검색에 해당되는 글의 전체 개수도 조회  예로 전체 1000개, 검색 조건에 맞는 것 300개)
+		System.out.println(msg);
+		System.out.println(page);
+		
 		int count = ms.replyCount(msg);
+		System.out.println(count);
+		
 		PageNavigator navi = new PageNavigator(COUNTERPAGE, PAGEPERGROUP, page, count);
 		
 		ArrayList<ReplyVO> list2 = ms.replyList(msg, navi.getStartRecord(), navi.getCountPerPage());

@@ -37,6 +37,38 @@
 
 		var bno_balloon;
 
+		function pagingFormSubmit(currentPage) {
+			$.ajax({
+				url: "/board/replyList",
+				type:"get",
+				dataType: "json",
+				data: {
+					msg: bno_balloon,
+					page: currentPage
+				},
+				success: function(data){
+					alert("통신 성공");
+					console.log(data);
+
+					var str="";
+
+					if(data != ""){
+						$(data).each(
+							function(){
+								console.log(this);
+								str += 	"<tr class="+"'tr_reply'"+">"
+									+	"<td>"+this.reply_indate+"</td>"
+									+	"<td>"+this.member_id+"</td>"
+									+	"<td>"+this.reply_comment+"</td>"
+									+	"</tr>"
+							});
+						$(".tr_reply:last").after(str);
+					}
+				},
+				error: function(e) {alert("통신 실패...");console.log(e);}
+			});
+		}
+
 		function removeMarkers2() {
 			for (var i = 0; i < markers2.length; i++) {
 				markers2[i].setMap(null);
@@ -184,6 +216,21 @@
 						success: function(data){
 							alert("통신 성공");
 							console.log(data);
+
+							var str="";
+
+							if(data != ""){
+								$(data).each(
+									function(){
+										console.log(this);
+										str += 	"<tr class="+"'tr_reply'"+">"
+											+	"<td>"+this.reply_indate+"</td>"
+											+	"<td>"+this.member_id+"</td>"
+											+	"<td>"+this.reply_comment+"</td>"
+											+	"</tr>"
+									});
+								$(".tr_reply:last").after(str);
+							}
 						},
 						error: function(e) {alert("통신 실패...");console.log(e);}
 					});
@@ -1261,7 +1308,7 @@
                                                                         <div class="card-block text-center">
                                                                         <input type="hidden" id="bno_balloon_no">
                                                                         	<table>
-                                                                        		<tr>
+                                                                        		<tr class="tr_reply">
 																					<th>등록 시간</th>
 																					<th>작성자</th>
 																					<th>내용</th>
@@ -1278,31 +1325,11 @@
 																	&nbsp;&nbsp;
 																	<a href="javascript:pagingFormSubmit(${navi.currentPage + 1})">▶</a> &nbsp;&nbsp;
 																	<a href="javascript:pagingFormSubmit(${navi.currentPage + navi.pagePerGroup})">▷▷</a>
+																	<a href="javascript:pagingFormSubmit(3)">3</a>
                                                                     <br><br>
 	
 																	<input type="button" value="댓글쓰기" onclick="replyWriteForm()">
-																	<br>
-																	
-																	<form id="pagingForm" method="get" action="/board/replyList">
-																	<input type="hidden" name="page" id="page">
-																	<input type="hidden" name="searchType" id="type">
-																	${searchType }
-																	<select id="searchType">
-																		<c:choose>
-																		<c:when test="${searchType eq'name'}">
-																			<option value="title">내용</option>
-																			<option value="name" selected="selected">작성자</option>
-																		</c:when>
-																		<c:otherwise>
-																			<option value="title" selected="selected">내용</option>
-																			<option value="name">작성자</option>
-																		</c:otherwise>
-																		</c:choose>
-																	</select>
-																	<input type="text"  name="searchText" value="${searchText}">
-																	<input type="button" onclick="pagingFormSubmit(1)" value="검색">
-																	</form>    
-                                                                        
+								                                                              
                                                                         </div>
                                                                     </div>
                                                                     </div>
@@ -1459,15 +1486,6 @@ $(function() { var ticker = function() { setTimeout(function(){ $('#ticker li:fi
 		function replyWriteForm(){
 			$('#exampleModal_reply').modal('show');
 		}
-					
-	function pagingFormSubmit(currentPage) {
-		var form = document.getElementById('pagingForm');
-		var searchType = document.getElementById("searchType").value;
-		document.getElementById('page').value = currentPage;
-		document.getElementById("type").value = searchType;
-
-		form.submit();
-	}
 	</script>
 </body>
 </html>
