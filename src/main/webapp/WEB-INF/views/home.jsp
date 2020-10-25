@@ -35,6 +35,8 @@
 
 		var markers2 = [];
 
+		var bno_balloon;
+
 		function removeMarkers2() {
 			for (var i = 0; i < markers2.length; i++) {
 				markers2[i].setMap(null);
@@ -69,6 +71,7 @@
 							var str2;
 							var str3;
 							var str4;
+							
 							$.each(data, function(index,item){
 								var title = item.board_title.substr(0,5);
 								label="<span style='background-color: #46414E;color:white'>"+title+"</span>";
@@ -96,9 +99,9 @@
 										$("#view").attr("value", data.board_view);
 										$("#like").attr("value", data.board_like);
 										$("#bubble_image").attr("src", "/board/download?board_no="+data.board_no);
-										//$("#bubble_video").attr("src", "/board/download?board_no="+data.board_no);
-										//$("#bubble_video").attr("src", "<c:url value='https://www.youtube.com/watch?v=jPJthgBj5Z0'/>");
+										$("#bno_balloon_no").attr("value", data.board_no);
 										str4 = data.board_like;
+										bno_balloon = data.board_no;
 
 										var str = "";										
 										if (data.like_check == '0') {
@@ -168,6 +171,23 @@
 		        var ll_4 = document.getElementById('ll_4').value;
 		        var ll_5 = document.getElementById('ll_5').value;
 		        var ll_6 = document.getElementById('ll_6').value;
+
+
+		        $("#replyList").click(function(){			
+					$.ajax({
+						url: "/board/replyList",
+						type:"get",
+						dataType: "json",
+						data: {
+							msg: bno_balloon
+						},
+						success: function(data){
+							alert("통신 성공");
+							console.log(data);
+						},
+						error: function(e) {alert("통신 실패...");console.log(e);}
+					});
+				});
 				
 			var markerInfo;
 			//출발지,도착지 마커
@@ -625,9 +645,12 @@
 										$("#view").attr("value", data.board_view);
 										$("#like").attr("value", data.board_like);
 										$("#bubble_image").attr("src", "/board/download?board_no="+data.board_no);
+										$("#bno_balloon_no").attr("value", data.board_no);
 										//$("#bubble_video").attr("src", "/board/download?board_no="+data.board_no);
 										//$("#bubble_video").attr("src", "<c:url value='https://www.youtube.com/watch?v=jPJthgBj5Z0'/>");
 										str4 = data.board_like;
+
+										bno_balloon = data.board_no;
 
 										var str = "";										
 										if (data.like_check == '0') {
@@ -646,6 +669,7 @@
 									});									
 								});								
 							})
+							
 							$("#likeDiv").click(function(){
 									if(str2 == 0){
 										str2 = 1;
@@ -1156,7 +1180,29 @@
 															      </form>
 															    </div>
 															  </div>
-															</div>														
+															</div>	
+															<!-- Modal_reply -->
+															<div class="modal fade" id="exampleModal_reply" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+															  <div class="modal-dialog">
+															    <div class="modal-content">
+															      <div class="modal-header">
+															        <h5 class="modal-title" id="exampleModalLabel">원하는 시간·날짜 선택</h5>
+															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															          <span aria-hidden="true">&times;</span>
+															        </button>
+															      </div>															      
+															      <div class="modal-body">
+															        <input type="datetime-local" id="startDate"> ~ <input type="datetime-local" id="endDate">
+															      </div>
+															      <div class="modal-footer">
+															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															        <input type="button" onclick="dateSet();" value="save">
+															        <!-- <button type="button" id="date_set" class="btn btn-primary">Save changes</button> -->
+															        <!-- onclick="location.href='/member/write?board_no=5'" -->
+															      </div>
+															    </div>
+															  </div>
+															</div>															
                                                     </div>
                                                 </div>
                                             </div>
@@ -1173,10 +1219,19 @@
                                                                 <h5>Bubble info</h5><input type="button" onclick="upload();" value="거품 등록">                                                             
                                                             </div>
                                                         </div>
+                                                        <ul class="nav nav-tabs  tabs" role="tablist">
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link active" data-toggle="tab" href="#home1" role="tab">본문</a>
+                                                                    </li>
+                                                                    <li id="replyList" class="nav-item">
+                                                                        <a class="nav-link" data-toggle="tab" href="#profile1" role="tab">댓글</a>
+                                                                    </li>
+                                                        </ul>
+                                                        <div class="tab-content tabs card-block">
+                                                                    <div class="tab-pane active" id="home1" role="tabpanel">
+                                                                        
                                                         <div class="card-block text-center">
-                                                            	<!-- <p id="result"></div>
-        														<p id="result2"></div> -->
-        														<a id="a_tag"><div id="memberId"></div></a>
+        														<a id="a_tag"><span id="memberId"></span></a>
         														<table class="table table-hover">
         															<tr>
         																<td>title</td>
@@ -1200,11 +1255,58 @@
         														</table>
 	                                                            
 																<img id="bubble_image" width="200" height="200">
-																<!-- <br>
-                                                        <a href="board/boardList">거품목록</a>
-														<a href="board/profile">내거품</a>
-														<a href="member/joinList">회원목록</a> (관리자만 접근)		 -->
-                                                        </div>                                                        
+                                                        </div>      
+                                                            </div>
+                                                                    <div class="tab-pane" id="profile1" role="tabpanel">
+                                                                        <div class="card-block text-center">
+                                                                        <input type="hidden" id="bno_balloon_no">
+                                                                        	<table>
+                                                                        		<tr>
+																					<th>등록 시간</th>
+																					<th>작성자</th>
+																					<th>내용</th>
+																				</tr>                        
+                                                                  			</table>
+                                                                  	<a href="javascript:pagingFormSubmit(${navi.currentPage - navi.pagePerGroup})">◁◁ </a> &nbsp;&nbsp;
+																	<a href="javascript:pagingFormSubmit(${navi.currentPage - 1})">◀</a> &nbsp;&nbsp;
+																
+																	<c:forEach var="counter" begin="${navi.startPageGroup}" end="${navi.endPageGroup}"> 
+																		<c:if test="${counter == navi.currentPage}"><b></c:if>
+																			<a href="javascript:pagingFormSubmit(${counter})">${counter}</a>&nbsp;
+																		<c:if test="${counter == navi.currentPage}"></b></c:if>
+																	</c:forEach>
+																	&nbsp;&nbsp;
+																	<a href="javascript:pagingFormSubmit(${navi.currentPage + 1})">▶</a> &nbsp;&nbsp;
+																	<a href="javascript:pagingFormSubmit(${navi.currentPage + navi.pagePerGroup})">▷▷</a>
+                                                                    <br><br>
+	
+																	<input type="button" value="댓글쓰기" onclick="replyWriteForm()">
+																	<br>
+																	
+																	<form id="pagingForm" method="get" action="/board/replyList">
+																	<input type="hidden" name="page" id="page">
+																	<input type="hidden" name="searchType" id="type">
+																	${searchType }
+																	<select id="searchType">
+																		<c:choose>
+																		<c:when test="${searchType eq'name'}">
+																			<option value="title">내용</option>
+																			<option value="name" selected="selected">작성자</option>
+																		</c:when>
+																		<c:otherwise>
+																			<option value="title" selected="selected">내용</option>
+																			<option value="name">작성자</option>
+																		</c:otherwise>
+																		</c:choose>
+																	</select>
+																	<input type="text"  name="searchText" value="${searchText}">
+																	<input type="button" onclick="pagingFormSubmit(1)" value="검색">
+																	</form>    
+                                                                        
+                                                                        </div>
+                                                                    </div>
+                                                                    </div>
+                                                                                                          
                                                     </div>
                                                 </div>                                           
                                             <!-- Email Sent End -->
@@ -1353,5 +1455,19 @@ var nav = $('.fixed-button');
 <script type="text/javascript">
 $(function() { var ticker = function() { setTimeout(function(){ $('#ticker li:first').animate( {marginTop: '-20px'}, 400, function() { $(this).detach().appendTo('ul#ticker').removeAttr('style'); }); ticker(); }, 3000); }; ticker(); });
 </script>
+<script type="text/javascript">
+		function replyWriteForm(){
+			$('#exampleModal_reply').modal('show');
+		}
+					
+	function pagingFormSubmit(currentPage) {
+		var form = document.getElementById('pagingForm');
+		var searchType = document.getElementById("searchType").value;
+		document.getElementById('page').value = currentPage;
+		document.getElementById("type").value = searchType;
+
+		form.submit();
+	}
+	</script>
 </body>
 </html>

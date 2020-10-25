@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ import com.scit.web12.service.BoardService;
 import com.scit.web12.util.FileService;
 import com.scit.web12.vo.BoardVO;
 import com.scit.web12.vo.Latlon;
+import com.scit.web12.util.PageNavigator;
 
 @RequestMapping(value="/board")
 @Controller
@@ -36,6 +38,34 @@ public class BoardController {
 	private BoardService ms;
 	
 	final String uploadPath = "/boardfile";
+	private final int COUNTERPAGE = 5;
+	private final int PAGEPERGROUP = 5;
+	
+	@ResponseBody
+	@RequestMapping(value="/replyList", method=RequestMethod.GET)
+	public ArrayList<HashMap<String, Object>> replyList(
+			@RequestParam(value = "msg", defaultValue="0") int msg
+			//,@RequestParam(value = "page", defaultValue="1") int page
+			//, @RequestParam(value = "searchText", defaultValue = "") String searchText
+			//, @RequestParam(value = "searchType", defaultValue = "none") String searchType
+			) {
+		System.out.println(msg);
+		//전체 글 개수 조회(검색을 했을때도 검색에 해당되는 글의 전체 개수도 조회  예로 전체 1000개, 검색 조건에 맞는 것 300개)
+		//int count = ms.boardCount(searchText, searchType);
+		//PageNavigator navi = new PageNavigator(COUNTERPAGE, PAGEPERGROUP, page, count);
+		
+		//글목록을 조회 한 후에 Model에 저장
+		//ArrayList<HashMap<String, Object>> list = ms.boardList(searchText, searchType, navi.getStartRecord(), navi.getCountPerPage());
+		//logger.info("list의 사이즈{}", list.size());
+		//model.addAttribute("list", list);
+		//model.addAttribute("navi",navi);
+		//model.addAttribute("searchText", searchText);
+		//model.addAttribute("searchType", searchType);
+		//return "board/boardList";
+		ArrayList<HashMap<String, Object>> list2 = new ArrayList<HashMap<String, Object>>();
+		System.out.println(list2);
+		return list2;
+	}
 	
 	@RequestMapping(value="/boardWriteForm", method = RequestMethod.GET)
 	public String boardWriteForm(Model model, String lat, String lon) {
