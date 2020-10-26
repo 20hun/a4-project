@@ -145,6 +145,12 @@ public class BoardController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/replyWrite", method = RequestMethod.POST)
+	public void replyWrite(int balloon_no, String reply_comment) {
+		ms.replyWrite(balloon_no, reply_comment);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/getNewsFeed", method = RequestMethod.POST)
 	public ArrayList<BoardVO> getNewsFeed() {
 		ArrayList<BoardVO> list = ms.getNewsFeed();

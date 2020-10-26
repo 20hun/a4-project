@@ -32,10 +32,17 @@
         var map;
         var startDate;
 		var endDate;
+		var reply_comment;
+		var balloon_br;
 
 		var markers2 = [];
 
 		var bno_balloon;
+
+		function replyWriteForm(){
+			$('#exampleModal_reply').modal('show');
+			$('#bno_br').attr("value",bno_balloon);
+		}
 
 		function pagingFormSubmit(currentPage) {
 			$.ajax({
@@ -86,6 +93,62 @@
 			}
 			markers2 = [];
 		}
+
+		function replyWrite(){
+			balloon_br = document.getElementById("bno_br").value;
+			reply_comment = document.getElementById("reply_comment").value;
+				$.ajax({
+					url:"/board/replyWrite",
+					type: "post",
+					data: {
+						balloon_no: balloon_br
+						,reply_comment: reply_comment
+						},
+					success: function() {alert("통신 성공!");
+					$.ajax({
+						url: "/board/replyList",
+						type:"get",
+						dataType: "json",
+						data: {
+							msg: bno_balloon
+						},
+						success: function(data){
+							alert("통신 성공");
+							console.log(data);
+							$(".tr_reply").remove();
+							$(".navi_div").remove();
+							var str="";
+
+							if(data.list2 != ""){
+								$(data.list2).each(
+									function(){
+										console.log(this);
+										str += 	"<tr class="+"'tr_reply'"+">"
+											+	"<td>"+this.reply_indate+"</td>"
+											+	"<td>"+this.member_id+"</td>"
+											+	"<td>"+this.reply_comment+"</td>"
+											+	"</tr>"
+									});
+								$(".table_reply").append(str);
+							}
+							var str2 ="";
+							
+							str2 += "<div class="+"'navi_div'"+">"
+								 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage-data.navi.pagePerGroup)+"\)'"+">◁◁ </a> &nbsp;&nbsp;"
+								 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage-1)+"\)'"+">◀</a> &nbsp;&nbsp;"
+								 +	"&nbsp;&nbsp;"
+								 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage+1)+"\)'"+">▶</a> &nbsp;&nbsp;"
+								 +	"<a href="+"'javascript:pagingFormSubmit"+"\("+(data.navi.currentPage+data.navi.pagePerGroup)+"\)'"+">▷▷</a>"
+								 +	"</div>"
+								$(".table_reply").after(str2);
+						},
+						error: function(e) {alert("통신 실패...");console.log(e);}
+					});
+					},
+					error: function(e) {alert("통신 실패...");console.log(e);}
+					});
+				$('#exampleModal_reply').modal('hide');
+			}
 
 		function dateSet(){
 			startDate = document.getElementById("startDate").value;
@@ -1195,9 +1258,7 @@
 															      </div>
 															      <div class="modal-footer">
 															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															        <input type="button" onclick="dateSet();" value="save">
-															        <!-- <button type="button" id="date_set" class="btn btn-primary">Save changes</button> -->
-															        <!-- onclick="location.href='/member/write?board_no=5'" -->
+															        <input type="button" class="btn btn-primary" onclick="dateSet();" value="save">
 															      </div>
 															    </div>
 															  </div>
@@ -1255,19 +1316,19 @@
 															  <div class="modal-dialog">
 															    <div class="modal-content">
 															      <div class="modal-header">
-															        <h5 class="modal-title" id="exampleModalLabel">원하는 시간·날짜 선택</h5>
+															        <h5 class="modal-title" id="exampleModalLabel">댓글 입력</h5>
 															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 															          <span aria-hidden="true">&times;</span>
 															        </button>
-															      </div>															      
-															      <div class="modal-body">
-															        <input type="datetime-local" id="startDate"> ~ <input type="datetime-local" id="endDate">
+															      </div>
+															      <div class="modal-body">								
+																		댓글 내용  <br>
+																		<textarea rows="10" cols="40" id="reply_comment"></textarea><br>
+																		<input type="hidden" id="bno_br">											
 															      </div>
 															      <div class="modal-footer">
 															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															        <input type="button" onclick="dateSet();" value="save">
-															        <!-- <button type="button" id="date_set" class="btn btn-primary">Save changes</button> -->
-															        <!-- onclick="location.href='/member/write?board_no=5'" -->
+															        <input type="submit" onclick="replyWrite();" class="btn btn-primary" value="Save">
 															      </div>
 															    </div>
 															  </div>
@@ -1493,10 +1554,6 @@ var nav = $('.fixed-button');
 <script type="text/javascript">
 $(function() { var ticker = function() { setTimeout(function(){ $('#ticker li:first').animate( {marginTop: '-20px'}, 400, function() { $(this).detach().appendTo('ul#ticker').removeAttr('style'); }); ticker(); }, 3000); }; ticker(); });
 </script>
-<script type="text/javascript">
-		function replyWriteForm(){
-			$('#exampleModal_reply').modal('show');
-		}
-	</script>
+
 </body>
 </html>

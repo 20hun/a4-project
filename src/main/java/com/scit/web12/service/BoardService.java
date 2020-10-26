@@ -111,4 +111,12 @@ public class BoardService {
 		return dao.replyList(msg, startRecord, countPerPage);
 	}
 
+	public void replyWrite(int balloon_no, String reply_comment) {
+		ReplyVO rv = new ReplyVO();
+		rv.setBalloon_no(balloon_no);
+		rv.setReply_comment(reply_comment);
+		rv.setMember_id((String)session.getAttribute("loginId"));
+		dao.replyWrite(rv);		
+	}
+
 }

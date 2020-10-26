@@ -175,4 +175,13 @@ public class BoardDAO {
 		return list2;
 	}
 
+	public void replyWrite(ReplyVO rv) {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		try {
+			mapper.replyWrite(rv);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
+	}
+
 }

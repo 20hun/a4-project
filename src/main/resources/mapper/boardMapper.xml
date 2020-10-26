@@ -168,6 +168,21 @@
 				)
 	</insert>
 	
+	<insert id="replyWrite" parameterType="reply">
+		insert into
+			balloonReply(
+				comment_no
+				,balloon_no
+				,member_id
+				,reply_comment
+				)values(
+				BALLOONREPLY_SEQ.nextval
+				,#{balloon_no}
+				,#{member_id}
+				,#{reply_comment}
+				)
+	</insert>
+	
 	<delete id="likeDelete" parameterType="hashmap">
 		delete from like_tb
 		where

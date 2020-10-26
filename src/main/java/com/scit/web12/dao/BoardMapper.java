@@ -36,4 +36,6 @@ public interface BoardMapper {
 
 	public ArrayList<ReplyVO> replyList(int msg, RowBounds rb);
 
+	public void replyWrite(ReplyVO rv);
+
 }
