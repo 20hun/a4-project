@@ -121,7 +121,7 @@ public class BoardController {
 		
 		ms.delete(board_no);
 		
-		return "redirect:/board/profile";
+		return "redirect:/member/mypage";
 	}
 	
 	@RequestMapping(value="/navigation", method=RequestMethod.GET)

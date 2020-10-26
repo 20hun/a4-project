@@ -112,8 +112,8 @@ public class MemberController {
 	@RequestMapping(value="/member/mypage", method=RequestMethod.GET)
 	public String mypage(Model model) {
 		ArrayList<BoardVO> list = ms.boardList();
-		//MemberVO member = ms.justout();
-		//model.addAttribute("member",member);
+		MemberVO member = ms.justout();
+		model.addAttribute("member",member);
 		model.addAttribute("list", list);
 		return "member/mypage";
 	}

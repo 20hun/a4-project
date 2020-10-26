@@ -7,79 +7,43 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Bubblemap</title>
 	<script src="<c:url value="/resources/js/jquery.min.js" />"></script>
-	<script src="<c:url value="/resources/js/sockjs.js" />"></script>
-	<script src="<c:url value="/resources/js/stomp.js" />"></script>
 	
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>	
-	
 	<script type="text/javascript">
-		$(function(){
-			connect();
-			
-			$("#send").on("click",function(){
-				sendMessage();
+		$(document).ready(function(){
+			$('#btnSend').on('click', function(evt) {
+				  evt.preventDefault();
+			if (socket.readyState !== 1) return;
+			  	  let msg = $('input#msg').val();
+			  	  socket.send(msg);
+			  });
+			  connect();
 			})
-			
-			document.onkeydown = function ( event ) {
-			    if ( event.keyCode == 116  // F5
-			        || event.ctrlKey == true && (event.keyCode == 82) // ctrl + r
-			    ) {
-			        //접속 강제 종료
-			        disconnect();
-			        // keyevent
-			        event.cancelBubble = true; 
-			        event.returnValue = false; 
-			        setTimeout(function() {
-			            window.location.reload();
-			        }, 100);
-			        return false;
-			    }
-			}
-			
-		})
-	
-		var stompClient = null;
-		
-		//채팅방 연결
-		function connect() {
-			// WebsocketMessageBrokerConfigurer의 registerStompEndpoints() 메소드에서 설정한 endpoint("/endpoint")를 파라미터로 전달
-			var socket = new SockJS('/endpoint');
-			stompClient = Stomp.over(socket);
-			stompClient.connect({}, function(frame) {
-				
-				// 메세지 구독
-				// WebsocketMessageBrokerConfigurer의 configureMessageBroker() 메소드에서 설정한 subscribe prefix("/subscribe")를 사용해야 함
-				stompClient.subscribe('/subscribe/basicChatRoom', function(message){
-					var data = JSON.parse(message.body);
-					$("#chatroom").append(data.send_id+" 님 -> "+data.message+"<br />");
-				});
-				
-			});
-		}
-		
-		//채팅 메세지 전달
-		function sendMessage() {
-			var str = $("#chatbox").val();
-			str = str.replace(/ /gi, '&nbsp;')
-			str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
-			if(str.length > 0){
-				// WebsocketMessageBrokerConfigurer의 configureMessageBroker() 메소드에서 설정한 send prefix("/")를 사용해야 함
-				stompClient.send("/basicChatRoom", {}, JSON.stringify({
-					message : str
-				}));
-				
-			}
-			
-			$("#chatbox").val("");
-		}
-		
-		// 채팅방 연결 끊기
-		function disconnect() {
-			stompClient.disconnect();
-		}
-	</script>
+  </script>
+	<script type="text/javascript">
+  var socket = null;
+  function connect(){
+	  var ws = new WebSocket("ws://localhost:8888/replyEcho?bno=1234");
+		socket = ws;
+
+	  ws.onopen = function () {
+	      console.log('Info: connection opened.');	      
+	  };
+
+
+	  ws.onmessage = function (event) {
+	      console.log("ReceiveMessage:", event.data+'\n');
+	  };
+
+
+	  ws.onclose = function (event) { console.log('Info: connection closed.');
+	  		//setTimeout( function(){ connect(); }, 1000); // retry connection!!
+	  		};
+	  ws.onerror = function (err) { console.log('Error:', err); };
+	  }	
+  </script>
 	<style type="text/css">
 		#chatroom{
 			width: 300px;
@@ -187,9 +151,10 @@
 	</style>
 </head>
 <body>
-	<input type="text" id="chatbox"><input type="button" id="send" value="전송"><br><br>
-	<div id="chatroom">
-	</div>
+<div class="well">
+	<input type="text" id="msg" value="1212" class="form-control"/>
+	<button id="btnSend" class="btn btn-primary">Send Message</button>
+</div>
 
         <div class="col-sm-3 col-sm-offset-4 frame">
             <ul></ul>

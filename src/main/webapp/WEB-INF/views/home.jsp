@@ -994,7 +994,7 @@
 			}
 		</style>
 		
-	<style type="text/css">.block {border:2px solid #d81f25; margin-left:70; padding:0 5px; height:25px; overflow:hidden; background:#fff; width:220px; font-family:Gulim; font-size:12px;} .block ul, .block li {margin:0; padding:0; list-style:none;} .block li a {display:block; height:20px; line-height:20px; color:#555; text-decoration:none;} .block li span {padding:2px 5px; color:black; font-weight:bold; margin-right:3px;}</style>
+	<style type="text/css">.block {border:2px solid pink; margin-left:70; padding:0 5px; height:25px; overflow:hidden; background:#fff; width:220px; font-family:Gulim; font-size:12px;} .block ul, .block li {margin:0; padding:0; list-style:none;} .block li a {display:block; height:20px; line-height:20px; color:#555; text-decoration:none;} .block li span {padding:2px 5px; color:black; font-weight:bold; margin-right:3px;}</style>
 		
 </head>
 <body class="fix-menu">
@@ -1123,12 +1123,7 @@
                                 </a>
                                 <ul class="show-notification profile-notification">
                                     <li>
-                                        <a href="/board/boardList">
-                                            <i class="ti-settings"></i> Settings
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/board/profile">
+                                        <a href="member/mypage">
                                             <i class="ti-user"></i> Profile
                                         </a>
                                     </li>

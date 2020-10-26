@@ -282,11 +282,6 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
-                                            <i class="ti-email"></i> My Messages
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="/member/logout">
                                             <i class="ti-layout-sidebar-left"></i> Logout
                                         </a>

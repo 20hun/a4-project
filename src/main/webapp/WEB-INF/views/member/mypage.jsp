@@ -94,6 +94,8 @@
 												+		"</tr>"	
 												+		"</table>"
 												+		"<img width="+"'200'"+" height="+"'200'"+" src="+"'/board/download?board_no="+this.board_no+"'>"														
+												+	"<a href="+"'/board/delete?board_no="+this.board_no+"'>수정</a>"
+												+	"<a href="+"'/board/delete?board_no="+this.board_no+"'>삭제</a>"
                         						+	"</div>"
                         						+	"</div>"
                         						+	"</div>"
@@ -282,11 +284,6 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
-                                            <i class="ti-email"></i> My Messages
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="/member/logout">
                                             <i class="ti-layout-sidebar-left"></i> Logout
                                         </a>
@@ -324,11 +321,54 @@
 															      </div>
 															      <div class="modal-footer">
 															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															        <button type="button" onclick="location.href='/member/write?board_no=5'" class="btn btn-primary">Save changes</button>
+															        <button type="button" class="btn btn-primary">Save changes</button>
 															      </div>
 															    </div>
 															  </div>
 															</div>
+													<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+															  <div class="modal-dialog">
+															    <div class="modal-content">
+															      <div class="modal-header">
+															        <h5 class="modal-title" id="exampleModalLabel">내 정보 수정</h5>
+															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															          <span aria-hidden="true">&times;</span>
+															        </button>
+															      </div>
+															      <form action="/member/updateComplete" method="post">
+															      <div class="modal-body">															        
+																		ID : <input type="text" name="member_id" value="${member.member_id }" readonly="readonly"> <br>
+																		PW : <input type="password" name="member_pw"> <br>
+																		Name : <input type="text" name="member_nm" value="${member.member_nm }">																	
+															      </div>
+															      <div class="modal-footer">
+															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															        <input type="submit" class="btn btn-primary" value="Save">
+															      </div>
+															      </form>
+															    </div>
+															  </div>
+															</div>
+													<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+															  <div class="modal-dialog">
+															    <div class="modal-content">
+															      <div class="modal-header">
+															        <h5 class="modal-title" id="exampleModalLabel">거품 수정</h5>
+															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															          <span aria-hidden="true">&times;</span>
+															        </button>
+															      </div>
+															      <div class="modal-body">
+															        
+															      </div>
+															      <div class="modal-footer">
+															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															        <button type="button" class="btn btn-primary">Save changes</button>
+															      </div>
+															    </div>
+															  </div>
+															</div>		
+															
                                                         <h4 style="text-transform: lowercase;">${list[0].member_id }</h4>
                                                     </div>
                                                 </div>
@@ -341,8 +381,7 @@
                                                                 <i class="icofont icofont-home"></i>
                                                             </a>
                                                         </li>
-                                                        <li class="breadcrumb-item"><span name="toggle-control">팔로우</span>
-                                                        <span name="toggle-control" style="display: none;">팔로우 취소</span>
+                                                        <li class="breadcrumb-item" id="myUpdate">내 정보 수정
                                                         </li>
                                                         <li class="breadcrumb-item"><i class="icofont icofont-chat" id="chat_icon"></i>
                                                         </li>
@@ -380,7 +419,9 @@
         																<td><input style="border: none;" type="text" id = "view" value="${data.board_view}"></td>
         															</tr>
         														</table> 
-        														<img id="bubble_image" width="200" height="200" src="/board/download?board_no=${data.board_no}">       														
+        														<img id="bubble_image" width="200" height="200" src="/board/download?board_no=${data.board_no}">  
+        														<div><span class="bubbleUpdate">수정</span> 
+        														<a href="/board/delete?board_no=${data.board_no }">삭제</a></div>   														
                                                 </div>
                                                 </c:forEach>
                                                 </div>
@@ -417,51 +458,14 @@
 <input type="hidden" value="${list[0].member_id}" id="follow_id">
 
 <script type="text/javascript">
-
-	var follow_id;
-	var check = 0;
-
-	$("span[name='toggle-control']").click(function(){
-
-		follow_id  = document.getElementById("follow_id").value;
-		
-		if(check == 0){
-		$.ajax({
-			url: "/sns/follow",
-			type:"get",
-			data: {
-				msg: follow_id
-			},
-			success: function(data) {alert("통신 성공!");console.log(data)
-			//$("#memberId").html(data.member_id);
-			//$("#a_tag").attr("href", "/sns/timeLine?member_id="+data.member_id)
-			//$("#title").attr("value", data.board_title);
-			check = data;
-			},
-			error: function(e) {alert("통신 실패...");console.log(e);}
-		});	
-		}else{
-		$.ajax({
-			url: "/sns/followCancle",
-			type:"get",
-			data: {
-				msg: follow_id
-			},
-			success: function(data) {alert("통신 성공!");console.log(data)
-			//$("#memberId").html(data.member_id);
-			//$("#a_tag").attr("href", "/sns/timeLine?member_id="+data.member_id)
-			//$("#title").attr("value", data.board_title);
-			check = data;
-			},
-			error: function(e) {alert("통신 실패...");console.log(e);}
-		});	
-		}
-		$("#target").toggle();
-		$("span[name='toggle-control']").toggle();
-		});
-
 	$("#chat_icon").click(function(){
 		$('#exampleModal').modal('show');
+	});
+	$("#myUpdate").click(function(){
+		$('#exampleModal2').modal('show');
+	});
+	$(".bubbleUpdate").click(function(){
+		$('#exampleModal3').modal('show');
 	});
 </script>
 
