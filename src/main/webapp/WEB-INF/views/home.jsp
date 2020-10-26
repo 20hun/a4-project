@@ -55,7 +55,6 @@
 					page: currentPage
 				},
 				success: function(data){
-					alert("통신 성공");
 					console.log(data);
 					$(".tr_reply").remove();
 					$(".navi_div").remove();
@@ -65,11 +64,20 @@
 						$(data.list2).each(
 							function(){
 								console.log(this);
-								str += 	"<tr class="+"'tr_reply'"+">"
+								str += 	"<table class="+"'tr_reply'"+" style="+"'width:100%; border: 3px double blue;'"+">"
+									+	"<tr>"
+									+	"<th>등록 시간</th>"
 									+	"<td>"+this.reply_indate+"</td>"
+									+	"</tr>"
+									+	"<tr>"
+									+	"<th>작성자</th>"
 									+	"<td>"+this.member_id+"</td>"
+									+	"</tr>"
+									+	"<tr>"
+									+	"<th>내용</th>"
 									+	"<td>"+this.reply_comment+"</td>"
 									+	"</tr>"
+									+	"</table>"
 							});
 						$(".table_reply").append(str);
 					}
@@ -105,7 +113,7 @@
 						balloon_no: balloon_br
 						,reply_comment: reply_comment
 						},
-					success: function() {alert("통신 성공!");
+					success: function() {
 					$.ajax({
 						url: "/board/replyList",
 						type:"get",
@@ -114,7 +122,7 @@
 							msg: bno_balloon
 						},
 						success: function(data){
-							alert("통신 성공");
+							
 							console.log(data);
 							$(".tr_reply").remove();
 							$(".navi_div").remove();
@@ -124,14 +132,24 @@
 								$(data.list2).each(
 									function(){
 										console.log(this);
-										str += 	"<tr class="+"'tr_reply'"+">"
+										str += 	"<table class="+"'tr_reply'"+" style="+"'width:100%; border: 3px double blue;'"+">"
+											+	"<tr>"
+											+	"<th>등록 시간</th>"
 											+	"<td>"+this.reply_indate+"</td>"
+											+	"</tr>"
+											+	"<tr>"
+											+	"<th>작성자</th>"
 											+	"<td>"+this.member_id+"</td>"
+											+	"</tr>"
+											+	"<tr>"
+											+	"<th>내용</th>"
 											+	"<td>"+this.reply_comment+"</td>"
 											+	"</tr>"
+											+	"</table>"
 									});
 								$(".table_reply").append(str);
 							}
+							
 							var str2 ="";
 							
 							str2 += "<div class="+"'navi_div'"+">"
@@ -192,7 +210,7 @@
 										data: {
 											msg: item.board_no
 										},
-										success: function(data) {alert("통신 성공!");console.log(data)
+										success: function(data) {console.log(data)
 										$("#memberId").html(data.member_id);
 										$("#a_tag").attr("href", "/sns/timeLine?member_id="+data.member_id)
 										$("#title").attr("value", data.board_title);
@@ -292,7 +310,7 @@
 							msg: bno_balloon
 						},
 						success: function(data){
-							alert("통신 성공");
+							
 							console.log(data);
 
 							var yh2020 = data.navi.currentPage+data.navi.pagePerGroup;
@@ -306,11 +324,20 @@
 								$(data.list2).each(
 									function(){
 										console.log(this);
-										str += 	"<tr class="+"'tr_reply'"+">"
+										str += 	"<table class="+"'tr_reply'"+" style="+"'width:100%; border: 3px double blue;'"+">"
+											+	"<tr>"
+											+	"<th>등록 시간</th>"
 											+	"<td>"+this.reply_indate+"</td>"
+											+	"</tr>"
+											+	"<tr>"
+											+	"<th>작성자</th>"
 											+	"<td>"+this.member_id+"</td>"
+											+	"</tr>"
+											+	"<tr>"
+											+	"<th>내용</th>"
 											+	"<td>"+this.reply_comment+"</td>"
 											+	"</tr>"
+											+	"</table>"
 									});
 								$(".table_reply").append(str);
 							}
@@ -776,7 +803,7 @@
 										data: {
 											msg: item.board_no
 										},
-										success: function(data) {alert("통신 성공!");console.log(data)
+										success: function(data) {console.log(data)
 										$("#memberId").html(data.member_id);
 										$("#a_tag").attr("href", "/sns/timeLine?member_id="+data.member_id)
 										$("#title").attr("value", data.board_title);
@@ -1072,50 +1099,6 @@
                             </li>
                         </ul>
                         <ul class="nav-right">
-                            <li class="header-notification">
-                                <a href="#!">
-                                    <i class="ti-bell"></i>
-                                    <span class="badge bg-c-pink"></span>
-                                </a>
-                                <ul class="show-notification">
-                                    <li>
-                                        <h6>Notifications</h6>
-                                        <label class="label label-danger">New</label>
-                                        <button type="button" class="btn btn-default waves-effect" data-toggle="tooltip" data-placement="top" title="tooltip on top">Top
-                                                            </button>
-                                    </li>
-                                    <li>
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius" src="/resources/assets/images/avatar-4.jpg" alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">jone</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius" src="/resources/assets/images/avatar-3.jpg" alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">Joseph William</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius" src="/resources/assets/images/avatar-4.jpg" alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">Sara Soudein</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
                             <li class="user-profile header-notification">
                                 <a href="member/mypage">                                  
                                     <span>${sessionScope.loginId }</span>
@@ -1125,11 +1108,6 @@
                                     <li>
                                         <a href="member/mypage">
                                             <i class="ti-user"></i> Profile
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/basicChatRoom">
-                                            <i class="ti-email"></i> My Messages
                                         </a>
                                     </li>
                                     <li>
@@ -1385,13 +1363,10 @@
                                                                     <div class="tab-pane" id="profile1" role="tabpanel">
                                                                         <div class="card-block text-center">
                                                                         <input type="hidden" id="bno_balloon_no">
-                                                                        	<table class="table_reply">
-                                                                        		<tr>
-																					<th>등록 시간</th>
-																					<th>작성자</th>
-																					<th>내용</th>
-																				</tr>                        
-                                                                  			</table>
+                                                                        	<div class="table_reply">
+                                                                        		                     
+                                                                  			</div>
+                                                                  			
                                                                   	
                                                                     <br><br>
 	
