@@ -204,6 +204,14 @@
 										$("#bno_balloon_no").attr("value", data.board_no);
 										str4 = data.board_like;
 										bno_balloon = data.board_no;
+										$("#profile20").attr("class","nav-link");
+										$("#home20").attr("class","nav-link active");
+										$("#profile20").attr("aria-expanded","false");
+										$("#home20").attr("aria-expanded","true");
+										$("#profile1").attr("class","tab-pane");
+										$("#home1").attr("class","tab-pane active");
+										$("#profile1").attr("aria-expanded","false");
+										$("#home1").attr("aria-expanded","true");
 
 										var str = "";										
 										if (data.like_check == '0') {
@@ -778,11 +786,16 @@
 										$("#like").attr("value", data.board_like);
 										$("#bubble_image").attr("src", "/board/download?board_no="+data.board_no);
 										$("#bno_balloon_no").attr("value", data.board_no);
-										//$("#bubble_video").attr("src", "/board/download?board_no="+data.board_no);
-										//$("#bubble_video").attr("src", "<c:url value='https://www.youtube.com/watch?v=jPJthgBj5Z0'/>");
 										str4 = data.board_like;
-
 										bno_balloon = data.board_no;
+										$("#profile20").attr("class","nav-link");
+										$("#home20").attr("class","nav-link active");
+										$("#profile20").attr("aria-expanded","false");
+										$("#home20").attr("aria-expanded","true");		
+										$("#profile1").attr("class","tab-pane");
+										$("#home1").attr("class","tab-pane active");
+										$("#profile1").attr("aria-expanded","false");
+										$("#home1").attr("aria-expanded","true");								
 
 										var str = "";										
 										if (data.like_check == '0') {
@@ -1068,6 +1081,8 @@
                                     <li>
                                         <h6>Notifications</h6>
                                         <label class="label label-danger">New</label>
+                                        <button type="button" class="btn btn-default waves-effect" data-toggle="tooltip" data-placement="top" title="tooltip on top">Top
+                                                            </button>
                                     </li>
                                     <li>
                                         <div class="media">
@@ -1190,7 +1205,7 @@
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-navigation bg-c-green card1-icon"></i>
                                                         <span class="text-c-green f-w-600">Navi</span>
-							                            <input class="bg-c-green" type="button" onclick="navi();" value="길찾기">
+							                            <input class="bg-c-green" type="button" data-toggle="tooltip" data-placement="top" title="출발·도착 지점 클릭" onclick="navi();" value="길찾기">
 							                        </div>
                                                 </div>
                                             </div>
@@ -1335,15 +1350,16 @@
                                                     <div class="card fb-card">
                                                         <div class="card-header">
                                                             <div class="d-inline-block">
-                                                                <h5>Bubble info</h5><input type="button" onclick="upload();" value="거품 등록">                                                             
+                                                                <h5>Bubble info</h5><input class="btn btn-default waves-effect" data-toggle="tooltip" data-placement="top" title="원하는 위치에 클릭" type="button" onclick="upload();" value="거품 등록">      
+                                                                                                                     
                                                             </div>
                                                         </div>
                                                         <ul class="nav nav-tabs  tabs" role="tablist">
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link active" data-toggle="tab" href="#home1" role="tab">본문</a>
+                                                                        <a id="home20" class="nav-link active" data-toggle="tab" href="#home1" role="tab">본문</a>
                                                                     </li>
                                                                     <li id="replyList" class="nav-item">
-                                                                        <a class="nav-link" data-toggle="tab" href="#profile1" role="tab">댓글</a>
+                                                                        <a id="profile20" class="nav-link" data-toggle="tab" href="#profile1" role="tab">댓글</a>
                                                                     </li>
                                                         </ul>
                                                         <div class="tab-content tabs card-block">
@@ -1543,6 +1559,10 @@ var nav = $('.fixed-button');
 <script type="text/javascript">
 $(function() { var ticker = function() { setTimeout(function(){ $('#ticker li:first').animate( {marginTop: '-20px'}, 400, function() { $(this).detach().appendTo('ul#ticker').removeAttr('style'); }); ticker(); }, 3000); }; ticker(); });
 </script>
-
+<script>
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 </body>
 </html>
