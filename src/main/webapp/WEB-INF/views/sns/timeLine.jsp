@@ -272,16 +272,10 @@
                             </li>
                             <li class="user-profile header-notification">
                                 <a href="/member/mypage">
-                                    <img src="/resources/assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
                                     <span>${sessionScope.loginId }</span>
                                     <i class="ti-angle-down"></i>
                                 </a>
                                 <ul class="show-notification profile-notification">
-                                    <li>
-                                        <a href="#!">
-                                            <i class="ti-settings"></i> Settings
-                                        </a>
-                                    </li>
                                     <li>
                                         <a href="/member/mypage">
                                             <i class="ti-user"></i> Profile
@@ -290,11 +284,6 @@
                                     <li>
                                         <a href="#">
                                             <i class="ti-email"></i> My Messages
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/member/update">
-                                            <i class="ti-lock"></i> Lock Screen
                                         </a>
                                     </li>
                                     <li>
@@ -318,7 +307,6 @@
                                         <div class="row align-items-end">
                                             <div class="col-lg-8">
                                                 <div class="page-header-title">
-                                                    <i class="icofont icofont-layout bg-c-blue"></i>
                                                     <div class="d-inline">
                                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 															  <div class="modal-dialog">
@@ -341,8 +329,7 @@
 															    </div>
 															  </div>
 															</div>
-                                                        <h4>Label Badge</h4>
-                                                        <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                                        <h4 style="text-transform: lowercase;">${list[0].member_id }</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -350,7 +337,7 @@
                                                 <div class="page-header-breadcrumb">
                                                     <ul class="breadcrumb-title">
                                                         <li class="breadcrumb-item">
-                                                            <a href="#">
+                                                            <a href="/">
                                                                 <i class="icofont icofont-home"></i>
                                                             </a>
                                                         </li>

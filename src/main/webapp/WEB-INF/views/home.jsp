@@ -981,7 +981,7 @@
 			}
 		</style>
 		
-	<style type="text/css">.block {border:2px solid #d81f25; padding:0 5px; height:20px; overflow:hidden; background:#fff; width:100px; font-family:Gulim; font-size:12px;} .block ul, .block li {margin:0; padding:0; list-style:none;} .block li a {display:block; height:20px; line-height:20px; color:#555; text-decoration:none;} .block li span {padding:2px 5px; background:#d81f25; color:#fff; font-weight:bold; margin-right:3px;}</style>
+	<style type="text/css">.block {border:2px solid #d81f25; margin-left:70; padding:0 5px; height:25px; overflow:hidden; background:#fff; width:220px; font-family:Gulim; font-size:12px;} .block ul, .block li {margin:0; padding:0; list-style:none;} .block li a {display:block; height:20px; line-height:20px; color:#555; text-decoration:none;} .block li span {padding:2px 5px; color:black; font-weight:bold; margin-right:3px;}</style>
 		
 </head>
 <body class="fix-menu">
@@ -1102,8 +1102,7 @@
                                 </ul>
                             </li>
                             <li class="user-profile header-notification">
-                                <a href="member/mypage">
-                                    <img src="/resources/assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
+                                <a href="member/mypage">                                  
                                     <span>${sessionScope.loginId }</span>
                                     <i class="ti-angle-down"></i>
                                 </a>
@@ -1151,31 +1150,23 @@
                                                 <div class="card widget-card-1">
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-bullhorn bg-c-pink card1-icon"></i>
-                                                        <span class="text-c-pink f-w-600">News feed</span>
-                                                        
-                                                        
-<div class="block"> 
-<ul id="ticker"> 
-<li><a href="#"><span>1</span> <span id="nf_1"></span> </a></li> 
-<li><a href="#"><span>2</span> <span id="nf_2"></span> </a></li>
-<li><a href="#"><span>3</span> <span id="nf_3"></span> </a></li>
-<li><a href="#"><span>4</span> <span id="nf_4"></span> </a></li>
-<li><a href="#"><span>5</span> 손흥민 </a></li>
-<li><a href="#"><span>6</span> 손연재 </a></li>
-<li><a href="#"><span>7</span> <span id="nf_7"></span> </a></li>
-<li><a href="#"><span>8</span> <span id="nf_8"></span> </a></li>
-<li><a href="#"><span>9</span> <span id="nf_9"></span> </a></li>
-<li><a href="#"><span>10</span> <span id="nf_10"></span> </a></li>
-</ul>
-</div>
-
-                                                        
-                                                        
-                                                        <div>
-                                                            <span class="f-left m-t-10 text-muted">
-                                                                <i class="text-c-pink f-16 icofont icofont-refresh m-r-10"></i>Just update
-                                                            </span>
-                                                        </div>
+                                                        <div class="pcoded-search-box">  
+                                                        <i class="text-c-pink f-16 icofont icofont-refresh m-r-10" style="position: absolute;"></i>                                  
+                                                        <div class="block f-w-600"> 
+															<ul id="ticker"> 
+															<li><a href="#"><span>1.</span><span id="nf_1"></span></a></li> 
+															<li><a href="#"><span>2.</span><span id="nf_2"></span></a></li>
+															<li><a href="#"><span>3.</span><span id="nf_3"></span></a></li>
+															<li><a href="#"><span>4.</span><span id="nf_4"></span></a></li>
+															<li><a href="#"><span>5.</span><span id="nf_5"></span></a></li>
+															<li><a href="#"><span>6.</span><span id="nf_6"></span></a></li>
+															<li><a href="#"><span>7.</span><span id="nf_7"></span></a></li>
+															<li><a href="#"><span>8.</span><span id="nf_8"></span></a></li>
+															<li><a href="#"><span>9.</span><span id="nf_9"></span></a></li>
+															<li><a href="#"><span>10.</span><span id="nf_10"></span></a></li>
+															</ul>
+														</div>
+														</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1185,10 +1176,9 @@
                                                 <div class="card widget-card-1">
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-search bg-c-blue card1-icon"></i>
-                                                        <span class="text-c-blue f-w-600">Search</span>
                                                         <div class="pcoded-search-box">
-													    	<input type="text" placeholder="Search">
-													    	<span class="search-icon"><i class="ti-search" aria-hidden="true"></i></span>
+													    	<input class="f-w-600" type="text" placeholder="Search">
+													    	<i class="ti-search" aria-hidden="true"></i>													    	
 													    </div>
                                                     </div>
                                                 </div>
@@ -1200,7 +1190,7 @@
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-navigation bg-c-green card1-icon"></i>
                                                         <span class="text-c-green f-w-600">Navi</span>
-							                            <input type="button" onclick="navi();" value="길찾기">
+							                            <input class="bg-c-green" type="button" onclick="navi();" value="길찾기">
 							                        </div>
                                                 </div>
                                             </div>
@@ -1210,10 +1200,9 @@
                                                 <div class="card widget-card-1">
                                                     <div class="card-block-small">
                                                     <i class="icofont icofont-pie-chart bg-c-yellow card1-icon"></i>
-                                                        <span class="text-c-yellow f-w-600">Ranking</span>
-                                                        	<!-- Button trigger modal -->
-															<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">
-															  <i class="text-c-yellow f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours
+                                                        <!-- Button trigger modal -->
+															<button type="button" class="bg-c-yellow" data-toggle="modal" data-target="#exampleModal2">
+															  <i class="text-c-white f-16 icofont icofont-calendar m-r-10"></i>거품 살리기
 															</button>															
                                                             <!-- Modal -->
 															<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
