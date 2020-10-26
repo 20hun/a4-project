@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.scit.web12.service.MemberService;
+import com.scit.web12.vo.BoardVO;
 import com.scit.web12.vo.MemberVO;
 
 
@@ -110,11 +111,10 @@ public class MemberController {
 	
 	@RequestMapping(value="/member/mypage", method=RequestMethod.GET)
 	public String mypage(Model model) {
-		
-		MemberVO member = ms.justout();
-		
-		model.addAttribute("member",member);
-		
+		ArrayList<BoardVO> list = ms.boardList();
+		//MemberVO member = ms.justout();
+		//model.addAttribute("member",member);
+		model.addAttribute("list", list);
 		return "member/mypage";
 	}
 	

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scit.web12.dao.MemberDAO;
+import com.scit.web12.vo.BoardVO;
 import com.scit.web12.vo.MemberVO;
 
 @Service
@@ -98,5 +99,10 @@ public class MemberService {
 	
 	public void update(MemberVO member) {
 		dao.update(member);
+	}
+
+	public ArrayList<BoardVO> boardList() {
+		ArrayList<BoardVO> list = dao.boardList((String)session.getAttribute("loginId"));
+		return list;
 	}
 }

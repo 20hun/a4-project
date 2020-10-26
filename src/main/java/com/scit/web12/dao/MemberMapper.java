@@ -2,6 +2,7 @@ package com.scit.web12.dao;
 
 import java.util.ArrayList;
 
+import com.scit.web12.vo.BoardVO;
 import com.scit.web12.vo.MemberVO;
 
 public interface MemberMapper {
@@ -11,4 +12,5 @@ public interface MemberMapper {
 	public int delete(String member_id);
 	public MemberVO check(String member_id);
 	public int update(MemberVO member);
+	public ArrayList<BoardVO> boardList(String member_id);
 }

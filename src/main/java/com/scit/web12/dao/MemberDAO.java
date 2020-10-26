@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.scit.web12.vo.BoardVO;
 import com.scit.web12.vo.MemberVO;
 
 @Repository
@@ -82,6 +83,20 @@ public class MemberDAO {
 		}
 		
 		return cnt;
+	}
+
+	public ArrayList<BoardVO> boardList(String member_id) {
+		MemberMapper mapper = session.getMapper(MemberMapper.class);
+		
+		ArrayList<BoardVO> list = null;
+		
+		try {
+		list = mapper.boardList(member_id);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 	
 }

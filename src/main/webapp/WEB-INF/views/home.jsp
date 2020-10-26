@@ -1138,11 +1138,6 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/sns/timeLine?member_id=2yhun@naver.com">
-                                            <i class="ti-lock"></i> Lock Screen
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="member/logout">
                                             <i class="ti-layout-sidebar-left"></i> Logout
                                         </a>
