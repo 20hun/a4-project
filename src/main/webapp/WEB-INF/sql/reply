@@ -1,7 +1,7 @@
 create table balloonReply(
     comment_no number(8) primary key
-    ,balloon_no  number(8) constraint balloonReply_fk1 references balloon_tb(board_no)
-    ,member_id    varchar2(30) constraint balloonReply_fk2 references homerare_table(member_id)
+    ,balloon_no  number(8) constraint balloonReply_fk1 references balloon_tb(board_no) on delete cascade
+    ,member_id    varchar2(30) constraint balloonReply_fk2 references homerare_table(member_id) on delete cascade
     ,reply_comment    varchar2(2000) not null
     ,reply_indate	date	default	sysdate
     );

@@ -37,7 +37,7 @@
 	<script src="<c:url value="/resources/js/stomp.js" />"></script>
 	
 	<script type="text/javascript">
-	
+		
 		var didScroll = false;
 			$(window).on('scroll', function(){didScroll = true;});
 
@@ -93,8 +93,7 @@
 												+			"<td><input style="+"'border: none;'"+" type="+"'text'"+" id="+"'view'"+" value='"+this.board_view+"'></td>"
 												+		"</tr>"	
 												+		"</table>"
-												+		"<img width="+"'200'"+" height="+"'200'"+" src="+"'/board/download?board_no="+this.board_no+"'>"														
-												+	"<a href="+"'/board/delete?board_no="+this.board_no+"'>수정</a>"
+												+		"<img width="+"'200'"+" height="+"'200'"+" src="+"'/board/download?board_no="+this.board_no+"'>"
 												+	"<a href="+"'/board/delete?board_no="+this.board_no+"'>삭제</a>"
                         						+	"</div>"
                         						+	"</div>"
@@ -358,19 +357,45 @@
 															          <span aria-hidden="true">&times;</span>
 															        </button>
 															      </div>
+															      <form action="/board/updateComplete" enctype="multipart/form-data" method="post">
 															      <div class="modal-body">
-															        
+															        <table>
+																		<tr>
+																			<td>제목</td>
+																			<td>
+																				<input type="text" name="board_title" id="utitle">
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>내용</td> 
+																			<td>
+																			<textarea rows="10" cols="40" name="board_content" id="ucontent">
+																				${board.contents}</textarea>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>파일첨부</td> 
+																			<td>
+																				<!-- 새로 첨부할 파일 선택 -->
+																				<input type="file" name="upload" size="30" id="uupload">
+																				<!-- 기존에 첨부한 파일이 있는 경우 출력 -->
+																				${board.originalfile}
+																			</td>
+																		</tr>
+																	</table>
+																	<input type="hidden" name="board_no" id="ubno" value="101">
 															      </div>
 															      <div class="modal-footer">
 															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															        <button type="button" class="btn btn-primary">Save changes</button>
+															        <input type="submit" class="btn btn-primary" value="Update">
 															      </div>
+															      </form>
 															    </div>
 															  </div>
 															</div>		
 															
                                                         <h4 style="text-transform: lowercase;">${list[0].member_id }</h4>
-                                                    </div>
+                                                           </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
@@ -420,8 +445,8 @@
         															</tr>
         														</table> 
         														<img id="bubble_image" width="200" height="200" src="/board/download?board_no=${data.board_no}">  
-        														<div><span class="bubbleUpdate">수정</span> 
-        														<a href="/board/delete?board_no=${data.board_no }">삭제</a></div>   														
+        														<!-- <div class="bubbleUpdate">수정</div> -->
+        														<a href="/board/delete?board_no=${data.board_no }">삭제</a>   														
                                                 </div>
                                                 </c:forEach>
                                                 </div>
@@ -465,20 +490,8 @@
 		$('#exampleModal2').modal('show');
 	});
 	$(".bubbleUpdate").click(function(){
-		$('#exampleModal3').modal('show');
+		//$('#exampleModal3').modal('show');
 	});
 </script>
-
 </body>
-
 </html>
-
-<%-- 	<h1>[ 회원 정보 ]</h1>
-	<form action="/member/update" method="post">
-	ID : ${member.member_id } <br>
-	PW : ${member.member_pw } <br>
-	Name : ${member.member_nm } <br>
-	등록일 : ${member.member_indate } <br>
-	
-	<input type = "submit" value = "수정하기">
-	</form> --%>	

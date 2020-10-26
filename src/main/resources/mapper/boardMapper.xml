@@ -3,6 +3,20 @@
 
 <mapper namespace="com.scit.web12.dao.BoardMapper">
 
+	<update id="updateBalloon" parameterType="board">
+	update
+		balloon_tb
+	set
+		board_title = #{title}
+		,board_content = #{contents}
+		<if test="originalfile != null and savedfile != null">
+		, originalfile = #{originalfile}
+		, savedfile = #{savedfile}
+		</if>
+	where
+		board_no = #{boardnum}
+	</update>
+
 	<insert id="boardWrite" parameterType="board">
 		insert into
 			balloon_tb(

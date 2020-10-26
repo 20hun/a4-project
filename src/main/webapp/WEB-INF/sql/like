@@ -1,4 +1,4 @@
 create table like_tb(
-	board_no	number(8,0)		constraint like_fk1 references balloon_tb(board_no)
-	,member_id	varchar2(30)	constraint like_fk2 references homerare_table(member_id)
+	board_no	number(8,0)		constraint like_fk1 references balloon_tb(board_no) on delete cascade
+	,member_id	varchar2(30)	constraint like_fk2 references homerare_table(member_id) on delete cascade
 );

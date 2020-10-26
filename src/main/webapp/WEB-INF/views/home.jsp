@@ -38,6 +38,7 @@
 		var markers2 = [];
 
 		var bno_balloon;
+		var str3;
 
 		function replyWriteForm(){
 			$('#exampleModal_reply').modal('show');
@@ -171,7 +172,7 @@
 					success: function(data){
 							console.log(data);
 							var str2;
-							var str3;
+							//var str3;
 							var str4;
 							
 							$.each(data, function(index,item){
@@ -185,7 +186,6 @@
 								});
 								markers2[index] = marker;
 									marker.addListener("click", function(evt) {
-									//document.getElementById("result2").innerHTML = 'Mouse Click!';
 									$.ajax({
 										url: "/board/getBubble",
 										type:"post",
@@ -756,7 +756,7 @@
 					success: function(data){
 							console.log(data);
 							var str2;
-							var str3;
+							//var str3;
 							var str4;
 							$.each(data, function(index,item){
 								var title = item.board_title.substr(0,5);
