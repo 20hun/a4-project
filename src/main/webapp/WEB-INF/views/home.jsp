@@ -40,6 +40,10 @@
 		var bno_balloon;
 		var str3;
 
+		var yh202020;
+
+		
+
 		function replyWriteForm(){
 			$('#exampleModal_reply').modal('show');
 			$('#bno_br').attr("value",bno_balloon);
@@ -290,6 +294,11 @@
 				
 			$.get("http://ip-api.com/json",function(position){
     		console.log(position);
+
+    		$("#searchIcon").click(function(){
+    			yh202020 = document.getElementById("yhSearch").value;
+    			alert(yh202020);
+    			});
     		
 				newsFeed();
 
@@ -1160,8 +1169,8 @@
                                                     <div class="card-block-small">
                                                         <i class="icofont icofont-search bg-c-blue card1-icon"></i>
                                                         <div class="pcoded-search-box">
-													    	<input class="f-w-600" type="text" placeholder="Search">
-													    	<i class="ti-search" aria-hidden="true"></i>													    	
+													    	<input id="yhSearch" class="f-w-600" type="text" placeholder="Search">
+													    	<i id="searchIcon" class="ti-search" aria-hidden="true"></i>													    	
 													    </div>
                                                     </div>
                                                 </div>

@@ -99,6 +99,8 @@
 		    	,like_check
 			from
 				balloon_tb
+			where
+				board_indate >= sysdate-3/(24)
 		    order by
 		        board_view desc
 		        )
