@@ -76,8 +76,16 @@
 		to_date(#{endDate}, 'YYYY-MM-DD HH24:MI') >= board_indate
 	</if>
 	<if test="startDate == 'none' ">
-	where
-		board_indate >= sysdate-3/(24)
+		<if test="search_Text == 'none2' ">
+		where
+			board_indate >= sysdate-3/(24)
+		</if>
+		<if test="search_Text != 'none2' ">
+		where
+			board_indate >= sysdate-3/(24)
+		and
+			board_title like '%' ||  #{search_Text} || '%'
+		</if>
 	</if>
 	</select>
 	

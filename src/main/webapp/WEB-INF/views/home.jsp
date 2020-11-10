@@ -297,7 +297,116 @@
 
     		$("#searchIcon").click(function(){
     			yh202020 = document.getElementById("yhSearch").value;
-    			alert(yh202020);
+    			//alert(yh202020);
+
+    			yh202020 = yh202020.toString();
+			//마커들 다 지우고
+			removeMarkers2();
+
+			//마커 다시 가져오기
+			$.ajax({
+						url:"/board/receiveList",
+						type:"post",
+						dataType: "json",
+						data: {
+							search_Text : yh202020
+							},
+					success: function(data){
+							console.log(data);
+							var str2;
+							//var str3;
+							var str4;
+							
+							$.each(data, function(index,item){
+								var title = item.board_title.substr(0,5);
+								label="<span style='background-color: #46414E;color:white'>"+title+"</span>";
+								var marker = new Tmapv2.Marker({
+									position: new Tmapv2.LatLng(item.lat, item.lon), //Marker의 중심좌표 설정.
+									title : title,
+									map: map,
+									label : label
+								});
+								markers2[index] = marker;
+									marker.addListener("click", function(evt) {
+									$.ajax({
+										url: "/board/getBubble",
+										type:"post",
+										data: {
+											msg: item.board_no
+										},
+										success: function(data) {console.log(data)
+										$("#memberId").html(data.member_id);
+										$("#a_tag").attr("href", "/sns/timeLine?member_id="+data.member_id)
+										$("#title").attr("value", data.board_title);
+										$("#content").html(data.board_content);
+										$("#indate").attr("value", data.board_indate);
+										$("#view").attr("value", data.board_view);
+										$("#like").attr("value", data.board_like);
+										$("#bubble_image").attr("src", "/board/download?board_no="+data.board_no);
+										$("#bno_balloon_no").attr("value", data.board_no);
+										str4 = data.board_like;
+										bno_balloon = data.board_no;
+										$("#profile20").attr("class","nav-link");
+										$("#home20").attr("class","nav-link active");
+										$("#profile20").attr("aria-expanded","false");
+										$("#home20").attr("aria-expanded","true");
+										$("#profile1").attr("class","tab-pane");
+										$("#home1").attr("class","tab-pane active");
+										$("#profile1").attr("aria-expanded","false");
+										$("#home1").attr("aria-expanded","true");
+
+										var str = "";										
+										if (data.like_check == '0') {
+											str = '<i class="far fa-heart"></i>';
+											str2 = 0;
+										}
+										else {
+											str = '<i class="fas fa-heart"></i>';
+											str2 = 1;
+										}
+										$("#likeDiv").html(str);
+
+										str3 = item.board_no;
+										},
+										error: function(e) {alert("통신 실패...");console.log(e);}
+									});									
+								});								
+							})
+							$("#likeDiv").click(function(){
+									if(str2 == 0){
+										str2 = 1;
+										$.ajax({
+											url: "/board/likeInsert",
+											type:"post",
+											data: {
+												msg: str3
+											},
+											error: function(e) {alert("통신 실패...");console.log(e);}
+										});												
+										str = '<i class="fas fa-heart"></i>';
+										$("#like").attr("value", str4+1);
+										str4 = str4 + 1;
+										}else{
+											str2 = 0;
+											$.ajax({
+												url: "/board/likeDelete",
+												type:"post",
+												data: {
+													msg: str3
+												},
+												error: function(e) {alert("통신 실패...");console.log(e);}
+											});		
+											str = '<i class="far fa-heart"></i>';
+											$("#like").attr("value", str4-1);
+											str4 = str4 - 1;
+											}
+									$("#likeDiv").html(str);											
+									});
+							//console.log(JSON.parse(data)); //stringify랑 반대 > 문자열을 객체화
+					},
+					error: function(e){alert("통신 실패...");console.log(e);}
+				})
+    			
     			});
     		
 				newsFeed();

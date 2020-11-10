@@ -97,11 +97,13 @@ public class BoardController {
 	@RequestMapping(value="/receiveList", method = RequestMethod.POST)
 	public ArrayList<BoardVO> receiveList(
 			@RequestParam(value="startDate",defaultValue="none") String startDate,
-			@RequestParam(value="endDate",defaultValue="") String endDate) {
+			@RequestParam(value="endDate",defaultValue="") String endDate,
+			@RequestParam(value="search_Text",defaultValue="none2") String search_Text) {
 		logger.info("receiveList 메서드 실행");
 		System.out.println(startDate);
 		System.out.println(endDate);
-		ArrayList<BoardVO> list = ms.boardList(startDate, endDate);
+		System.out.println(search_Text);
+		ArrayList<BoardVO> list = ms.boardList(startDate, endDate, search_Text);
 		
 		return list;
 	}

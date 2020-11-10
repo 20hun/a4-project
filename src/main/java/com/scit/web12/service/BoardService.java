@@ -30,7 +30,7 @@ public class BoardService {
 		return cnt;		
 	}
 
-	public ArrayList<BoardVO> boardList(String startDate, String endDate) {
+	public ArrayList<BoardVO> boardList(String startDate, String endDate, String search_Text) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		System.out.println(startDate);
 		if(!startDate.equals("none")) {
@@ -41,6 +41,7 @@ public class BoardService {
 		System.out.println(endDate);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("search_Text", search_Text);
 		ArrayList<BoardVO> list = dao.boardList(map);
 
 		return list;
